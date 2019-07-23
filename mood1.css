@@ -1,3 +1,105 @@
 body {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
 }
+
+h1 {
+  color: white;
+  font-family: 'Londrina Shadow', cursive;
+  font-size: 70px;
+}
+
+#choose {
+  text-align: center;
+  color: white;
+  font-size: 13px;
+  font-family: 'Source Code Pro', cursive;
+}
+
+.mood {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 190px 190px 190px;
+}
+
+button {
+  background-color: #333;
+  color: #7FFFD4;
+  text-align: center;
+  align-items: center;
+  border-color: #2b2b2b;
+  font-size: 25px;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.mood #stressed:hover {
+  background-color: black;
+  color: white;
+  text-shadow: 2px 2px #333;
+  background-size: 200% 100%;
+}
+
+.mood #scared:hover {
+  background-color: #ad3434;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #nervous:hover {
+  background-color: #ffae52;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #mixed:hover {
+  background-color: #a9ff9c;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #normal:hover {
+  background-color: #81dadb;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #relaxed:hover {
+  background-color: #3b95e3;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #calm:hover {
+  background-color: #fa6b6b;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #cool:hover {
+  background-color: #ffabed;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #loved:hover {
+  background-color: #ede96f;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #romantic:hover {
+  background-color: #2a801d;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #passionate:hover {
+  background-color: #1e8385;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
+
+.mood #happy:hover {
+  background-color: #d5abff;
+  color: white;
+  text-shadow: 2px 2px #333;
+}
