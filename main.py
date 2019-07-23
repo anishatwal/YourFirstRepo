@@ -3,15 +3,19 @@ import jinja2
 import os
 import datetime
 from google.appengine.ext import ndb
-import geocoder
+from google.appengine.api import urlfetch
+from time import ctime
 import uuid
+import urllib2
+import json
 #from folder import file:
-
+#AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
+currUser=None
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      username=ndb.StringProperty(required=True)
      password=ndb.StringProperty(required=True)
      email=ndb.StringProperty(required=True)
-     traits=ndb.FloatProperty(required=True, repeated=True)
+     traits=ndb.FloatProperty(repeated=True)
      id=str(uuid.uuid4())
 
 jinja_env=jinja2.Environment(
@@ -26,33 +30,79 @@ jinja_env=jinja2.Environment(
 class AboutPage(webapp2.RequestHandler): #get, post
     def get(self):
         #self.response.headers['Content-Type']="text/html" #text/plain
-        about_template=jinja_env.get_template('/templates/about.html')#load up the about page and access quotes api
-        url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
-        response=urlfetch.fetch(url)
-        content=response.content
-        qdata=json.loads(content)
-        # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+        about_template=jinja_env.get_template('/about.html')#load up the about page and access quotes api
+        data=None
+        bool=False
+        while bool==False:
+            try:
+                url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
+                response=urlfetch.fetch(url)
+                data=json.loads(response.content)
+                bool=True
+                # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+            except ValueError:
+                pass
         quote=""
-        if qdata["quoteAuthor"]=="":
-            quote=qdata["quoteText"]
+        author=""
+        if data["quoteAuthor"]=="":
+            quote=data["quoteText"]
         else:
-            quote=qdata["quoteText"]+" - "+ qdata["quoteAuthor"]
-        q={"quote":quote}
-        self.response.write(welcome_template.render(q))#add the form
-    def post(self): #link to another web page
-        self.redirect('/login')
+            quote=data["quoteText"]
+            author=" - "+ data["quoteAuthor"]
+        q={"quote":quote, "author":author}
+        self.response.write(about_template.render(q))#add the form
 
-class LoginPage(webapp2.RequestHandler): #get, post
+class LoginPage(webapp2.RequestHandler):
     def get(self):
-        #self.response.headers['Content-Type']="text/html" #text/plain
-        user=users.get_current_user()
-        login_template=jinja_env.get_template('/templates/login.html')#load up the about page and access quotes api
-        self.response.write(welcome_template.render())#add the form
+        login_template=jinja_env.get_template('/login.html')
+        self.response.write(login_template.render())#add the form
     def post(self): #link to another web page
-        pass
+        u=self.request.get("username")
+        p=self.request.get("password")
+        data=User.query().fetch() #does data return none if empty?
+        if data==None: #if no one's made an account
+            self.redirect('/createaccount')
+        else:
+            for d in data:
+                if d.username==u and d.password==p:
+                    self.redirect('/mood')
+
+class AccountPage(webapp2.RequestHandler): #get, post
+    def get(self):
+        account_template=jinja_env.get_template('/account.html')
+        self.response.write(account_template.render())
+    def post(self): #link to another web page
+        user=User(username=u, password=p, email=e)
+        user.put()
+
+class MoodPage(webapp2.RequestHandler): #get, post request in javascript
+    def get(self):
+        mood_template=jinja_env.get_template('/templates/mood.html')
+        self.response.write(account_template.render())
+    #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
+
+class DailyRecPage(webapp2.RequestHandler): #get, post
+    def get(self):
+        #get user location through google maps api and detail the current time and location
+        dailyrec_template=jinja_env.get_template('/dailyrec.html')
+        date=ctime()
+        apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+        url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
+        response=urlfetch.fetch(url, method="POST")
+        data=json.loads(response.content)
+        lat=float(data["location"]["lat"])
+        lon=float(data["location"]["lng"])
+        print(data)
+        #reverse geocode location
+        self.response.write(dailyrec_template.render())
+
+class FoodPage(webapp2.RequestHandler): #get, post
+    def get(self):
+        account_template=jinja_env.get_template('/account.html')
+        self.response.write(account_template.render())
 
 #the app configuration
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
 #social events, attractions
-    ('/', AboutPage), ('/login', LoginPage),
+    ('/', AboutPage), ('/login', LoginPage), ('/createaccount', AccountPage), ('/mood', MoodPage), ('/dailyrec', DailyRecPage)
 ], debug=True)  #array is all the routes in application (like home, about page)
