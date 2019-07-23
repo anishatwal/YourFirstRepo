@@ -8,7 +8,7 @@ import uuid
 import urllib2
 import json
 #from folder import file:
-
+#AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 currUser=None
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      username=ndb.StringProperty(required=True)
@@ -44,8 +44,6 @@ class AboutPage(webapp2.RequestHandler): #get, post
             author=" - "+ qdata["quoteAuthor"]
         q={"quote":quote, "author":author}
         self.response.write(about_template.render(q))#add the form
-    def post(self): #link to another web page
-        self.redirect('/login')
 
 class LoginPage(webapp2.RequestHandler):
     def get(self):
@@ -70,14 +68,25 @@ class AccountPage(webapp2.RequestHandler): #get, post
         user=User(username=u, password=p, email=e)
         user.put()
 
-class MoodPage(webapp2.RequestHandler): #get, post
+class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         mood_template=jinja_env.get_template('/templates/mood.html')
         self.response.write(account_template.render())
-    def post(self): #link to another web page
-        pass
+    #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
+
+class DailyRecPage(webapp2.RequestHandler): #get, post
+    def get(self):
+        #get user location through google maps api and detail the current time and location
+        dailyrec_template=jinja_env.get_template('/dailyrec.html')
+        self.response.write(account_template.render())
+
+class FoodPage(webapp2.RequestHandler): #get, post
+    def get(self):
+        account_template=jinja_env.get_template('/account.html')
+        self.response.write(account_template.render())
+
 #the app configuration
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
 #social events, attractions
-    ('/', AboutPage), ('/login', LoginPage), ('/createaccount', AccountPage), ('/mood', MoodPage),
+    ('/', AboutPage), ('/login', LoginPage), ('/createaccount', AccountPage), ('/mood', MoodPage), ('/dailyrec', DailyRecPage)
 ], debug=True)  #array is all the routes in application (like home, about page)
