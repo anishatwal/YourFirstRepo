@@ -4,6 +4,7 @@ import os
 import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
+from time import ctime
 import uuid
 import urllib2
 import json
@@ -30,18 +31,24 @@ class AboutPage(webapp2.RequestHandler): #get, post
     def get(self):
         #self.response.headers['Content-Type']="text/html" #text/plain
         about_template=jinja_env.get_template('/about.html')#load up the about page and access quotes api
-        url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
-        response=urlfetch.fetch(url)
-        content=response.content
-        qdata=json.loads(content)
-        # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+        data=None
+        bool=False
+        while bool==False:
+            try:
+                url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
+                response=urlfetch.fetch(url)
+                data=json.loads(response.content)
+                bool=True
+                # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+            except ValueError:
+                pass
         quote=""
         author=""
-        if qdata["quoteAuthor"]=="":
-            quote=qdata["quoteText"]
+        if data["quoteAuthor"]=="":
+            quote=data["quoteText"]
         else:
-            quote=qdata["quoteText"]
-            author=" - "+ qdata["quoteAuthor"]
+            quote=data["quoteText"]
+            author=" - "+ data["quoteAuthor"]
         q={"quote":quote, "author":author}
         self.response.write(about_template.render(q))#add the form
 
@@ -78,7 +85,16 @@ class DailyRecPage(webapp2.RequestHandler): #get, post
     def get(self):
         #get user location through google maps api and detail the current time and location
         dailyrec_template=jinja_env.get_template('/dailyrec.html')
-        self.response.write(account_template.render())
+        date=ctime()
+        apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+        url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
+        response=urlfetch.fetch(url, method="POST")
+        data=json.loads(response.content)
+        lat=float(data["location"]["lat"])
+        lon=float(data["location"]["lng"])
+        print(data)
+        #reverse geocode location
+        self.response.write(dailyrec_template.render())
 
 class FoodPage(webapp2.RequestHandler): #get, post
     def get(self):
