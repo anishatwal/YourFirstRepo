@@ -1,11 +1,48 @@
 p {
   text-align: left;
   color: white;
-  font-size: 40pt;
+  font-size: 32pt;
 }
 
 body {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
-  background-size: 110%;
+  background-size: 120%;
   color: black;
+}
+
+.icon {
+  position: fixed;
+  z-index: 10;
+  padding: 10px;
+
+}
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+  background-color: #333;
+  padding: 10px;
+  height: 100%;
+  position: relative;
+  top: -22px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #7FFFD4;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  color: #000080;
+  background-color: #FFFFE0;
 }
