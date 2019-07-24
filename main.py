@@ -147,7 +147,7 @@ class LeisurePage(webapp2.RequestHandler): #get, post
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
     ('/', AboutPage),
     ('/login', LoginPage),
-    ('/createaccount', AccountPage),
+    ('/account', AccountPage),
     ('/mood', MoodPage),
     ('/dailyrec', DailyRecPage),
     ('/food', FoodPage),
