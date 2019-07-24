@@ -22,13 +22,15 @@ class User(ndb.Model): #traits is an array that's filled from the personal quiz
      id=str(uuid.uuid4())
 
 class Restaurant(object):
-    def __init__(self, n, p, r, b, t, a):
+    def __init__(self, n, p, r, b, t, a):#, la, ln):
         self.name=n
         self.plevel=int(p)
         self.rating=float(r)
         self.open=b
         self.types=t
         self.vicinity=a
+        #self.lat=la
+        #self.lon=ln
 
 jinja_env=jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -131,11 +133,10 @@ class FoodPage(webapp2.RequestHandler): #get, post
         for i in range(0, len(dataset)):
             value=dataset[i]
             u"{}".format(value)
-            print(value)
             resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
             restaurants.append(resta)
         for r in restaurants:
-            st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
+            st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             self.response.write(st)
             self.response.write("<br>")
         url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
@@ -154,7 +155,7 @@ class SocialPage(webapp2.RequestHandler): #get, post
         img=data[index]["img_url"]
         self.response.write(name+" "+img)
         self.response.write("<br>")
-        #self.response.write("<img src='"+img+"' width=500px height=500px />")
+        self.response.write("<img src='"+img+"' width=200px height=200px />")
         vars={"name":name, "url":img}
         self.response.write(social_template.render(vars))
 
