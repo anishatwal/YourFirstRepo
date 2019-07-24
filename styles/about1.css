@@ -9,7 +9,7 @@ p {
 h1 {
   font-family: 'Cinzel Decorative', sans-serif;
   text-shadow: 2px 2px #FFFFE0;
-  font-size: 35pt;
+  font-size: 40pt;
 }
 
 h2 {
@@ -35,6 +35,11 @@ h5 {
   font-family: 'Cinzel Decorative', sans-serif;
   text-shadow: 2px 2px #FFFFE0;
   font-size: 25pt;
+}
+
+#quote {
+    width: 650px;
+    text-shadow: 1px 0px white;
 }
 
 button {

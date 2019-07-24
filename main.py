@@ -21,6 +21,25 @@ class User(ndb.Model): #traits is an array that's filled from the personal quiz
      traits=ndb.StringProperty(repeated=True)
      id=str(uuid.uuid4())
 
+class Restaurant(object):
+    name=""
+    plevel=0
+    rating=0.0
+    open=False
+    types=[]
+    def __init__(self, n, p, r, b, t):
+        name=n
+        plevel=int(p)
+        rating=float(r)
+        open=b
+        types=t
+    def __str__(self):
+        dollars=""
+        for i in range(0, plevel):
+            dollars+="$"
+        st=name+", Price:"+plevel+", Rating:"+rating+", IsOpen:"+open+", Keywords:"+types
+        return st
+
 jinja_env=jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -56,6 +75,8 @@ class LoginPage(webapp2.RequestHandler):
     def get(self):
         login_template=jinja_env.get_template('templates/login.html')
         self.response.write(login_template.render())#add the form
+
+class LoginReciever(webapp2.RequestHandler):
     def post(self): #link to another web page
         u=self.request.get("username")
         p=self.request.get("password")
@@ -98,6 +119,7 @@ class DailyRecPage(webapp2.RequestHandler): #get, post
         data=json.loads(response.content)
         address=data["results"][0]["formatted_address"]
         self.response.write(address)
+        self.response.write("displays activity recommendations based on personality quiz")
         vars={"time":date, "data":data, "address":address}
         self.response.write(dailyrec_template.render(vars))
 
@@ -114,6 +136,8 @@ class FoodPage(webapp2.RequestHandler): #get, post
         url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
+        restaurants=data["results"]
+        self.response.write(data)
         url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
 
         self.response.write(account_template.render())
