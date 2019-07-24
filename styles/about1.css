@@ -31,12 +31,15 @@ h4 {
   text-shadow: 3px 1px black;
 }
 
+<<<<<<< HEAD
 h5 {
   font-family: 'Cinzel Decorative', sans-serif;
   text-shadow: 2px 2px #FFFFE0;
   font-size: 25pt;
 }
 
+=======
+>>>>>>> f33e3b0b5d878dbd86e0cc8a8c414514e4f70abe
 button {
   font-size: 15pt;
   padding: 15px;
@@ -91,9 +94,12 @@ li a:hover {
   color: #000080;
   background-color: #FFFFE0;
 }
+<<<<<<< HEAD
 
 table {
   text-align: center;
   border: 7px solid white;
   padding: 15px;
 }
+=======
+>>>>>>> f33e3b0b5d878dbd86e0cc8a8c414514e4f70abe
