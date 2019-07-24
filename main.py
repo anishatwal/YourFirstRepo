@@ -48,15 +48,11 @@ class AboutPage(webapp2.RequestHandler): #get, post
         about_template=jinja_env.get_template('/about.html')#load up the about page and access quotes api
         data=None
         bool=False
-        while bool==False:
-            try:
-                url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
-                response=urlfetch.fetch(url)
-                data=json.loads(response.content)
-                bool=True
+        url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
+        response=urlfetch.fetch(url)
+        data=json.loads(response.content)
+        bool=True
                 # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
-            except ValueError:
-                pass
         quote=""
         author=""
         if data["quoteAuthor"]=="":
