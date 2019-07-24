@@ -13,3 +13,66 @@ h1 {
   font-size: 35pt;
   text-align: center;
 }
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+  background-color: #333;
+  padding: 10px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 13.5pt;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  text-shadow: 3px 3px black;
+  text-decoration: none;
+  display: block;
+  color: #7FFFD4;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+li a:hover {
+  text-shadow: 1px 1px #000080;
+  color: #000080;
+  background-color: #FFFFE0;
+}
+
+table {
+  text-align: center;
+  border: 7px solid white;
+  padding: 15px;
+}
+
+h2 {
+  font-family: 'Londrina Shadow', cursive;
+  font-size: 70px;
+  text-align: center;
+}
+
+form {
+  text-align: center;
+  font-family: 'Overlock', cursive;
+  font-size: 15px;
+  color: white;
+  text-shadow: 2px 2px black;
+}
+
+#range {
+  width: 110px;
+}
+
+h4 {
+  text-align: center;
+  font-family: 'Overlock', cursive;
+  font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px black;
+}

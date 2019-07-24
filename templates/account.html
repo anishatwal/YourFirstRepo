@@ -3,11 +3,10 @@
   <head>
     <title>Create an Account</title>
     <link rel="stylesheet" href="/styles/account1.css">
-    <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow|Cinzel+Decorative|Overlock&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    <h1>H   A   P   P   Y</h1>
 
     <center>
       <ul>
@@ -21,9 +20,40 @@
       </ul>
     </center>
 
+    <h1>H   A   P   P   Y</h1>
+
     <section id="create">
-      <h2>Create A New Account</h2>
+      <h2>Create A New Account:</h2>
     </section>
 
+    <form>
+      <h3>Name</h3>
+      <input type="text"></input>
+      <h3>Username</h3>
+      <input type="text"></input>
+      <h3>Email</h3>
+      <input type="email"></input>
+      <h3>Password</h3>
+      <input type="password"></input>
+      <h3>Preferred Interest</h3>
+      <select>
+        <option>Indoor</option>
+        <option>Outdoor</option>
+      </select>
+      <h3>Preferred Time</h3>
+      <select>
+        <option>Day</option>
+        <option>Night</option>
+      </select>
+      <h3>Preferred Price Level</h3>
+      <input type="range" id="range" min="1" max="4"><br>1 &nbsp &nbsp &nbsp 2 &nbsp &nbsp &nbsp 3 &nbsp &nbsp &nbsp 4</input>
+      <br><br><br>
+      <input type="submit"></input>
+      <input type="reset"></input>
+    </form>
+    <br>
+    <section>
+      <h4> <a href="login">I already have an account</a></h4>
+    </section>
   </body>
 </html>
