@@ -31,11 +31,13 @@ jinja_env=jinja2.Environment(
 class AboutPage(webapp2.RequestHandler): #get, post
     def get(self):
         #self.response.headers['Content-Type']="text/html" #text/plain
-        about_template=jinja_env.get_template('/about.html')#load up the about page and access quotes api
+        about_template=jinja_env.get_template('templates/about.html')#load up the about page and access quotes api
         data=None
         url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
-        bool=False
-                # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+        response=urlfetch.fetch(url)
+        data=json.loads(response.content)
+        bool=True
+        # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
         quote=""
         author=""
         while bool==False:
@@ -55,7 +57,7 @@ class AboutPage(webapp2.RequestHandler): #get, post
 
 class LoginPage(webapp2.RequestHandler):
     def get(self):
-        login_template=jinja_env.get_template('/templates/login.html')
+        login_template=jinja_env.get_template('templates/login.html')
         self.response.write(login_template.render())#add the form
     def post(self): #link to another web page
         u=self.request.get("username")
@@ -79,7 +81,7 @@ class AccountPage(webapp2.RequestHandler): #get, post
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         mood_template=jinja_env.get_template('/templates/mood.html')
-        self.response.write(account_template.render())
+        self.response.write(mood_template.render())
     #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
 
 class DailyRecPage(webapp2.RequestHandler): #get, post
@@ -145,6 +147,9 @@ class LeisurePage(webapp2.RequestHandler): #get, post
 
 #the app configuration
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
-#social events, attractions
-    ('/', AboutPage), ('/login', LoginPage), ('/createaccount', AccountPage), ('/mood', MoodPage), ('/dailyrec', DailyRecPage), ('/leisure', LeisurePage)
+    ('/', AboutPage),
+    ('/login', LoginPage),
+    ('/createaccount', AccountPage),
+    ('/mood', MoodPage),
+    ('/dailyrec', DailyRecPage)
 ], debug=True)  #array is all the routes in application (like home, about page)

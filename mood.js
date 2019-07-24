@@ -1,9 +1,15 @@
-function onLoad() {
-  $("#button").click(onClick);
-}
 
-function onClick() {
-  document.body.style.background = black;
-}
 
-window.onload = onLoad;
+
+// clicked = true;
+// $(document).ready(function(){
+//     $("#stressed").click(function(){
+//         if(clicked){
+//             $(this).css('background-color', 'black');
+//             clicked  = false;
+//         } else {
+//             $(this).css('background-color', 'blue');
+//             clicked  = true;
+//         }
+//     });
+// });
