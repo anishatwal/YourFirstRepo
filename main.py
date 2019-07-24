@@ -12,6 +12,8 @@ import random
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 currUser=None
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+lat=""
+lon=""
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      username=ndb.StringProperty(required=True)
      password=ndb.StringProperty(required=True)
@@ -87,15 +89,16 @@ class DailyRecPage(webapp2.RequestHandler): #get, post
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        lat=data["location"]["lat"]
-        lon=data["location"]["lng"]
-        print(data)
+        lat=str(data["location"]["lat"])
+        lon=str(data["location"]["lng"])
+        self.response.write(lat+","+lon)
         #reverse geocode location to get the address
         url="https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        address=data["results"]["formatted_address"]
-        vars={"time":date, "lat":lat, "lon":lon, "data":data, "address":address}
+        address=data["results"][0]["formatted_address"]
+        self.response.write(address)
+        vars={"time":date, "data":data, "address":address}
         self.response.write(dailyrec_template.render(vars))
 
 class FoodPage(webapp2.RequestHandler): #get, post
@@ -106,13 +109,13 @@ class FoodPage(webapp2.RequestHandler): #get, post
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        lat=data["location"]["lat"]
-        lon=data["location"]["lng"]
+        lat=str(data["location"]["lat"])
+        lon=str(data["location"]["lng"])
         url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        print(data)
         url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
+
         self.response.write(account_template.render())
 
 #yoga api-indoor activity, video games api - indoor leisure
@@ -146,5 +149,8 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/login', LoginPage),
     ('/createaccount', AccountPage),
     ('/mood', MoodPage),
-    ('/dailyrec', DailyRecPage)
+    ('/dailyrec', DailyRecPage),
+    ('/food', FoodPage),
+    ('/social', SocialPage),
+    ('/leisure', LeisurePage),
 ], debug=True)  #array is all the routes in application (like home, about page)
