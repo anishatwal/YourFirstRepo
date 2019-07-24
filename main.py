@@ -37,7 +37,9 @@ class Restaurant(object):
         dollars=""
         for i in range(0, plevel):
             dollars+="$"
-        st=name
+        st=name+", Price:"+plevel+", Rating:"+rating+", IsOpen:"+open+", Keywords:"+types
+        return st
+
 jinja_env=jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
