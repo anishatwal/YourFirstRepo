@@ -1,15 +1,17 @@
 body {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
-  background-size: 120%;
+  background-image: url('https://live.staticflickr.com/5343/7170292334_062c439342_b.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-e
   color: black;
   margin: 0px;
 }
 
 h1 {
-  color: white;
+  color: #B54FD1;
   font-size: 32pt;
   font-family: 'Londrina Shadow', cursive;
-  text-shadow: 3px 3px #000080;
+  text-shadow: 4px 4px lightblue;
   font-size: 50pt;
   text-align: center;
 }
@@ -18,7 +20,7 @@ h2 {
   font-family: 'Cinzel Decorative', cursive;
   font-size: 18pt;
   color: black;
-  text-shadow: 1px 1px black;
+  text-shadow: 4px 4px lightblue;
   font-family: 'Londrina Shadow', cursive;
   font-size: 70px;
   text-align: center;

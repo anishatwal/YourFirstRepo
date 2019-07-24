@@ -26,7 +26,7 @@ h3 {
 h4 {
   font-family: 'Times New Roman';
   color: #FFFFE0;
-  font-size: 16pt;
+  font-size: 20pt;
   font-style: italic;
   text-shadow: 3px 1px black;
 }
@@ -42,28 +42,11 @@ h5 {
     text-shadow: 1px 0px white;
 }
 
-button {
-  font-size: 15pt;
-  padding: 15px;
-  font-family: 'Cinzel Decorative', cursive;
-  background-color: #FFFFE0;
-  color: #000080;
-  border: 8px solid #BEBEBE;
-  text-shadow: 1px 1px white;
-}
-
 body {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
   background-size: 120%;
   color: black;
   margin: 0px;
-}
-
-.icon {
-  position: fixed;
-  z-index: 10;
-  padding: 20px;
-
 }
 
 ul {
@@ -101,4 +84,48 @@ table {
   text-align: center;
   border: 7px solid white;
   padding: 15px;
+}
+
+section {
+    height: 70vh;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.icon {
+  width: 230pt;
+  position: fixed;
+  left: 0;
+  z-index: 10;
+  padding: 20px;
+}
+
+button {
+  font-size: 15pt;
+  padding: 15px;
+  font-family: 'Cinzel Decorative', cursive;
+  background-color: #FFFFE0;
+  color: #000080;
+  border: 8px solid #BEBEBE;
+  text-shadow: 1px 1px white;
+}
+
+#quote1 {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Pelister_od_Pelagonija.JPG');
+}
+
+#welcome {
+  background-image: url('https://images.pexels.com/photos/457881/pexels-photo-457881.jpeg?cs=srgb&dl=beach-calm-clouds-457881.jpg&fm=jpg');
+}
+
+#info {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
 }
