@@ -1,11 +1,24 @@
 body {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
+  background-size: 120%;
+  color: black;
+  margin: 0px;
 }
 
 h1 {
   color: white;
+  font-size: 32pt;
   font-family: 'Londrina Shadow', cursive;
-  font-size: 70px;
+  text-shadow: 3px 3px #000080;
+  font-size: 35pt;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 18pt;
+  color: black;
+  text-shadow: 1px 1px black;
 }
 
 #choose {
@@ -102,4 +115,35 @@ button {
   background-color: #d5abff;
   color: white;
   text-shadow: 2px 2px #333;
+}
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+  background-color: #333;
+  padding: 10px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 13.5pt;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  text-shadow: 3px 3px black;
+  text-decoration: none;
+  display: block;
+  color: #7FFFD4;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+li a:hover {
+  text-shadow: 1px 1px #000080;
+  color: #000080;
+  background-color: #FFFFE0;
 }
