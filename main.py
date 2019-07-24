@@ -119,7 +119,7 @@ class DailyRecPage(webapp2.RequestHandler): #get, post
         data=json.loads(response.content)
         address=data["results"][0]["formatted_address"]
         self.response.write(address)
-        self.response.write("displays activity recommendations based on personality quiz")
+        self.response.write(" -> displays activity recommendations based on personality quiz")
         vars={"time":date, "data":data, "address":address}
         self.response.write(dailyrec_template.render(vars))
 
@@ -136,7 +136,10 @@ class FoodPage(webapp2.RequestHandler): #get, post
         url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        restaurants=data["results"]
+        dataset=data["results"]
+        restaurants=[]
+        #for i in range(0, len(dataset)):
+        #    restaurants.
         self.response.write(data)
         url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
 
