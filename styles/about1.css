@@ -1,0 +1,99 @@
+p {
+  text-align: left;
+  color: white;
+  font-size: 32pt;
+  font-family: 'Londrina Shadow', cursive;
+  text-shadow: 3px 3px #000080;
+}
+
+h1 {
+  font-family: 'Cinzel Decorative', sans-serif;
+  text-shadow: 2px 2px #FFFFE0;
+  font-size: 35pt;
+}
+
+h2 {
+  font-family: 'Cinzel Decorative', cursive;
+  text-shadow: 3px 1px #FFFFE0;
+  font-size: 18pt;
+}
+
+h3 {
+  font-family: 'Cinzel Decorative', cursive;
+  color: #000080;
+}
+
+h4 {
+  font-family: 'Times New Roman';
+  color: #FFFFE0;
+  font-size: 16pt;
+  font-style: italic;
+  text-shadow: 3px 1px black;
+}
+
+h5 {
+  font-family: 'Cinzel Decorative', sans-serif;
+  text-shadow: 2px 2px #FFFFE0;
+  font-size: 25pt;
+}
+
+button {
+  font-size: 15pt;
+  padding: 15px;
+  font-family: 'Cinzel Decorative', cursive;
+  background-color: #FFFFE0;
+  color: #000080;
+  border: 8px solid #BEBEBE;
+  text-shadow: 1px 1px white;
+}
+
+body {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
+  background-size: 120%;
+  color: black;
+  margin: 0px;
+}
+
+.icon {
+  position: fixed;
+  z-index: 10;
+  padding: 20px;
+
+}
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+  background-color: #333;
+  padding: 10px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 13.5pt;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  text-shadow: 3px 3px black;
+  text-decoration: none;
+  display: block;
+  color: #7FFFD4;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+li a:hover {
+  text-shadow: 1px 1px #000080;
+  color: #000080;
+  background-color: #FFFFE0;
+}
+
+table {
+  text-align: center;
+  border: 7px solid white;
+  padding: 15px;
+}
