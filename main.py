@@ -167,13 +167,12 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
         response=urlfetch.fetch(url)
         data=json.loads(response.content)
-        index=random.randint(48)
-        name=""
-        img=""
-        for d in data:
-            if d["id"]==index:
-                name=d["english_name"]
-                img=d["img_url"]
+        index=random.randint(0, len(data)-1)
+        name=data[index]["english_name"]
+        img=data[index]["img_url"]
+        self.response.write(name+" "+img)
+        self.response.write("<br>")
+        self.response.write("<img src='"+img+"' width=200px height=200px />")
         vars={"name":name, "url":img}
         self.response.write(exercise_template.render(vars))
 
@@ -186,5 +185,5 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/dailyrec', DailyRecPage),
     ('/food', FoodPage),
     ('/social', SocialPage),
-    ('/leisure', LeisurePage),
+    ('/activity', LeisurePage),
 ], debug=True)  #array is all the routes in application (like home, about page)
