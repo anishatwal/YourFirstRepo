@@ -10,7 +10,7 @@ h1 {
   font-size: 32pt;
   font-family: 'Londrina Shadow', cursive;
   text-shadow: 3px 3px #000080;
-  font-size: 35pt;
+  font-size: 50pt;
   text-align: center;
 }
 
@@ -21,6 +21,7 @@ h2 {
   text-shadow: 1px 1px black;
   font-family: 'Londrina Shadow', cursive;
   font-size: 70px;
+  text-align: center;
 }
 
 #choose {
@@ -42,7 +43,7 @@ button {
   text-align: center;
   align-items: center;
   border-color: #2b2b2b;
-  font-size: 25px;
+  font-size: 30px;
   font-family: 'Permanent Marker', cursive;
 }
 
