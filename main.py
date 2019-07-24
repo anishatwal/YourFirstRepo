@@ -34,22 +34,17 @@ class AboutPage(webapp2.RequestHandler): #get, post
         about_template=jinja_env.get_template('templates/about.html')#load up the about page and access quotes api
         data=None
         url="https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" #FORISMATIC API gets random quote
-        response=urlfetch.fetch(url)
-        data=json.loads(response.content)
-        bool=True
-        # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+        bool=False
         quote=""
         author=""
         while bool==False:
             try:
-                bool=True
                 response=urlfetch.fetch(url)
-                data=json.loads(response.content)
-                if data["quoteAuthor"]=="":
-                    quote=data["quoteText"]
-                else:
-                    quote=data["quoteText"]
-                    author=" - "+ data["quoteAuthor"]
+                data=json.loads(response.content.replace(r'\x3E', '\x3E').replace('\r\n', '\\r\\n'))
+                # returns {"quoteText":"Love is not blind; it simply enables one to see things others fail to see.", "quoteAuthor":"", "senderName":"", "senderLink":"", "quoteLink":"http://forismatic.com/en/848e15db47/"}
+                quote=data["quoteText"]
+                author=" - "+ data["quoteAuthor"]
+                bool=True
             except ValueError:
                 pass
         q={"quote":quote, "author":author}
@@ -72,7 +67,7 @@ class LoginPage(webapp2.RequestHandler):
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
-        account_template=jinja_env.get_template('/templates/account.html')
+        account_template=jinja_env.get_template('templates/account.html')
         self.response.write(account_template.render())
     def post(self): #link to another web page
         user=User(username=u, password=p, email=e, traits=[])
@@ -80,14 +75,14 @@ class AccountPage(webapp2.RequestHandler): #get, post
 
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
-        mood_template=jinja_env.get_template('/templates/mood.html')
+        mood_template=jinja_env.get_template('templates/mood.html')
         self.response.write(mood_template.render())
     #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
 
 class DailyRecPage(webapp2.RequestHandler): #get, post
     def get(self):
         #get user location through google maps api and detail the current time and location
-        dailyrec_template=jinja_env.get_template('/templates/dailyrec.html')
+        dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
         date=ctime()
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
         response=urlfetch.fetch(url, method="POST")
@@ -105,7 +100,7 @@ class DailyRecPage(webapp2.RequestHandler): #get, post
 
 class FoodPage(webapp2.RequestHandler): #get, post
     def get(self):
-        account_template=jinja_env.get_template('/templates/food.html')
+        account_template=jinja_env.get_template('templates/food.html')
         #go to google places api
         #possibly put in jscript
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
@@ -124,12 +119,12 @@ class FoodPage(webapp2.RequestHandler): #get, post
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
     def get(self):
-        social_template=jinja_env.get_template('/templates/social.html')
+        social_template=jinja_env.get_template('templates/social.html')
         self.response.write(social_template.render())
 
 class LeisurePage(webapp2.RequestHandler): #get, post
     def get(self):
-        exercise_template=jinja_env.get_template('/templates/leisure.html')
+        exercise_template=jinja_env.get_template('templates/leisure.html')
         #grab yoga api, google park, video games api
         #if you are an indoors person
         url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
