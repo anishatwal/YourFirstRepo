@@ -143,9 +143,11 @@ class FoodPage(webapp2.RequestHandler): #get, post
         #possibly put in jscript
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
         self.response.write(url)
-        '''response=urlfetch.fetch(url, method="POST")
+        response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        lat=str(data["location"]["lat"])
+        self.response.write("<br>")
+        self.response.write(data)
+        '''lat=str(data["location"]["lat"])
         lon=str(data["location"]["lng"])
         url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
         self.response.write(url)
