@@ -7,10 +7,12 @@ body {
 }
 
 #main {
-  /* background-color: #ffd9f3; */
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   grid-template-rows: 300px 300px 300px;
+  text-align: center;
+  color: black;
+
 }
 
 .top {
@@ -24,71 +26,137 @@ body {
   text-align: center;
   align-content: center;
   font-size: 150px;
-  color: #818181;
+  color: white;
+  text-shadow: 3px 3px black;
 }
 
 .box1 {
   background-color: #a3e7ff;
-  margin: 10px;
   padding: 5px;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box1 > .innerBox1 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box2 {
   background-color: #f7ffa3;
-  margin: 10px;
   padding: 5px;
   overflow: scroll;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box2 > .innerBox2 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box3 {
   background-color: #dfb4fa;
-  margin: 10px;
   padding: 5px;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box3 > .innerBox3 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box4 {
   background-color: #ffd28f;
-  margin: 10px;
   padding: 5px;
   font-size: 25px;
   overflow: scroll;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box4 > .innerBox4 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box5 {
   background-color: #dfb4fa;
-  margin: 10px;
   padding: 5px;
   overflow: scroll;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box5 > .innerBox5 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box6 {
   background-color: #ffd28f;
-  margin: 10px;
   padding: 5px;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  background-size: contain;
+  display: table;
+  text-align: center;
+}
+
+.box6 > .innerBox6 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box7 {
   background-color: #f7ffa3;
-  margin: 10px;
   padding: 5px;
   font-size: 25px;
   overflow: scroll;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box7 > .innerBox7 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .box8 {
   background-color: #a3e7ff;
-  margin: 10px;
   padding: 5px;
   font-size: 25px;
   overflow: scroll;
   opacity: 0.75;
+  height: 90%;
+  width: 90%;
+  display: table;
+  text-align: center;
+}
+
+.box8 > .innerBox8 {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 p {
@@ -101,6 +169,7 @@ p {
 #quotetitle {
   font-family: 'Josefin Slab', cursive;
   font-size: 25pt;
+  position: relative;
 }
 
 #quote {
@@ -144,11 +213,14 @@ li a:hover {
 }
 
 button {
-  font-size: 10pt;
+  font-size: 20pt;
   padding: 15px;
   font-family: 'Josefin Slab', cursive;
   background-color: black;
   color: white;
+  border: 8px solid white;
+  text-shadow: 0 0 8px blue;
+
 }
 
 button a {
@@ -158,9 +230,6 @@ button a {
   text-align: center;
 }
 
-
-
-
 .sidenav {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
@@ -168,29 +237,31 @@ button a {
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #ffedf9;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
   font-family: 'Josefin Slab', cursive;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hwd1QY5IKltGBwT6ur1Sh5IbBQkeGY4tJxkbbXQtpR757xln');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100%;
 }
 
-/* The navigation menu links */
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  padding: 8px 8px 8px 20px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: black;
   display: block;
   transition: 0.3s;
+  text-shadow: 1px 1px blue;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: black;
+  text-shadow: 0 0 5px #00CDFF;
 }
 
-/* Position and style the close button (top right corner) */
 .sidenav .closebtn {
   position: absolute;
   top: 0;
@@ -199,16 +270,14 @@ button a {
   margin-left: 50px;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s;
   padding: 20px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+  .sidenav {padding-top: 20px;}
+  .sidenav a {font-size: 20px;}
 }
 
 .material-icons.md-36{
@@ -216,9 +285,9 @@ button a {
 }
 
 span i {
-  color: #818181;
+  color: white;
 }
 
 span i:hover {
-  color: black;
+  color: pink;
 }
