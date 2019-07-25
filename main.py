@@ -77,7 +77,7 @@ class LoginPage(webapp2.RequestHandler):
 
 class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
-        login_url=users.create_login_url("/")
+        login_url=users.create_login_url("/mood")
         vars={"url":login_url}
         self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
         data=User.query().fetch() #does data return none if empty?
