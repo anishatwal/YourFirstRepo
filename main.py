@@ -147,16 +147,10 @@ class FoodPage(webapp2.RequestHandler): #get, post
 class SocialPage(webapp2.RequestHandler): #get, post
     def get(self):
         social_template=jinja_env.get_template('templates/social.html')
-        url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
-        response=urlfetch.fetch(url)
+        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=landmark&keyword=landmarks&key="+apikey
+        response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
-        index=random.randint(0, len(data)-1)
-        name=data[index]["english_name"]
-        img=data[index]["img_url"]
-        self.response.write(name+" "+img)
-        self.response.write("<br>")
-        self.response.write("<img src='"+img+"' width=200px height=200px />")
-        vars={"name":name, "url":img}
+        dataset=data["results"]
         self.response.write(social_template.render(vars))
 
 class LeisurePage(webapp2.RequestHandler): #get, post
