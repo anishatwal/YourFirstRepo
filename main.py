@@ -17,6 +17,7 @@ lat=""
 lon=""
 username=""
 nickname=""
+attributes=["interest", "time", "range"]
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
      traits=ndb.StringProperty(repeated=True)
@@ -92,12 +93,22 @@ class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
         account_template=jinja_env.get_template('templates/account.html')
         self.response.write(account_template.render())
-    def post(self): #link to another web page
-        tr={}
-        e=self.request.get("email")
-        print(u+" "+p+" "+e)
-        #answer choices stored in ids that are put on traits
-        user=User(email=e, traits=tr)
+
+class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
+    def get(self):
+        interest=self.request.get("interest")
+        time=self.request.get("time")#outdoor, indoor
+        range=self.request.get("range")
+        email=""
+        self.response.write(interest+" "+time+" "+range)
+        user=users.get_current_user()
+        vars={}
+        if user:
+            email=user.nickname()
+        else:
+            self.redirect('/reciever')
+        traits={interest, time, str(range)}
+        user=User(email=email, traits=traits)
         user.put()
 
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
@@ -133,21 +144,22 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
         address=data["results"][0]["formatted_address"]
         self.response.write(address)
         self.response.write(" -> displays activity recommendations based on personality quiz")
-        vars={"time":date, "data":data, "address":address}
+        vars={date,data,address}
         self.response.write(dailyrec_template.render(vars))
 
 class FoodPage(webapp2.RequestHandler): #get, post
     def get(self):
-        #account_template=jinja_env.get_template('templates/food.html')
+        account_template=jinja_env.get_template('templates/food.html')
         #go to google places api
         #possibly put in jscript
-        url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
+        '''url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
+        self.response.write(url)
         self.response.write(url)
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         self.response.write("<br>")
         self.response.write(data)
-        '''lat=str(data["location"]["lat"])
+        lat=str(data["location"]["lat"])
         lon=str(data["location"]["lng"])
         url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
         self.response.write(url)
@@ -170,14 +182,14 @@ class FoodPage(webapp2.RequestHandler): #get, post
             if r.open==True:
                 self.response.write(data)
                 self.response.write("<br>")
-        url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
-        self.response.write(account_template.render())'''
+        url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey'''
+        self.response.write(account_template.render())
 #yoga api-indoor activity, video games api - indoor leisure
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
     def get(self):
         #social_template=jinja_env.get_template('templates/social.html')
-        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=landmark&keyword=landmark&key="+apikey
+        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=landmark&keyword=cruise&key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
@@ -217,4 +229,5 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/food', FoodPage),
     ('/social', SocialPage),
     ('/activity', LeisurePage),
+    ('/datareciever', DataRecieverPage),
 ], debug=True)  #array is all the routes in application (like home, about page)
