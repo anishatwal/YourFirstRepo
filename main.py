@@ -16,6 +16,7 @@ apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
 lat=""
 lon=""
 username=""
+nickname=""
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
      traits=ndb.StringProperty(repeated=True)
@@ -67,17 +68,18 @@ class LoginPage(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
             nickname=user.nickname()
-            #vars={"names":nickname}
-            self.response.write(nickname)
+            vars={"names":nickname}
+            self.redirect('/mood')
         else:
             self.redirect('/reciever')
         #login_template=jinja_env.get_template('templates/login.html')
         #self.response.write(login_template.render())#add the form
 
-class DataReciever(webapp2.RequestHandler):
+class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
-        user=users.get_current_user()
-        nickname=user.nickname()
+        login_url=users.create_login_url("/mood")
+        vars={"url":login_url}
+        self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
         data=User.query().fetch() #does data return none if empty?
         if data==None: #if no one's made an account
             self.redirect('/account')
@@ -85,12 +87,6 @@ class DataReciever(webapp2.RequestHandler):
             for d in data:
                 if d.username==u and d.password==p:
                     self.redirect('/mood')
-
-class LoginReciever(webapp2.RequestHandler):
-    def get(self):
-        login_url=users.create_login_url("/")
-        vars={"url":login_url}
-        self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
@@ -107,7 +103,14 @@ class AccountPage(webapp2.RequestHandler): #get, post
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         mood_template=jinja_env.get_template('templates/mood.html')
-        self.response.write(mood_template.render())
+        user=users.get_current_user()
+        vars={}
+        if user:
+            nickname=user.nickname()
+            vars={"name":nickname}
+        else:
+            self.redirect('/reciever')
+        self.response.write(mood_template.render(vars))
     #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
 
 class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
@@ -155,7 +158,7 @@ class FoodPage(webapp2.RequestHandler): #get, post
             try:
                 resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
                 restaurants.append(resta)
-            except:
+            except KeyError:
                 pass
         for r in restaurants:
             st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
@@ -208,6 +211,5 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/dailyrec', DailyRecPage),
     ('/food', FoodPage),
     ('/social', SocialPage),
-    ('/datareciever', DataReciever),
     ('/activity', LeisurePage),
 ], debug=True)  #array is all the routes in application (like home, about page)
