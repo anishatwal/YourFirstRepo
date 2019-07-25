@@ -1,17 +1,32 @@
 body {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
-  background-size: 120%;
+  background-size: 160%;
   color: black;
   margin: 0px;
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
+h3 {
+  font-family: 'Overlock', cursive;
+  font-size: 40px;
+  text-align: center;
+  color: white;
+  text-shadow: 4px 4px black;
+}
+
+table {
+  align: center;
+  padding: 10px;
+  height: 100%;
 }
 
 h1 {
-  color: white;
-  font-size: 32pt;
-  font-family: 'Londrina Shadow', cursive;
-  text-shadow: 3px 3px #000080;
-  font-size: 35pt;
+  font-family: 'Overlock', cursive;
+  font-size: 40px;
   text-align: center;
+  color: white;
+
 }
 
 ul {
@@ -48,13 +63,18 @@ li a:hover {
 table {
   text-align: center;
   border: 7px solid white;
-  padding: 15px;
+  padding: 18px;
+	height: 718px;
+	width: 718px;
+	margin: 0; padding: 0;
+	border-collapse: collapse;
 }
 
 h2 {
   font-family: 'Londrina Shadow', cursive;
-  font-size: 70px;
+  font-size: 50px;
   text-align: center;
+  color: white;
 }
 
 form {

@@ -42,7 +42,7 @@ button {
 }
 
 #stressed:hover {
-  background-color: black;
+  background-color: grey;
   text-shadow: 2px 2px #333;
   background-size: 200% 100%;
 }
