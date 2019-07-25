@@ -4,6 +4,7 @@ import os
 import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
+from google.appengine.api import users
 from time import ctime
 import uuid
 import urllib2
@@ -14,12 +15,10 @@ currUser=None
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
 lat=""
 lon=""
+username=""
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
-     username=ndb.StringProperty(required=True)
-     password=ndb.StringProperty(required=True)
      email=ndb.StringProperty(required=True)
      traits=ndb.StringProperty(repeated=True)
-     id=str(uuid.uuid4())
 
 class Restaurant(object):
     def __init__(self, n, p, r, b, t, a):#, la, ln):
@@ -65,27 +64,44 @@ class AboutPage(webapp2.RequestHandler): #get, post
 
 class LoginPage(webapp2.RequestHandler):
     def get(self):
-        login_template=jinja_env.get_template('templates/login.html')
-        self.response.write(login_template.render())#add the form
+        user=users.get_current_user()
+        if user:
+            nickname=user.nickname()
+            #vars={"names":nickname}
+            self.response.write(nickname)
+        else:
+            self.redirect('/reciever')
+        #login_template=jinja_env.get_template('templates/login.html')
+        #self.response.write(login_template.render())#add the form
 
-class LoginReciever(webapp2.RequestHandler):
-    def post(self): #link to another web page
-        u=self.request.get("username")
-        p=self.request.get("password")
+class DataReciever(webapp2.RequestHandler):
+    def get(self):
+        user=users.get_current_user()
+        nickname=user.nickname()
         data=User.query().fetch() #does data return none if empty?
         if data==None: #if no one's made an account
-            self.redirect('/createaccount')
+            self.redirect('/account')
         else:
             for d in data:
                 if d.username==u and d.password==p:
                     self.redirect('/mood')
+
+class LoginReciever(webapp2.RequestHandler):
+    def get(self):
+        login_url=users.create_login_url("/")
+        vars={"url":login_url}
+        self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
         account_template=jinja_env.get_template('templates/account.html')
         self.response.write(account_template.render())
     def post(self): #link to another web page
-        user=User(username=u, password=p, email=e, traits=[])
+        tr={}
+        e=self.request.get("email")
+        print(u+" "+p+" "+e)
+        #answer choices stored in ids that are put on traits
+        user=User(email=e, traits=tr)
         user.put()
 
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
@@ -94,12 +110,14 @@ class MoodPage(webapp2.RequestHandler): #get, post request in javascript
         self.response.write(mood_template.render())
     #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
 
-class DailyRecPage(webapp2.RequestHandler): #get, post
+class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
         dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
         date=ctime()
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
+        self.response.write(url)
+        self.response.write("<br>")
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         lat=str(data["location"]["lat"])
@@ -133,42 +151,52 @@ class FoodPage(webapp2.RequestHandler): #get, post
         for i in range(0, len(dataset)):
             value=dataset[i]
             u"{}".format(value)
-            resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
-            restaurants.append(resta)
+            resta=None
+            try:
+                resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                restaurants.append(resta)
+            except:
+                pass
         for r in restaurants:
             st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
-            self.response.write(st)
-            self.response.write("<br>")
+            if r.open==True:
+                self.response.write(st)
+                self.response.write("<br>")
         url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
         self.response.write(account_template.render())
-
 #yoga api-indoor activity, video games api - indoor leisure
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
     def get(self):
-        social_template=jinja_env.get_template('templates/social.html')
-        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=landmark&keyword=landmarks&key="+apikey
+        #social_template=jinja_env.get_template('templates/social.html')
+        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=landmark&keyword=landmark&key="+apikey
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
-        self.response.write(social_template.render(vars))
+        self.response.write(dataset)
+        #self.response.write(social_template.render())
 
 class LeisurePage(webapp2.RequestHandler): #get, post
     def get(self):
-        exercise_template=jinja_env.get_template('templates/activity.html')
+        #exercise_template=jinja_env.get_template('templates/activity.html')
         #grab yoga api, google park, video games api
         #if you are an indoors person
         url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
         response=urlfetch.fetch(url)
         data=json.loads(response.content)
         index=random.randint(0, len(data)-1)
-        name=data[index]["english_name"]
-        img=data[index]["img_url"]
-        self.response.write(name+" "+img)
+        name0=data[index]["english_name"]
+        name=name0.replace(" ", "+")
+        search=name+"+yoga+position"
+        link="https://www.google.com/search?hl=en&biw=908&bih=868&tbm=isch&sa=1&ei=cLw5XfeEBPeT0PEPna-a6AY&q="+search+"&oq="+search+"&gs_l=img.3..35i39l2j0i67j0j0i67l4j0j0i67.15001.15354..15508...0.0..0.50.235.5......0....1..gws-wiz-img.bDzfPGJecS8&ved=0ahUKEwj3_NPco9DjAhX3CTQIHZ2XBm0Q4dUDCAY&uact=5"
+        self.response.write(link)
         self.response.write("<br>")
-        self.response.write("<img src='"+img+"' width=200px height=200px />")
-        vars={"name":name, "url":img}
-        self.response.write(exercise_template.render(vars))
+        #img=data[index]["img_url"]
+        self.response.write("<a href="+link+">"+name0+"</a>")#+img) #link text to link
+        self.response.write("<br>")
+        #self.response.write("<img src='"+img+"' width=200px height=200px />")
+        vars={"name":name}#, "url":img}
+        #self.response.write(exercise_template.render(vars))
 
 #the app configuration
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
@@ -176,8 +204,10 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/login', LoginPage),
     ('/account', AccountPage),
     ('/mood', MoodPage),
+    ('/reciever', LoginReciever),
     ('/dailyrec', DailyRecPage),
     ('/food', FoodPage),
     ('/social', SocialPage),
+    ('/datareciever', DataReciever),
     ('/activity', LeisurePage),
 ], debug=True)  #array is all the routes in application (like home, about page)

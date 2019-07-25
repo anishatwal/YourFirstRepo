@@ -23,18 +23,19 @@
     <h1>H   A   P   P   Y</h1>
 
     <section id="create">
-      <h2>Create A New Account:</h2>
+      <h2>Create A New Profile:</h2>
     </section>
 
-    <form>
-      <h3>Name</h3>
-      <input type="text"></input>
+    <form action="/reciever">
+      <!--<h3>Name</h3>
+      <input id="name" type="text"></input>
       <h3>Username</h3>
-      <input type="text"></input>
+      <input id="username" type="text"></input>
       <h3>Email</h3>
-      <input type="email"></input>
+      <input id="email" type="email"></input>
       <h3>Password</h3>
-      <input type="password"></input>
+      <input id="password" type="password" required></input>-->
+      Please answer these personality questions to enable the best recommendations
       <h3>Preferred Interest</h3>
       <select>
         <option>Indoor</option>
@@ -48,12 +49,12 @@
       <h3>Preferred Price Level</h3>
       <input type="range" id="range" min="1" max="4"><br>1 &nbsp &nbsp &nbsp 2 &nbsp &nbsp &nbsp 3 &nbsp &nbsp &nbsp 4</input>
       <br><br><br>
-      <input type="submit"></input>
+      <input type="submit" value="Submit!" action="/datareciever"></input>
       <input type="reset"></input>
     </form>
     <br>
-    <section>
+    <!--<section>
       <h4> <a href="login">I already have an account</a></h4>
-    </section>
+    </section>-->
   </body>
 </html>
