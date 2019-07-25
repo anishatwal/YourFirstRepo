@@ -1,56 +1,95 @@
+body {
+  background-color: #ffd9f3;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 300px 300px 300px;
+}
+
+.top {
+  text-align: center;
+  font-family: 'Londrina Shadow', cursive;
+  grid-row: 1 / span 2;
+  grid-column: 1 / span 2;
+}
+
+#happy {
+  text-align: center;
+  align-content: center;
+  font-size: 100px;
+}
+
+.box1 {
+  background-color: #a3e7ff;
+  margin: 10px;
+  padding: 5px;
+}
+
+.box2 {
+  background-color: #f7ffa3;
+  margin: 10px;
+  padding: 5px;
+  overflow: scroll;
+}
+
+.box3 {
+  background-color: #dfb4fa;
+  margin: 10px;
+  padding: 5px;
+}
+
+.box4 {
+  background-color: #ffd28f;
+  margin: 10px;
+  padding: 5px;
+}
+
+.box5 {
+  background-color: #dfb4fa;
+  margin: 10px;
+  padding: 5px;
+}
+
+.box6 {
+  background-color: #ffd28f;
+  margin: 10px;
+  padding: 5px;
+}
+
+.box7 {
+  background-color: #f7ffa3;
+  margin: 10px;
+  padding: 5px;
+}
+
+.box8 {
+  background-color: #a3e7ff;
+  margin: 10px;
+  padding: 5px;
+}
+
 p {
   text-align: left;
-  color: white;
-  font-size: 32pt;
-  font-family: 'Londrina Shadow', cursive;
-  text-shadow: 3px 3px #000080;
+  align-items: center;
+  font-size: 17.5px;
+  font-family: 'Josefin Slab', cursive;
 }
 
-h1 {
-  font-family: 'Cinzel Decorative', sans-serif;
-  text-shadow: 2px 2px #FFFFE0;
-  font-size: 40pt;
-}
-
-h2 {
-  font-family: 'Cinzel Decorative', cursive;
-  text-shadow: 3px 1px #FFFFE0;
-  font-size: 25pt;
-}
-
-h3 {
-  font-family: 'Cinzel Decorative', cursive;
-  color: #FFFFE0;
-  font-size: 18pt;
-}
-
-h4 {
-  font-family: 'Times New Roman';
-  color: #FFFFE0;
-  font-size: 20pt;
-  font-style: italic;
-  text-shadow: 3px 1px black;
-}
-
-h5 {
-  font-family: 'Cinzel Decorative', sans-serif;
-  text-shadow: 2px 2px #FFFFE0;
+#quotetitle {
+  font-family: 'Josefin Slab', cursive;
   font-size: 25pt;
 }
 
 #quote {
-    width: 650px;
-    text-shadow: 1px 0px white;
+  font-family: 'Josefin Slab', cursive;
+  font-size: 20px;
 }
 
-body {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
-  background-size: 120%;
-  color: black;
-  margin: 0px;
+.info {
+  font-family: 'Josefin Slab', cursive;
+  font-size: 100%;
 }
 
-ul {
+.topbar {
   list-style-type: none;
   overflow: hidden;
   background-color: #333;
@@ -58,7 +97,7 @@ ul {
   margin: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  font-family: 'Cinzel Decorative', cursive;
+  font-family: 'Josefin Slab', cursive;
   font-size: 13.5pt;
 }
 
@@ -67,7 +106,6 @@ li {
 }
 
 li a {
-  text-shadow: 3px 3px black;
   text-decoration: none;
   display: block;
   color: #7FFFD4;
@@ -81,52 +119,17 @@ li a:hover {
   background-color: #FFFFE0;
 }
 
-table {
-  text-align: center;
-  border: 7px solid white;
-  padding: 15px;
-}
-
-section {
-    height: 70vh;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-.icon {
-  width: 230pt;
-  position: fixed;
-  left: 0;
-  z-index: 10;
-  padding: 20px;
-}
-
 button {
-  font-size: 15pt;
+  font-size: 10pt;
   padding: 15px;
-  font-family: 'Cinzel Decorative', cursive;
-  background-color: #FFFFE0;
-  color: #000080;
-  border: 8px solid #BEBEBE;
-  text-shadow: 1px 1px white;
+  font-family: 'Josefin Slab', cursive;
+  background-color: black;
+  color: white;
 }
 
-#quote1 {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Pelister_od_Pelagonija.JPG');
-}
-
-#welcome {
-  background-image: url('https://images.pexels.com/photos/457881/pexels-photo-457881.jpeg?cs=srgb&dl=beach-calm-clouds-457881.jpg&fm=jpg');
-}
-
-#info {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
+button a {
+  text-decoration: none;
+  display: block;
+  color: white;
+  text-align: center;
 }
