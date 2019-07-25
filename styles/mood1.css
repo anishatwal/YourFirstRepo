@@ -1,7 +1,8 @@
 body {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Yellow_square_happy_smiley.jpg');
-  background-size: 4%;
+  background-image: url('https://live.staticflickr.com/5343/7170292334_062c439342_b.jpg');
+  background-size: 100%;
   background-position: center;
+  background-repeat: no-repeat;
   /* background-repeat: no-repeat; */
   background-e
   color: black;
@@ -10,7 +11,6 @@ body {
 
 h2 {
   font-family: 'Cinzel Decorative', cursive;
-  background-color: #F5BE0C;
   font-size: 18pt;
   color: black;
   /* text-shadow: 1px 1px black; */
@@ -25,6 +25,7 @@ h2 {
   font-family: 'Londrina Shadow', cursive;
   text-align: center;
   font-size: 75px;
+  margin: 0;
 }
 
 #choose {
@@ -40,8 +41,8 @@ h2 {
 }
 
 button {
-  background-color: black;
-  color: #818181;
+  background-color: gray;
+  color: black;
   text-align: center;
   align-items: center;
   border-color: #2b2b2b;
@@ -50,7 +51,7 @@ button {
 }
 
 #stressed:hover {
-  background-color: grey;
+  background-color: black;
   text-shadow: 2px 2px #333;
   background-size: 200% 100%;
   color: white;
@@ -161,29 +162,31 @@ li a:hover {
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #ffedf9;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
   font-family: 'Josefin Slab', cursive;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hwd1QY5IKltGBwT6ur1Sh5IbBQkeGY4tJxkbbXQtpR757xln');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100%;
 }
 
-/* The navigation menu links */
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  padding: 8px 8px 8px 20px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: black;
   display: block;
   transition: 0.3s;
+  text-shadow: 1px 1px blue;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: black;
+  text-shadow: 0 0 5px #00CDFF;
 }
 
-/* Position and style the close button (top right corner) */
 .sidenav .closebtn {
   position: absolute;
   top: 0;
