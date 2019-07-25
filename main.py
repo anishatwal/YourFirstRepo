@@ -138,15 +138,18 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
 
 class FoodPage(webapp2.RequestHandler): #get, post
     def get(self):
-        account_template=jinja_env.get_template('templates/food.html')
+        #account_template=jinja_env.get_template('templates/food.html')
         #go to google places api
         #possibly put in jscript
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
-        response=urlfetch.fetch(url, method="POST")
+        self.response.write(url)
+        '''response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         lat=str(data["location"]["lat"])
         lon=str(data["location"]["lng"])
         url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
+        self.response.write(url)
+        self.response.write("<br>")
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
@@ -161,12 +164,12 @@ class FoodPage(webapp2.RequestHandler): #get, post
             except KeyError:
                 pass
         for r in restaurants:
-            st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
+            #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open==True:
-                self.response.write(st)
+                self.response.write(data)
                 self.response.write("<br>")
         url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey
-        self.response.write(account_template.render())
+        self.response.write(account_template.render())'''
 #yoga api-indoor activity, video games api - indoor leisure
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
