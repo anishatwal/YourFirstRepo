@@ -15,12 +15,6 @@ h3 {
   text-shadow: 4px 4px black;
 }
 
-table {
-  align: center;
-  padding: 10px;
-  height: 100%;
-}
-
 h1 {
   font-family: 'Overlock', cursive;
   font-size: 40px;
@@ -65,9 +59,11 @@ table {
   border: 7px solid white;
   padding: 18px;
 	height: 718px;
-	width: 718px;
-	margin: 0; padding: 0;
+	width: 690px;
+	margin: 0;
+  padding: 0;
 	border-collapse: collapse;
+  align: center;
 }
 
 h2 {
@@ -97,10 +93,6 @@ h4 {
   text-shadow: 1px 1px black;
 }
 
-
-
-
-
 .sidenav {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
@@ -108,29 +100,31 @@ h4 {
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #ffedf9;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
   font-family: 'Josefin Slab', cursive;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hwd1QY5IKltGBwT6ur1Sh5IbBQkeGY4tJxkbbXQtpR757xln');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100%;
 }
 
-/* The navigation menu links */
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  padding: 8px 8px 8px 20px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: black;
   display: block;
   transition: 0.3s;
+  text-shadow: 1px 1px blue;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: black;
+  text-shadow: 0 0 5px #00CDFF;
 }
 
-/* Position and style the close button (top right corner) */
 .sidenav .closebtn {
   position: absolute;
   top: 0;
