@@ -79,7 +79,7 @@ class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
         login_url=users.create_login_url("/")
         vars={"url":login_url}
-        #self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
+        self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
         data=User.query().fetch() #does data return none if empty?
         if data==None: #if no one's made an account
             self.redirect('/account')
