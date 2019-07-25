@@ -85,9 +85,7 @@ class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
         if data==None: #if no one's made an account
             self.redirect('/account')
         else:
-            for d in data:
-                if d.username==u and d.password==p:
-                    self.redirect('/mood')
+            self.redirect('/mood')
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
