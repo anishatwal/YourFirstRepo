@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Create an Account</title>
+    <title>Create/Edit a Profile</title>
     <link rel="stylesheet" href="/styles/account1.css">
     <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow|Cinzel+Decorative|Overlock&display=swap" rel="stylesheet">
   </head>
@@ -11,23 +11,23 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a href="https://ama-happy.appspot.com/">About</a><br><br>
       <a href="login">Login</a><br><br>
-      <a href="account">Create An Account</a>
+      <a href="account">Create/Edit a Profile</a>
     </div>
 
     <span onclick="openNav()"><i class="material-icons md-36">menu</i></span>
 
     <div id="main">
       <table align="left" style="table-layout:fixed">
-      <form action="/reciever">
+      <form action="/datareciever">
       <tr>
         <td>
-          <h2>Create A New Profile:</h2>
+          <!--<h2>Create A New Profile:</h2>
           <h3>Username</h3>
           <input id="username" type="text" required></input>
           <h3>Email</h3>
           <input id="email" type="email" required></input>
           <h3>Password</h3>
-          <input id="password" type="password" required></input><br><br><br>
+          <input id="password" type="password" required></input><br><br><br>-->
         </td>
       </tr>
       </table>
@@ -35,19 +35,19 @@
         <tr>
           <td>
             <h3>Preferred Interest</h3>
-            <select>
-              <option>Indoor</option>
-              <option>Outdoor</option>
+            <select name="interest">
+              <option value="indoor">Indoor</option>
+              <option value="outdoor">Outdoor</option>
             </select>
             <h3>Preferred Time</h3>
-            <select>
-              <option>Day</option>
-              <option>Night</option>
+            <select name="time">
+              <option value="day">Day</option>
+              <option value="night">Night</option>
             </select>
             <h3>Preferred Price Level</h3>
-            <input type="range" id="range" min="1" max="4"><br>1 &nbsp &nbsp &nbsp 2 &nbsp &nbsp &nbsp 3 &nbsp &nbsp &nbsp 4</input>
+            <input type="range" name="range" min="1" max="4"><br>1 &nbsp &nbsp &nbsp 2 &nbsp &nbsp &nbsp 3 &nbsp &nbsp &nbsp 4</input>
             <br><br><br>
-            <input type="submit" value="Submit!" action="/datareciever"></input>
+            <input type="submit" value="Submit!"></input>
             <input type="reset"></input>
           </form>
           </td>
