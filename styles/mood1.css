@@ -1,7 +1,8 @@
 body {
-  background-image: url('https://live.staticflickr.com/5343/7170292334_062c439342_b.jpg');
-  background-size: 100%;
-  background-repeat: no-repeat;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Yellow_square_happy_smiley.jpg');
+  background-size: 4%;
+  background-position: center;
+  /* background-repeat: no-repeat; */
   background-e
   color: black;
   margin: 0px;
@@ -9,6 +10,7 @@ body {
 
 h2 {
   font-family: 'Cinzel Decorative', cursive;
+  background-color: #F5C102;
   font-size: 18pt;
   color: black;
   /* text-shadow: 1px 1px black; */
@@ -16,10 +18,21 @@ h2 {
   font-size: 70px;
   text-align: center;
 }
+.div1 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  resize: both;
+  overflow: auto;
+  margin: 0px;
+  float: left;
+}
 
 #choose {
   text-align: center;
-  color: white;
   font-size: 13px;
   font-family: 'Source Code Pro', cursive;
 }
@@ -31,7 +44,7 @@ h2 {
 }
 
 button {
-  background-color: #333;
+  background-color: black;
   color: #7FFFD4;
   text-align: center;
   align-items: center;
@@ -42,81 +55,69 @@ button {
 
 .mood #stressed:hover {
   background-color: black;
-  color: white;
   text-shadow: 2px 2px #333;
   background-size: 200% 100%;
 }
 
 .mood #scared:hover {
   background-color: #ad3434;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #nervous:hover {
   background-color: #ffae52;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #mixed:hover {
   background-color: #a9ff9c;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #normal:hover {
   background-color: #81dadb;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #relaxed:hover {
   background-color: #3b95e3;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #calm:hover {
   background-color: #fa6b6b;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #cool:hover {
   background-color: #ffabed;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #loved:hover {
   background-color: #ede96f;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #romantic:hover {
   background-color: #2a801d;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #passionate:hover {
   background-color: #1e8385;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 .mood #happy:hover {
   background-color: #d5abff;
-  color: white;
   text-shadow: 2px 2px #333;
 }
 
 ul {
   list-style-type: none;
   overflow: hidden;
-  background-color: #333;
+  background-color: black;
   padding: 10px;
   margin: 0;
   display: grid;
