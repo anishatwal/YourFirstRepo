@@ -15,12 +15,13 @@ h1 {
 h2 {
   font-family: 'Cinzel Decorative', cursive;
   text-shadow: 3px 1px #FFFFE0;
-  font-size: 18pt;
+  font-size: 25pt;
 }
 
 h3 {
   font-family: 'Cinzel Decorative', cursive;
-  color: #000080;
+  color: #FFFFE0;
+  font-size: 18pt;
 }
 
 h4 {
