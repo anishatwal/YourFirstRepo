@@ -62,15 +62,18 @@ class AboutPage(webapp2.RequestHandler): #get, post
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user=users.get_current_user()
+        print(user)
         if user:
-            nickname=user.nickname()
-            vars={"name":nickname}
-            self.response.write(nickname)
-            #self.redirect('/mood')
+            data=User.query().fetch() #does data return none if empty?
+            print(data)
+            if len(data)==0: #if no one's made an account
+                self.redirect('/account')
+            else:
+                self.redirect('/mood')
         else:
-            self.redirect('/reciever')
-        #login_template=jinja_env.get_template('templates/login.html')
-        #self.response.write(login_template.render())#add the form
+            login_url=users.create_login_url("/login")
+            vars={"url":login_url}
+            self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
 class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
