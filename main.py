@@ -12,7 +12,7 @@ import json
 import random
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-attributes=["interest", "time", "range"]
+attributes=["interest", "time", "range", "exercise", "eater", "travel"]
 recs={}
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
@@ -117,19 +117,23 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         interest=self.request.get("interest")
         time=self.request.get("time")#outdoor, indoor
-        range=self.request.get("range")
+        range=self.request.get("range") #plevel affected
         email=""
-        self.response.write(interest+" "+time+" "+range)
+        exercise=self.request.get("exercise")#often?->increases yoga timed exercises
+        eater=self.request.get("eater") #pickt? -> choose restaurants with increased ratings
+        travel=self.request.get("travel") #far? yes or no -> increase radius
+        #self.response.write(interest+" "+time+" "+range)
         user=users.get_current_user()
         vars={}
         if user:
             email=user.nickname()
         else:
             self.redirect('/reciever')
-        traits={interest, time, str(range)}
-        print(email+" "+str(traits))
+        traits={interest, time, str(range), exercise, eater, travel}
+        #print(email+" "+str(traits))
         user=User(email=email, traits=traits)
         user.put()
+        self.redirect('/mood')
 
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
