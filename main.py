@@ -132,7 +132,7 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
         dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
-        self.response.write(dailyrec_template.render(vars))
+        self.response.write(dailyrec_template.render())
         '''user=users.get_current_user()
         vars={}
         attr=None
