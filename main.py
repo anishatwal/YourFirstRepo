@@ -64,14 +64,13 @@ class LoginPage(webapp2.RequestHandler):
         user=users.get_current_user()
         print(user)
         if user:
-            data=User.query().fetch() #does data return none if empty?
-            print(data)
+            data=User.query().fetch()
             if len(data)==0: #if no one's made an account
                 self.redirect('/account')
             else:
                 self.redirect('/mood')
         else:
-            login_url=users.create_login_url("/login")
+            login_url=users.create_login_url("/mood")
             vars={"url":login_url}
             self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
@@ -150,13 +149,23 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
         self.response.write(" -> displays activity recommendations based on personality quiz")
         vars={date,data,address}
         self.response.write(dailyrec_template.render(vars))
-
+#ONE QUESTIOON COULD BE ABOUT IF YOU PREFER TO TRAVEL FAR
 class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
         self.redirect('/food/22.4,-33.4')
 
 class FoodPage(webapp2.RequestHandler): #get, post
     def get(self, data):
+        user=users.get_current_user()
+        vars={}
+        attr=None
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+        else:
+            self.redirect('/reciever')
+        u"{}".format(attr[0].traits)
+        print(attr[0].traits)
         food_template=jinja_env.get_template('templates/food.html')
         parsed=data.split(",")
         lat=float(parsed[0])
