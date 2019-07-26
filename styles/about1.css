@@ -220,6 +220,7 @@ button {
   color: white;
   border: 8px solid white;
   text-shadow: 0 0 8px blue;
+  box-shadow: 5px -5px black, inset 0 0 10px rgba(0,0,0,.5);
 
 }
 
