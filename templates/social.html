@@ -66,13 +66,17 @@
                           fields: ['name', 'rating', 'formatted_phone_number', 'geometry']
                         };*/
                     var request = {
-                      query: 'type=point_of_interest',//'landmark',//points_of_interest
+                      //query: 'point_of_interest',//'landmark',//points_of_interest
+                      type: 'point_of_interest',
                       fields: ['name', 'geometry'],
+                      location: new google.maps.LatLng(lat, lon),
+                      radius:1500
                     };
                     service = new google.maps.places.PlacesService(map);
                     //service.getDetails(request0, callback0;
                     service.textSearch(request, callback);
-                    service.findPlaceFromQuery(request, function(results, status) {
+                    //service.findPlaceFromQuery(request, function(results, status) {
+                    service.nearbySearch(request, function(results, status) {
                       if (status === google.maps.places.PlacesServiceStatus.OK) {
                         for (var i = 0; i < results.length; i++) {
                           console.log(results[i])
