@@ -25,15 +25,11 @@ table {
   border: 1px solid black;
 }
 
-#center {
-  margin-top: 0;
-  margin-bottom: 0;
-  display: grid;
-}
-
-#topbar {
-  background-color: gray;
-  align-content: center;
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
 }
 
 #happy {
@@ -43,7 +39,7 @@ table {
   text-align: center;
   font-size: 75px;
   margin: 0;
-  text-align: center;
+  z-index: 2;
 }
 
 #choose {
@@ -98,4 +94,4 @@ table {
 
 .material-icons.md-36{
   font-size: 45px;
-  color: blue;
+  color: white;
