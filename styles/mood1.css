@@ -18,6 +18,13 @@ h2 {
   text-shadow: 1px 1px 2px pink;
 }
 
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
+}
+
 #happy {
   background-color: gray;
   color: white;
@@ -25,6 +32,7 @@ h2 {
   text-align: center;
   font-size: 75px;
   margin: 0;
+  z-index: 2;
 }
 
 #choose {
@@ -203,11 +211,11 @@ li a:hover {
 
 .material-icons.md-36{
   font-size: 45px;
-  color: grey;
+  color: white;
 }
 
 span i {
-  color: #818181;
+  color: white;
 }
 
 span i:hover {
