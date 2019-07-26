@@ -6,6 +6,14 @@ body {
   height:500%;
 }
 
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
 #main {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
