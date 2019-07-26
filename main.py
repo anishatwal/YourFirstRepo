@@ -29,6 +29,14 @@ class Restaurant(object):
         #self.lat=la
         #self.lon=ln
 
+class Landmark(object):
+    def __init__(self, n, r, b, t, a):#, la, ln):
+        self.name=n
+        self.rating=float(r)
+        self.open=b
+        self.types=t
+        self.vicinity=a
+
 jinja_env=jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -216,7 +224,6 @@ class SocialPage(webapp2.RequestHandler): #get, post
         attr=None
         if user:
             em=user.nickname()
-            print(em)
             attr=User.query().filter(User.email==em).fetch()
         else:
             self.redirect('/reciever')
@@ -225,25 +232,31 @@ class SocialPage(webapp2.RequestHandler): #get, post
         parsed=data.split(",")
         lat=float(parsed[0])
         lon=float(parsed[1])
-        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=amusement_park&keyword=amusement+park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+        print(str(lat)+" "+str(lon))
+        #url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=landmark&keyword=landmark&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+        url="https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location="+str(lat)+","+str(lon)+"&radius=1500&sensor=false"
+        #https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location=52.069858,4.291111&radius=1000&sensor=false
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
-        restaurants=[]
-        '''for i in range(0, len(dataset)):
+        #print(data)
+        #if nothing (len(dataset)==0) was found say that no nearby places availiable
+        landmarks=[]
+        for i in range(0, len(dataset)):
             value=dataset[i]
             u"{}".format(value)
-            resta=None
+            land=None
             try:
-                resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
-                restaurants.append(resta)
+                land=Landmark(value["name"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                landmarks.append(land)
             except KeyError:
                 pass
-        for r in restaurants:
+        for r in landmarks:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
-            if r.open==True:
-                self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")'''
+            st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
+            print(st)
+            self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+            self.response.write("<br>")
         self.response.write(social_template.render())
 
 class LeisurePage(webapp2.RequestHandler): #get, post
