@@ -30,6 +30,7 @@ span {
   position: absolute;
   padding-top: 22px;
   padding-left: 10px;
+  cursor: pointer;
 }
 
 #happy {
