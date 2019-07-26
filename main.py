@@ -86,6 +86,13 @@ class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
         else:
             self.redirect('/mood')
 
+class LogoutPage(webapp2.RequestHandler):
+    def get(self):
+        logout_url=users.create_logout_url("/")
+        user=None
+        #self.response.write("hello "+str(nickname))
+        self.response.write('<br>Log out here: <a href="'+logout_url+'">click here</a>')
+
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
         account_template=jinja_env.get_template('templates/account.html')
@@ -105,6 +112,7 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
         else:
             self.redirect('/reciever')
         traits={interest, time, str(range)}
+        print(email+" "+traits)
         user=User(email=email, traits=traits)
         user.put()
 
@@ -227,6 +235,7 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/dailyrec', DailyRecPage),
     ('/food/(.*)', FoodPage),
     ('/foodhandler', FoodHandler),
+    ('/logout', LogoutPage),
     ('/social', SocialPage),
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
