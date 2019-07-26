@@ -41,34 +41,40 @@
         }
       }
       function initMap() {
-              var lat=0.00
-              var lon=0.00
+              let lat=0.00
+              let lon=0.00
               var url="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
               fetch(url, {method:"POST"}).then((res) => {
                   var asjson=res.json()
-                  console.log(asjson)
+                  //console.log(asjson)
+                  var promise1=Promise.resolve(asjson)
+                  promise1.then(function(value){
+                    lat=value["location"]["lat"]//lng
+                    lon=value["location"]["lng"]//lng
+                    console.log(lat+" "+lon)
+                    dataurl="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                    var position = new google.maps.LatLng(lat, lon);
+                    infowindow = new google.maps.InfoWindow();
+                    map = new google.maps.Map(
+                        document.getElementById('map'), {center: position, zoom: 14});
+                    var request = {
+                      query: 'restaurant',
+                      fields: ['name', 'geometry'],
+                    };
+                    service = new google.maps.places.PlacesService(map);
+                    service.textSearch(request, callback);
+                    service.findPlaceFromQuery(request, function(results, status) {
+                      if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i = 0; i < results.length; i++) {
+                          console.log(results[i])
+                          createMarker(results[i]);
+                        }
+                        map.setCenter(results[0].geometry.location);
+                      }
+                    }
+                   )
+                  })
               })
-              console.log(lat+" "+lon)
-              url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-              var position = new google.maps.LatLng(lat, lon);
-              infowindow = new google.maps.InfoWindow();
-              map = new google.maps.Map(
-                  document.getElementById('map'), {center: position, zoom: 15});
-              var request = {
-                query: 'restaurant',
-                fields: ['name', 'geometry'],
-              };
-              service = new google.maps.places.PlacesService(map);
-              service.textSearch(request, callback);
-              service.findPlaceFromQuery(request, function(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  for (var i = 0; i < results.length; i++) {
-                    createMarker(results[i]);
-                  }
-                  map.setCenter(results[0].geometry.location);
-                }
-              }
-             )
       }
 
       function createMarker(place) {
