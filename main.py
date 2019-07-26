@@ -227,7 +227,7 @@ class SocialPage(webapp2.RequestHandler): #get, post
         data=json.loads(response.content)
         dataset=data["results"]
         restaurants=[]
-        for i in range(0, len(dataset)):
+        '''for i in range(0, len(dataset)):
             value=dataset[i]
             u"{}".format(value)
             resta=None
@@ -240,7 +240,7 @@ class SocialPage(webapp2.RequestHandler): #get, post
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open==True:
                 self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                self.response.write("<br>")'''
         self.response.write(social_template.render())
 
 class LeisurePage(webapp2.RequestHandler): #get, post
