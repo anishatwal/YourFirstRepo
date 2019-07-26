@@ -7,6 +7,20 @@ body {
   background-size:cover;
 }
 
+select {
+  font-size: 15pt;
+  font-family: 'Overlock', cursive;
+  text-align: center;
+  color: blue;
+  text-shadow: 0 1px black;
+}
+
+input {
+  font-family: 'Overlock', cursive;
+  text-align: center;
+}
+
+
 #happy {
   background-color: gray;
   color: white;

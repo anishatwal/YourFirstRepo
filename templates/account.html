@@ -37,33 +37,44 @@
     <div id="main">
 
       <table align="left" style="table-layout:fixed">
-      <form action="/datareciever">
-      <tr>
-        <td>
-          <h2>Create A New Profile:</h2>
-          <h3>Username</h3>
-          <input id="username" type="text" required></input>
-          <h3>Email</h3>
-          <input id="email" type="email" required></input>
-          <h3>Password</h3>
-          <input id="password" type="password" required></input><br><br><br>-->
-        </td>
-      </tr>
+        <form action="/datareciever">
+        <tr>
+          <td>
+            <h2>Create A New Profile:</h2>
+            <h3>Are you a picky eater?</h3>
+            <select name="eater">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+            <h3>How often do you exercise?</h3>
+            <select name="exercise">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="no">Not At All</option>
+            </select>
+            <h3>Do you enjoy traveling far?</h3>
+            <select name="travel">
+              <option value = "yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </td>
+        </tr>
       </table>
       <table align="right" style="table-layout:fixed">
         <tr>
           <td>
-            <h3>Preferred Interest</h3>
+            <h3>Are you an indoor or outdoor person?</h3>
             <select name="interest">
               <option value="indoor">Indoor</option>
               <option value="outdoor">Outdoor</option>
             </select>
-            <h3>Preferred Time</h3>
+            <h3>Do you prefer going out in the day or night?</h3>
             <select name="time">
               <option value="day">Day</option>
               <option value="night">Night</option>
             </select>
-            <h3>Preferred Price Level</h3>
+            <h3>What is your preferred price range?</h3>
             <input type="range" name="range" min="1" max="4"><br>1 &nbsp &nbsp &nbsp 2 &nbsp &nbsp &nbsp 3 &nbsp &nbsp &nbsp 4</input>
             <br><br><br>
             <input type="submit" value="Submit!"></input>
