@@ -13,6 +13,7 @@ import random
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
 attributes=["interest", "time", "range"]
+recs={}
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
      traits=ndb.StringProperty(repeated=True)
