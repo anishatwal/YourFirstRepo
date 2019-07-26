@@ -71,15 +71,28 @@
                   .catch(() => {
                     console.log("failed")
                   })*/
+                 /*
+                          try{
+                            open = place.opening_hours.periods[1].open.time;
+                          }
+                          catch(e){
+                            open='No work time';
+                          }
+                  */
                     var position = new google.maps.LatLng(lat, lon);
                     infowindow = new google.maps.InfoWindow();
                     map = new google.maps.Map(
                         document.getElementById('map'), {center: position, zoom: 14});
+                    /*var request0 = {
+                          placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+                          fields: ['name', 'rating', 'formatted_phone_number', 'geometry']
+                        };*/
                     var request = {
                       query: 'restaurant',
                       fields: ['name', 'geometry'],
                     };
                     service = new google.maps.places.PlacesService(map);
+                    //service.getDetails(request0, callback0;
                     service.textSearch(request, callback);
                     service.findPlaceFromQuery(request, function(results, status) {
                       if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -101,7 +114,8 @@
           position: place.geometry.location
         });
         google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
+          st=place.name + "<br />" + place.formatted_address +"<br />" + "Rating: "+place.rating + "<br />"
+          infowindow.setContent(st);
           infowindow.open(map, this);
         });
       }
