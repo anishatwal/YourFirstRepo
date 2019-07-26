@@ -65,7 +65,8 @@ class LoginPage(webapp2.RequestHandler):
         if user:
             nickname=user.nickname()
             vars={"name":nickname}
-            self.response.write(nickname)
+            self.response.write("var")
+            #self.redirect('/mood')
         else:
             self.redirect('/reciever')
         #login_template=jinja_env.get_template('templates/login.html')
@@ -108,13 +109,12 @@ class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         mood_template=jinja_env.get_template('templates/mood.html')
         user=users.get_current_user()
-        vars={}
         if user:
             nickname=user.nickname()
             vars={"name":nickname}
+            self.response.write(mood_template.render(vars))
         else:
             self.redirect('/reciever')
-        self.response.write(mood_template.render(vars))
     #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
 
 class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
