@@ -71,7 +71,7 @@ class AboutPage(webapp2.RequestHandler): #get, post
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user=users.get_current_user()
-        print(user)
+        #print(user)
         if user:
             data=User.query().fetch()
             if len(data)==0: #if no one's made an account
@@ -103,8 +103,15 @@ class LogoutPage(webapp2.RequestHandler):
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
-        account_template=jinja_env.get_template('templates/account.html')
-        self.response.write(account_template.render())
+        user=users.get_current_user()
+        #print(user)
+        if user:
+            account_template=jinja_env.get_template('templates/account.html')
+            self.response.write(account_template.render())
+        else:
+            login_url=users.create_login_url("/account")
+            vars={"url":login_url}
+            self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
 class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
