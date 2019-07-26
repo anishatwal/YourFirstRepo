@@ -79,7 +79,7 @@ class LoginPage(webapp2.RequestHandler):
             else:
                 self.redirect('/mood')
         else:
-            login_url=users.create_login_url("/mood")
+            login_url=users.create_login_url("/account")
             vars={"url":login_url}
             self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
