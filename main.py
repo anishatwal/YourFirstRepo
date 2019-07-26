@@ -264,6 +264,7 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         #exercise_template=jinja_env.get_template('templates/activity.html')
         #grab yoga api, google park, video games api
         #if you are an indoors person
+        activity_template=jinja_env.get_template('templates/yoga.html')
         url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
         response=urlfetch.fetch(url)
         data=json.loads(response.content)
@@ -272,14 +273,14 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         name=name0.replace(" ", "+")
         search=name+"+yoga+position"
         link="https://www.google.com/search?hl=en&biw=908&bih=868&tbm=isch&sa=1&ei=cLw5XfeEBPeT0PEPna-a6AY&q="+search+"&oq="+search+"&gs_l=img.3..35i39l2j0i67j0j0i67l4j0j0i67.15001.15354..15508...0.0..0.50.235.5......0....1..gws-wiz-img.bDzfPGJecS8&ved=0ahUKEwj3_NPco9DjAhX3CTQIHZ2XBm0Q4dUDCAY&uact=5"
-        self.response.write(link)
-        self.response.write("<br>")
+        #self.response.write(link)
+        #self.response.write("<br>")
         #img=data[index]["img_url"]
-        self.response.write("<a href="+link+">"+name0+"</a>")#+img) #link text to link
-        self.response.write("<br>")
+        #self.response.write("<a href="+link+">"+name0+"</a>")#+img) #link text to link
+        #self.response.write("<br>")
         #self.response.write("<img src='"+img+"' width=200px height=200px />")
-        vars={"name":name}#, "url":img}
-        #self.response.write(exercise_template.render(vars))
+        vars={"link":link, "name":name0}#, "url":img}
+        self.response.write(activity_template.render(vars))
 
 #the app configuration
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
