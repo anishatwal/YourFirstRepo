@@ -52,7 +52,25 @@
                     lat=value["location"]["lat"]//lng
                     lon=value["location"]["lng"]//lng
                     console.log(lat+" "+lon)
-                    dataurl="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                    url2='/food/'+lat+","+lon
+                    if(window.location.pathname!==url2){
+                      window.location.href=url2
+                  }
+                    //fetch('/food/'+lat+","+lon, {method:"GET",
+                  //})
+                    /*fetch(dataurl, {method:"GET", headers: {
+                      "Accept": "application/json",
+                    }
+                  }
+                ).then((res2) => {
+                          var asjson2=res2.json();
+                          console.log(asjson2);
+                          //console.log("h")
+                    }
+                  )
+                  .catch(() => {
+                    console.log("failed")
+                  })*/
                     var position = new google.maps.LatLng(lat, lon);
                     infowindow = new google.maps.InfoWindow();
                     map = new google.maps.Map(
