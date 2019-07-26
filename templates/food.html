@@ -45,14 +45,17 @@
               var lon=0.00
               var url="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
               fetch(url, {method:"POST"}).then((res) => {
-                  console.log(res.json())
+                  var asjson=res.json()
+                  console.log(asjson)
               })
-              var sydney = new google.maps.LatLng(lat, lon);
+              console.log(lat+" "+lon)
+              url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+              var position = new google.maps.LatLng(lat, lon);
               infowindow = new google.maps.InfoWindow();
               map = new google.maps.Map(
-                  document.getElementById('map'), {center: sydney, zoom: 15});
+                  document.getElementById('map'), {center: position, zoom: 15});
               var request = {
-                query: 'Museum of Contemporary Art Australia',
+                query: 'restaurant',
                 fields: ['name', 'geometry'],
               };
               service = new google.maps.places.PlacesService(map);
@@ -66,7 +69,7 @@
                 }
               }
              )
-            }
+      }
 
       function createMarker(place) {
         var marker = new google.maps.Marker({
