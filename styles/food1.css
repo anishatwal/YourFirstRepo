@@ -10,25 +10,23 @@ p {
   font-size: 30pt;
 }
 
-.top {
-  background-color: gray;
-  z-index: 1;
-}
-
-#mySidenav {
-  display: block;
-  top: 50px;
-  left: 50px;
-  z-index: 2;
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
+  cursor: pointer;
 }
 
 #happy {
+  background-color: gray;
   color: white;
   font-family: 'Londrina Shadow', cursive;
+  text-align: center;
   font-size: 75px;
   margin: 0;
-  text-align: center;
-  /* z-index: 1; */
+  z-index: 2;
+  padding: 0;
 }
 
 
@@ -78,7 +76,6 @@ p {
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s;
-  padding: 20px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
