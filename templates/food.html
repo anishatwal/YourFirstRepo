@@ -43,16 +43,10 @@
       function initMap() {
               var lat=0.00
               var lon=0.00
-              if (navigator.geolocation) {
-                  console.log("hi")
-                  navigator.geolocation.getCurrentPosition(function(position){
-                    console.log(position);
-                    $.get( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+ position.coords.latitude + "," + position.coords.longitude +"&sensor=false", function(data) {
-                      console.log(data);
-                    })
-                  });
-
-              }
+              var url="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+              fetch(url, {method:"POST"}).then((res) => {
+                  console.log(res.json())
+              })
               var sydney = new google.maps.LatLng(lat, lon);
               infowindow = new google.maps.InfoWindow();
               map = new google.maps.Map(
