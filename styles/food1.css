@@ -12,14 +12,23 @@ p {
 
 .top {
   background-color: gray;
+  z-index: 1;
+}
+
+#mySidenav {
+  display: block;
+  top: 50px;
+  left: 50px;
+  z-index: 2;
 }
 
 #happy {
   color: white;
   font-family: 'Londrina Shadow', cursive;
-  text-align: center;
   font-size: 75px;
   margin: 0;
+  text-align: center;
+  /* z-index: 1; */
 }
 
 
