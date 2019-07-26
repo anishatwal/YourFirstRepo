@@ -131,6 +131,16 @@ class MoodPage(webapp2.RequestHandler): #get, post request in javascript
 class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
+        user=users.get_current_user()
+        vars={}
+        attr=None
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+        else:
+            self.redirect('/reciever')
+        u"{}".format(attr[0].traits)
+        print(attr[0].traits)
         dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
         date=ctime()
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
@@ -157,16 +167,6 @@ class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandle
 
 class FoodPage(webapp2.RequestHandler): #get, post
     def get(self, data):
-        user=users.get_current_user()
-        vars={}
-        attr=None
-        if user:
-            em=user.nickname()
-            attr=User.query().filter(User.email==em).fetch()
-        else:
-            self.redirect('/reciever')
-        u"{}".format(attr[0].traits)
-        print(attr[0].traits)
         food_template=jinja_env.get_template('templates/food.html')
         parsed=data.split(",")
         lat=float(parsed[0])
@@ -201,10 +201,13 @@ class FoodPage(webapp2.RequestHandler): #get, post
         self.response.write(food_template.render())
         #go to google places api
         #possibly put in jscript
+class SocialHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
+    def get(self):
+        self.redirect('/social/22.4,-33.4')
 #yoga api-indoor activity, video games api - indoor leisure
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
-    def get(self):
+    def get(self, data):
         social_template=jinja_env.get_template('templates/social.html')
         user=users.get_current_user()
         vars={}
@@ -273,7 +276,8 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/food/(.*)', FoodPage),
     ('/foodhandler', FoodHandler),
     ('/logout', LogoutPage),
-    ('/social', SocialPage),
+    ('/social/(.*)', SocialPage),
+    ('/socialhandler', SocialHandler),
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
 ], debug=True)  #array is all the routes in application (like home, about page)
