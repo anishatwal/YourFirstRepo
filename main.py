@@ -11,12 +11,7 @@ import urllib2
 import json
 import random
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
-currUser=None
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-lat=""
-lon=""
-username=""
-nickname=""
 attributes=["interest", "time", "range"]
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
@@ -67,11 +62,10 @@ class AboutPage(webapp2.RequestHandler): #get, post
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user=users.get_current_user()
-        console.log(user)
         if user:
             nickname=user.nickname()
             vars={"names":nickname}
-            self.redirect('/mood')
+            self.response.write(nickname)
         else:
             self.redirect('/reciever')
         #login_template=jinja_env.get_template('templates/login.html')
