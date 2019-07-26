@@ -20,6 +20,13 @@ input {
   text-align: center;
 }
 
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
+  cursor: pointer;
+}
 
 #happy {
   background-color: gray;
@@ -79,7 +86,7 @@ li a:hover {
 
 table {
   text-align: center;
-  border: 7px solid white;
+  border: 7px solid #575757;
   padding: 18px;
 	height: 718px;
 	width: 690px;
@@ -159,7 +166,6 @@ h4 {
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s;
-  padding: 20px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
