@@ -64,7 +64,7 @@ class LoginPage(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
             nickname=user.nickname()
-            vars={"names":nickname}
+            vars={"name":nickname}
             self.response.write(nickname)
         else:
             self.redirect('/reciever')
