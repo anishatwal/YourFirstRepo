@@ -119,7 +119,7 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         mood_template=jinja_env.get_template('templates/mood.html')
-        user=users.get_current_user()
+        user=users.get_current_user() #CHANGE HAPPY LINK ON HTML TO logout
         if user:
             nickname=user.nickname()
             vars={"name":nickname}
