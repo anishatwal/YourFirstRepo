@@ -65,7 +65,7 @@ class LoginPage(webapp2.RequestHandler):
         if user:
             nickname=user.nickname()
             vars={"name":nickname}
-            self.response.write("var")
+            self.response.write(nickname)
             #self.redirect('/mood')
         else:
             self.redirect('/reciever')
@@ -140,23 +140,17 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
         vars={date,data,address}
         self.response.write(dailyrec_template.render(vars))
 
-class FoodPage(webapp2.RequestHandler): #get, post
+class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
-        account_template=jinja_env.get_template('templates/food.html')
-        #go to google places api
-        #possibly put in jscript
-        '''url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
-        self.response.write(url)
-        self.response.write(url)
-        response=urlfetch.fetch(url, method="POST")
-        data=json.loads(response.content)
-        self.response.write("<br>")
-        self.response.write(data)
-        lat=str(data["location"]["lat"])
-        lon=str(data["location"]["lng"])
-        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=restaurant&keyword=restaurant&key="+apikey
-        self.response.write(url)
-        self.response.write("<br>")
+        self.redirect('/food/22.4,-33.4')
+
+class FoodPage(webapp2.RequestHandler): #get, post
+    def get(self, data):
+        food_template=jinja_env.get_template('templates/food.html')
+        parsed=data.split(",")
+        lat=float(parsed[0])
+        lon=float(parsed[1])
+        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
@@ -173,10 +167,19 @@ class FoodPage(webapp2.RequestHandler): #get, post
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open==True:
-                self.response.write(data)
+                self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 self.response.write("<br>")
-        url="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom=12&size=400x400&key="+apikey'''
-        self.response.write(account_template.render())
+                '''
+                self.name=n
+                self.plevel=int(p)
+                self.rating=float(r)
+                self.open=b
+                self.types=t
+                self.vicinity=a
+                '''
+        self.response.write(food_template.render())
+        #go to google places api
+        #possibly put in jscript
 #yoga api-indoor activity, video games api - indoor leisure
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
@@ -219,7 +222,8 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/mood', MoodPage),
     ('/reciever', LoginReciever),
     ('/dailyrec', DailyRecPage),
-    ('/food', FoodPage),
+    ('/food/(.*)', FoodPage),
+    ('/foodhandler', FoodHandler),
     ('/social', SocialPage),
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
