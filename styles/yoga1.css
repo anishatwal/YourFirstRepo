@@ -1,3 +1,21 @@
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+#happy {
+  background-color: gray;
+  color: white;
+  font-family: 'Londrina Shadow', cursive;
+  text-align: center;
+  font-size: 75px;
+  margin: 0;
+  z-index: 2;
+}
+
 .sidenav {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
