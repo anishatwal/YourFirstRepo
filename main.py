@@ -112,7 +112,7 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
         else:
             self.redirect('/reciever')
         traits={interest, time, str(range)}
-        print(email+" "+traits)
+        print(email+" "+str(traits))
         user=User(email=email, traits=traits)
         user.put()
 
@@ -150,7 +150,7 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
         self.response.write(" -> displays activity recommendations based on personality quiz")
         vars={date,data,address}
         self.response.write(dailyrec_template.render(vars))
-#ONE QUESTIOON COULD BE ABOUT IF YOU PREFER TO TRAVEL FAR
+#ONE QUESTION COULD BE ABOUT IF YOU PREFER TO TRAVEL FAR
 class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
         self.redirect('/food/22.4,-33.4')
@@ -205,13 +205,40 @@ class FoodPage(webapp2.RequestHandler): #get, post
 #landmark api-outdoor leisure, national parks- outdoor activity
 class SocialPage(webapp2.RequestHandler): #get, post
     def get(self):
-        #social_template=jinja_env.get_template('templates/social.html')
-        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&type=landmark&keyword=cruise&key="+apikey
+        social_template=jinja_env.get_template('templates/social.html')
+        user=users.get_current_user()
+        vars={}
+        attr=None
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+        else:
+            self.redirect('/reciever')
+        u"{}".format(attr[0].traits)
+        print(attr[0].traits)
+        parsed=data.split(",")
+        lat=float(parsed[0])
+        lon=float(parsed[1])
+        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=amusement_park&keyword=amusement+park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
-        self.response.write(dataset)
-        #self.response.write(social_template.render())
+        restaurants=[]
+        for i in range(0, len(dataset)):
+            value=dataset[i]
+            u"{}".format(value)
+            resta=None
+            try:
+                resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                restaurants.append(resta)
+            except KeyError:
+                pass
+        for r in restaurants:
+            #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
+            if r.open==True:
+                self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                self.response.write("<br>")
+        self.response.write(social_template.render())
 
 class LeisurePage(webapp2.RequestHandler): #get, post
     def get(self):
