@@ -1,0 +1,63 @@
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  font-family: 'Josefin Slab', cursive;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hwd1QY5IKltGBwT6ur1Sh5IbBQkeGY4tJxkbbXQtpR757xln');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100%;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 20px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  transition: 0.3s;
+  text-shadow: 1px 1px blue;
+}
+
+.sidenav a:hover {
+  color: black;
+  text-shadow: 0 0 5px #00CDFF;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.material-icons.md-36{
+  font-size: 36px;
+}
+
+span i {
+  color: #818181;
+}
+
+span i:hover {
+  color: black;
+}

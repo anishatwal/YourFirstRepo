@@ -2,9 +2,43 @@
 <html>
   <head>
     <title><title>
+    <link rel="stylesheet" href="/styles/social1.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Londrina+Shadow&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+      /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+      }
+
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+      }
+    </script>
   </head>
 
-  <body>
+  <body style="height:100%; margin:0px;">
+    <div>
+      <h1 id="happy">H A P P Y</h1>
+    </div>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="dailyrec">Recomendations</a><br><br>
+      <a href="foodhandler">Food</a><br><br>
+      <a href="activity">Yoga</a><br><br>
+      <a href="social">Attractions</a><br><br>
+      <a href="logout">Logout</a>
+    </div>
 
+    <span onclick="openNav()"><i class="material-icons md-36">menu</i></span>
+
+    <div id="main">
+
+      <!-- ADD BODY CODE HERE -->
+
+    </div>
   </body>
 </html>
