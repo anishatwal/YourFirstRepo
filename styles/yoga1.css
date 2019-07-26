@@ -1,7 +1,14 @@
+body {
+  background-color: #ffd6f1;
+  background-size: 120%;
+  color: black;
+  margin: 0px;
+}
+
 span {
   top: 0;
   position: absolute;
-  padding-top: 22px;
+  padding-top: 25px;
   padding-left: 10px;
   cursor: pointer;
 }
@@ -59,7 +66,6 @@ span {
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s;
-  padding: 20px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -73,7 +79,7 @@ span {
 }
 
 span i {
-  color: #818181;
+  color: white;
 }
 
 span i:hover {
