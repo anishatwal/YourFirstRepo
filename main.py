@@ -151,7 +151,6 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
         dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
-        self.response.write(dailyrec_template.render())
         '''user=users.get_current_user()
         vars={}
         attr=None
@@ -162,7 +161,6 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
             self.redirect('/reciever')
         u"{}".format(attr[0].traits)
         print(attr[0].traits)
-        dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
         date=ctime()
         url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
         self.response.write(url)
@@ -179,8 +177,8 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
         address=data["results"][0]["formatted_address"]
         self.response.write(address)
         self.response.write(" -> displays activity recommendations based on personality quiz")
-        vars={date,data,address}
-        self.response.write(dailyrec_template.render(vars))'''
+        vars={date,data,address}'''
+        self.response.write(dailyrec_template.render())
 #ONE QUESTION COULD BE ABOUT IF YOU PREFER TO TRAVEL FAR
 class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
@@ -238,8 +236,6 @@ class SocialPage(webapp2.RequestHandler): #get, post
             attr=User.query().filter(User.email==em).fetch()
         else:
             self.redirect('/reciever')
-        u"{}".format(attr[0].traits)
-        print(attr[0].traits)
         parsed=data.split(",")
         lat=float(parsed[0])
         lon=float(parsed[1])
