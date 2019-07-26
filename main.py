@@ -67,6 +67,7 @@ class AboutPage(webapp2.RequestHandler): #get, post
 class LoginPage(webapp2.RequestHandler):
     def get(self):
         user=users.get_current_user()
+        console.log(user)
         if user:
             nickname=user.nickname()
             vars={"names":nickname}
