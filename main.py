@@ -10,6 +10,7 @@ import uuid
 import urllib2
 import json
 import random
+#ADD BUTTON TO YOGA TO RANDOMIZE POSITIONS
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
 attributes=["interest", "time", "range", "exercise", "eater", "travel"]
@@ -151,35 +152,8 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
         dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
-        '''user=users.get_current_user()
-        vars={}
-        attr=None
-        if user:
-            em=user.nickname()
-            attr=User.query().filter(User.email==em).fetch()
-        else:
-            self.redirect('/reciever')
-        u"{}".format(attr[0].traits)
-        print(attr[0].traits)
-        date=ctime()
-        url="https://www.googleapis.com/geolocation/v1/geolocate?key="+apikey
-        self.response.write(url)
-        self.response.write("<br>")
-        response=urlfetch.fetch(url, method="POST")
-        data=json.loads(response.content)
-        lat=str(data["location"]["lat"])
-        lon=str(data["location"]["lng"])
-        self.response.write(lat+","+lon)
-        #reverse geocode location to get the address
-        url="https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&key="+apikey
-        response=urlfetch.fetch(url, method="POST")
-        data=json.loads(response.content)
-        address=data["results"][0]["formatted_address"]
-        self.response.write(address)
-        self.response.write(" -> displays activity recommendations based on personality quiz")
-        vars={date,data,address}'''
         self.response.write(dailyrec_template.render())
-#ONE QUESTION COULD BE ABOUT IF YOU PREFER TO TRAVEL FAR
+
 class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
         self.redirect('/food/22.4,-33.4')
@@ -207,6 +181,7 @@ class FoodPage(webapp2.RequestHandler): #get, post
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open==True:
+                restaurants.append(r)
                 self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 self.response.write("<br>")
                 '''
@@ -217,7 +192,7 @@ class FoodPage(webapp2.RequestHandler): #get, post
                 self.types=t
                 self.vicinity=a
                 '''
-        self.response.write(food_template.render())
+        self.response.write(food_template.render(restaurants))
         #go to google places api
         #possibly put in jscript
 class SocialHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
@@ -289,8 +264,31 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         vars={"link":link, "name":name0}#, "url":img}
         self.response.write(activity_template.render(vars))
 
+class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
+    def get(self):
+        user=users.get_current_user()
+        vars={}
+        attr=None
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+        else:
+            self.redirect('/reciever')
+        aatr0=u"{}".format(attr[0].traits)
+        date=ctime()
+
+        #attributes=["interest", "time", "range", "exercise", "eater", "travel"]
+        '''
+        eater and travel:Yes, No; often: Daily, Weekly, Monthly, Not At All;
+        '''
+class YogaRecPage(webapp2.RequestHandler):
+    def get(self):
+        pass
+class PlaceRecPage(webapp2.RequestHandler):
+    def get(self):
+        pass
 #the app configuration
-app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recommendations, food, physical+leisure,
+app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recommendations, food, physical+leisure,
     ('/', AboutPage),
     ('/login', LoginPage),
     ('/account', AccountPage),
@@ -304,4 +302,7 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily recomme
     ('/socialhandler', SocialHandler),
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
+    ('/foodrec', FoodRecPage),
+    ('/yogarec', YogaRecPage),
+    ('/placerec', PlaceRecPage),
 ], debug=True)  #array is all the routes in application (like home, about page)
