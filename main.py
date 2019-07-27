@@ -171,10 +171,10 @@ class FoodPage(webapp2.RequestHandler): #get, post
         dataset=data["results"]
         restaurants=[]
         for i in range(0, len(dataset)):
-            value=dataset[i].encode("utf-8")
+            value=dataset[i]
             resta=None
             try:
-                resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                resta=Restaurant(str(alue["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"], str(value["vicinity"]))
                 restaurants.append(resta)
             except KeyError:
                 pass
@@ -217,7 +217,8 @@ class SocialPage(webapp2.RequestHandler): #get, post
         #if nothing (len(dataset)==0) was found say that no nearby places availiable
         landmarks=[]
         for i in range(0, len(dataset)):
-            value=dataset[i].encode("utf-8")
+            value=dataset[i]
+            print(value)
             land=None
             try:
                 land=Landmark(value["name"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
@@ -268,7 +269,7 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
         if user:
             em=user.nickname()
             attr=User.query().filter(User.email==em).fetch()
-            choices=attr[0].traits.encode("utf-8")
+            choices=attr[0].traits
             print(choices)
             date=ctime()
             parsed=data.split(",")
@@ -280,10 +281,10 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
             dataset=data["results"]
             restaurants=[]
             for i in range(0, len(dataset)):
-                value=dataset[i].encode("utf-8")
+                value=dataset[i]
                 resta=None
                 try:
-                    resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                    resta=Restaurant(str(value["name"]), str(value["price_level"], str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                     restaurants.append(resta)
                 except KeyError:
                     pass
