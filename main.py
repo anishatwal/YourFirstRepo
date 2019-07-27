@@ -13,11 +13,11 @@ import random
 #ADD BUTTON TO YOGA TO RANDOMIZE POSITIONS
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-attributes=["interest", "time", "range", "exercise", "eater", "travel"]
 recs={}
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
      traits=ndb.StringProperty(repeated=True)
+     attributes=ndb.StringProperty(repeated=True)
 
 class Restaurant(object):
     def __init__(self, n, p, r, b, t, a):#, la, ln):
@@ -116,25 +116,31 @@ class AccountPage(webapp2.RequestHandler): #get, post
 
 class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
-        interest=self.request.get("interest")
-        time=self.request.get("time")#outdoor, indoor
-        range=self.request.get("points") #plevel affected
+        interest=str(self.request.get("interest"))
+        time=str(self.request.get("time"))#outdoor, indoor
+        range=str(self.request.get("points"))#plevel affected
         email=""
-        exercise=self.request.get("exercise")#often?->increases yoga timed exercises
-        eater=self.request.get("eater") #pickt? -> choose restaurants with increased ratings
-        travel=self.request.get("travel") #far? yes or no -> increase radius
+        exercise=str(self.request.get("exercise"))#often?->increases yoga timed exercises
+        eater=str(self.request.get("eater")) #pickt? -> choose restaurants with increased ratings
+        travel=str(self.request.get("travel")) #far? yes or no -> increase radius
         #self.response.write(interest+" "+time+" "+range)
         user=users.get_current_user()
         vars={}
         if user:
             email=user.nickname()
+            traits=[interest, time, range, exercise, eater, travel]
+            #print(email+" "+str(traits))
+            at=User.query().filter(User.email==email).fetch()
+            if len(at)!=0:
+                at[0].traits=traits
+                at[0].attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                at[0].put()
+            else:
+                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                user=User(email=email, traits=traits, attributes=attributes)
+                user.put()
         else:
             self.redirect('/reciever')
-        traits=[interest, time, range, exercise, eater, travel]
-        print(traits)
-        #print(email+" "+str(traits))
-        user=User(email=email, traits=traits)
-        user.put()
         self.redirect('/mood')
 
 class MoodPage(webapp2.RequestHandler): #get, post request in javascript
@@ -174,14 +180,15 @@ class FoodPage(webapp2.RequestHandler): #get, post
             value=dataset[i]
             resta=None
             try:
-                resta=Restaurant(str(alue["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"], str(value["vicinity"]))
+                resta=Restaurant(str(value["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                 restaurants.append(resta)
             except KeyError:
                 pass
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
-            if r.open==True:
-                self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+            if r.open=="True":
+                st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 self.response.write("<br>")
         #print(restaurants[0].plevel)
         self.response.write(food_template.render())
@@ -221,14 +228,14 @@ class SocialPage(webapp2.RequestHandler): #get, post
             print(value)
             land=None
             try:
-                land=Landmark(value["name"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                land=Landmark(str(value["name"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                 landmarks.append(land)
             except KeyError:
                 pass
         for r in landmarks:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
-            print(st)
+            #print(st)
             self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
             self.response.write("<br>")
         self.response.write(social_template.render())
@@ -269,33 +276,55 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
         if user:
             em=user.nickname()
             attr=User.query().filter(User.email==em).fetch()
-            choices=attr[0].traits
-            print(choices)
-            date=ctime()
-            parsed=data.split(",")
-            lat=float(parsed[0])
-            lon=float(parsed[1])
-            url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-            response=urlfetch.fetch(url, method="POST")
-            data=json.loads(response.content)
-            dataset=data["results"]
-            restaurants=[]
-            for i in range(0, len(dataset)):
-                value=dataset[i]
-                resta=None
-                try:
-                    resta=Restaurant(str(value["name"]), str(value["price_level"], str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
-                    restaurants.append(resta)
-                except KeyError:
-                    pass
-            decide=[]
-            for r in restaurants:
-                #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
-                if r.open==True:
-                    decide.append(r)
-            sorted(decide, key=lambda x:x.plevel)
-            print(restaurants[0].plevel)
-            print(decide[0].plevel)
+            if len(attr)==0:
+                self.redirect('/account')
+            else:
+                choices=[]
+                recs=[]
+                for v in attr[0].traits:
+                    choices.append(str(v))
+                date=ctime()
+                parsed=data.split(",")
+                lat=float(parsed[0])
+                lon=float(parsed[1])
+                radius="1500"
+                if choices[len(choices)-1]=="yes":
+                    radius="3000"
+                url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                response=urlfetch.fetch(url, method="POST")
+                data=json.loads(response.content)
+                dataset=data["results"]
+                restaurants=[]
+                for i in range(0, len(dataset)):
+                    value=dataset[i]
+                    resta=None
+                    try:
+                        if str(value["opening_hours"]["open_now"])=="True":
+                            resta=Restaurant(str(value["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
+                            restaurants.append(resta)
+                            st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
+                            #print(st)
+                            self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                            self.response.write("<br>")
+                    except KeyError:
+                        pass
+                extrachoices=[]
+                #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
+                chosenplevel=str(choices[2])
+                plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
+                ratinglist=sorted(restaurants, key=lambda x:x.plevel)
+                bestchoices=list(set(ratinglist).intersection(plevellist))
+                print(bestchoices[0].name)
+                '''
+                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                choosing restaurants:
+                    choose in price range, picky eater get top rated, farness doubles radius used to affect the scope
+                '''
+
+                #print(restaurants)
+                #print(decide)
+                #print(restaurants[0].plevel)
+                #print(decide[0].plevel)
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
