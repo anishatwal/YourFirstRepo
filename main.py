@@ -118,7 +118,7 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
         interest=self.request.get("interest")
         time=self.request.get("time")#outdoor, indoor
-        range=self.request.get("range") #plevel affected
+        range=self.request.get("points") #plevel affected
         email=""
         exercise=self.request.get("exercise")#often?->increases yoga timed exercises
         eater=self.request.get("eater") #pickt? -> choose restaurants with increased ratings
@@ -130,7 +130,8 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
             email=user.nickname()
         else:
             self.redirect('/reciever')
-        traits={interest, time, str(range), exercise, eater, travel}
+        traits=[interest, time, range, exercise, eater, travel]
+        print(traits)
         #print(email+" "+str(traits))
         user=User(email=email, traits=traits)
         user.put()
@@ -170,8 +171,7 @@ class FoodPage(webapp2.RequestHandler): #get, post
         dataset=data["results"]
         restaurants=[]
         for i in range(0, len(dataset)):
-            value=dataset[i]
-            u"{}".format(value)
+            value=dataset[i].encode("utf-8")
             resta=None
             try:
                 resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
@@ -181,18 +181,10 @@ class FoodPage(webapp2.RequestHandler): #get, post
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open==True:
-                restaurants.append(r)
                 self.response.write(r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 self.response.write("<br>")
-                '''
-                self.name=n
-                self.plevel=int(p)
-                self.rating=float(r)
-                self.open=b
-                self.types=t
-                self.vicinity=a
-                '''
-        self.response.write(food_template.render(restaurants))
+        #print(restaurants[0].plevel)
+        self.response.write(food_template.render())
         #go to google places api
         #possibly put in jscript
 class SocialHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
@@ -225,8 +217,7 @@ class SocialPage(webapp2.RequestHandler): #get, post
         #if nothing (len(dataset)==0) was found say that no nearby places availiable
         landmarks=[]
         for i in range(0, len(dataset)):
-            value=dataset[i]
-            u"{}".format(value)
+            value=dataset[i].encode("utf-8")
             land=None
             try:
                 land=Landmark(value["name"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
@@ -257,29 +248,66 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         link="https://www.google.com/search?hl=en&biw=908&bih=868&tbm=isch&sa=1&ei=cLw5XfeEBPeT0PEPna-a6AY&q="+search+"&oq="+search+"&gs_l=img.3..35i39l2j0i67j0j0i67l4j0j0i67.15001.15354..15508...0.0..0.50.235.5......0....1..gws-wiz-img.bDzfPGJecS8&ved=0ahUKEwj3_NPco9DjAhX3CTQIHZ2XBm0Q4dUDCAY&uact=5"
         #self.response.write(link)
         #self.response.write("<br>")
-        #img=data[index]["img_url"]
+        img=data[index]["img_url"]
         #self.response.write("<a href="+link+">"+name0+"</a>")#+img) #link text to link
         #self.response.write("<br>")
         #self.response.write("<img src='"+img+"' width=200px height=200px />")
         vars={"link":link, "name":name0}#, "url":img}
         self.response.write(activity_template.render(vars))
 
-class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
+class FoodRecHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
+        self.redirect('/foodrec/22.4,-33.4')
+
+class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
+    def get(self, data):
         user=users.get_current_user()
         vars={}
         attr=None
+        foodrec_template=jinja_env.get_template('templates/foodrec.html')
         if user:
             em=user.nickname()
             attr=User.query().filter(User.email==em).fetch()
+            choices=attr[0].traits.encode("utf-8")
+            print(choices)
+            date=ctime()
+            parsed=data.split(",")
+            lat=float(parsed[0])
+            lon=float(parsed[1])
+            url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+            response=urlfetch.fetch(url, method="POST")
+            data=json.loads(response.content)
+            dataset=data["results"]
+            restaurants=[]
+            for i in range(0, len(dataset)):
+                value=dataset[i].encode("utf-8")
+                resta=None
+                try:
+                    resta=Restaurant(value["name"], value["price_level"], value["rating"], value["opening_hours"]["open_now"], value["types"], value["vicinity"])
+                    restaurants.append(resta)
+                except KeyError:
+                    pass
+            decide=[]
+            for r in restaurants:
+                #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
+                if r.open==True:
+                    decide.append(r)
+            sorted(decide, key=lambda x:x.plevel)
+            print(restaurants[0].plevel)
+            print(decide[0].plevel)
         else:
             self.redirect('/reciever')
-        aatr0=u"{}".format(attr[0].traits)
-        date=ctime()
-
-        #attributes=["interest", "time", "range", "exercise", "eater", "travel"]
+        #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
+        self.response.write(foodrec_template.render())
         '''
-        eater and travel:Yes, No; often: Daily, Weekly, Monthly, Not At All;
+        eater and travel:yes, no; often: daily, weekly, monthly, no; interest: indoor, outdoor;
+        time: day, night; range: 1-4
+        self.name=n
+        self.plevel=int(p)
+        self.rating=float(r)
+        self.open=b
+        self.types=t
+        self.vicinity=a
         '''
 class YogaRecPage(webapp2.RequestHandler):
     def get(self):
@@ -302,7 +330,8 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/socialhandler', SocialHandler),
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
-    ('/foodrec', FoodRecPage),
+    ('/foodrec/(.*)', FoodRecPage),
+    ('/foodrechandler', FoodRecHandler),
     ('/yogarec', YogaRecPage),
     ('/placerec', PlaceRecPage),
 ], debug=True)  #array is all the routes in application (like home, about page)
