@@ -284,6 +284,7 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 for v in attr[0].traits:
                     choices.append(str(v))
                 date=ctime()
+                self.response.write(str(date))
                 parsed=data.split(",")
                 lat=float(parsed[0])
                 lon=float(parsed[1])
@@ -302,49 +303,138 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                         if str(value["opening_hours"]["open_now"])=="True":
                             resta=Restaurant(str(value["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                             restaurants.append(resta)
-                            st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
+                            #st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
                             #print(st)
-                            self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                            self.response.write("<br>")
+                            #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                            #self.response.write("<br>")
                     except KeyError:
                         pass
                 extrachoices=[]
                 #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
                 chosenplevel=str(choices[2])
                 plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
-                ratinglist=sorted(restaurants, key=lambda x:x.plevel)
-                bestchoices=list(set(ratinglist).intersection(plevellist))
-                print(bestchoices[0].name)
-                '''
-                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
-                choosing restaurants:
-                    choose in price range, picky eater get top rated, farness doubles radius used to affect the scope
-                '''
-
-                #print(restaurants)
-                #print(decide)
-                #print(restaurants[0].plevel)
-                #print(decide[0].plevel)
+                ratinglist=sorted(plevellist, key=lambda x:-x.rating)
+                #bestchoices=list(set(ratinglist).intersection(plevellist))
+                if len(ratinglist)>0:
+                    self.response.write("Top choices")
+                    self.response.write("<br>")
+                    for v in ratinglist:
+                        st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
+                        self.response.write(st)
+                        self.response.write("<br>")
+                else:
+                    if len(plevellist)>0:
+                        for v in plevellist:
+                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
+                            self.response.write(st)
+                            self.response.write("<br>")
+                    if len(ratinglist)>0:
+                        for v in ratinglist:
+                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
+                            self.response.write(st)
+                            self.response.write("<br>")
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
         self.response.write(foodrec_template.render())
-        '''
-        eater and travel:yes, no; often: daily, weekly, monthly, no; interest: indoor, outdoor;
-        time: day, night; range: 1-4
-        self.name=n
-        self.plevel=int(p)
-        self.rating=float(r)
-        self.open=b
-        self.types=t
-        self.vicinity=a
-        '''
+
 class YogaRecPage(webapp2.RequestHandler):
     def get(self):
         pass
-class PlaceRecPage(webapp2.RequestHandler):
+
+class PlaceRecHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
-        pass
+        self.redirect('/placerec/22.4,-33.4')
+
+class PlaceRecPage(webapp2.RequestHandler):
+    def get(self, data):
+        user=users.get_current_user()
+        vars={}
+        attr=None
+        placerec_template=jinja_env.get_template('templates/placerec.html')
+        #if indoor recommend general places
+        #if outdoor recommend parks
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+            if len(attr)==0:
+                self.redirect('/account')
+            else:
+                choices=[]
+                recs=[]
+                for v in attr[0].traits:
+                    choices.append(str(v))
+                date=ctime()
+                self.response.write(str(date))
+                parsed=data.split(",")
+                lat=float(parsed[0])
+                lon=float(parsed[1])
+                radius="1500"
+                if choices[len(choices)-1]=="yes":
+                    radius="3000"
+                url=""
+                if choices[0]=='indoor':
+                    url="https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location="+str(lat)+","+str(lon)+"&radius="+radius+"&sensor=false"
+                if choices[0]=='outdoor':
+                    url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                response=urlfetch.fetch(url, method="POST")
+                data=json.loads(response.content)
+                dataset=data["results"]
+                landmarks=[]
+                for i in range(0, len(dataset)):
+                    value=dataset[i]
+                    land=None
+                    try:
+                        if str(value["opening_hours"]["open_now"])=="True":
+                            land=Landmark(str(value["name"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
+                            landmarks.append(land)
+                            #st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
+                            #print(st)
+                            #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                            #self.response.write("<br>")
+                    except KeyError:
+                        pass
+                extrachoices=[]
+                #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
+                chosenplevel=str(choices[2])
+                ratinglist=sorted(landmarks, key=lambda x:-x.rating)
+                #bestchoices=list(set(ratinglist).intersection(plevellist))
+                if len(ratinglist)>0:
+                    self.response.write("Top choices")
+                    self.response.write("<br>")
+                    for v in ratinglist:
+                        st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                        self.response.write(st)
+                        self.response.write("<br>")
+                else:
+                    '''if len(plevellist)>0:
+                        for v in plevellist:
+                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                            self.response.write(st)
+                            self.response.write("<br>")'''
+                    if len(ratinglist)>0:
+                        for v in ratinglist:
+                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                            self.response.write(st)
+                            self.response.write("<br>")
+        else:
+            self.redirect('/reciever')
+        #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
+        self.response.write(placerec_template.render())
+'''
+                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                choosing restaurants:
+                    choose in price range, picky eater get top rated, farness doubles radius used to affect the scope
+
+                        eater and travel:yes, no; often: daily, weekly, monthly, no; interest: indoor, outdoor;
+                        time: day, night; range: 1-4
+                        self.name=n
+                        self.plevel=int(p)
+                        self.rating=float(r)
+                        self.open=b
+                        self.types=t
+                        self.vicinity=a
+'''
 #the app configuration
 app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recommendations, food, physical+leisure,
     ('/', AboutPage),
@@ -363,5 +453,6 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/foodrec/(.*)', FoodRecPage),
     ('/foodrechandler', FoodRecHandler),
     ('/yogarec', YogaRecPage),
-    ('/placerec', PlaceRecPage),
+    ('/placerec/(.*)', PlaceRecPage),
+    ('/placerechandler', PlaceRecHandler),
 ], debug=True)  #array is all the routes in application (like home, about page)
