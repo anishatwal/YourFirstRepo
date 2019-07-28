@@ -397,8 +397,9 @@ class PlaceRecPage(webapp2.RequestHandler):
                 extrachoices=[]
                 #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
                 chosenplevel=str(choices[2])
-                ratinglist=sorted(landmarks, key=lambda x:-x.rating)
-                #bestchoices=list(set(ratinglist).intersection(plevellist))
+                plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
+                ratinglist=sorted(plevellist, key=lambda x:-x.rating)
+                bestchoices=list(set(ratinglist).intersection(plevellist))
                 if len(ratinglist)>0:
                     self.response.write("Top choices")
                     self.response.write("<br>")
@@ -407,11 +408,11 @@ class PlaceRecPage(webapp2.RequestHandler):
                         self.response.write(st)
                         self.response.write("<br>")
                 else:
-                    '''if len(plevellist)>0:
+                    if len(plevellist)>0:
                         for v in plevellist:
                             st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
-                            self.response.write("<br>")'''
+                            self.response.write("<br>")
                     if len(ratinglist)>0:
                         for v in ratinglist:
                             st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
