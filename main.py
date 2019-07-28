@@ -360,29 +360,39 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 chosenplevel=str(choices[2])
                 plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                 ratinglist=sorted(plevellist, key=lambda x:-x.rating)
-                #bestchoices=list(set(ratinglist).intersection(plevellist))
-                if len(ratinglist)>0:
-                    self.response.write("Top choices")
-                    self.response.write("<br>")
-                    for v in ratinglist:
-                        st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
-                        self.response.write(st)
-                        self.response.write("<br>")
+                bestchoices=list(set(ratinglist).intersection(plevellist))
+                startertext=""
+                deliver=[]
+                if len(bestchoices)>0:
+                    startertext="Top choices"
+                    for v in bestchoices:
+                        deliver.append(v)
                 else:
-                    if len(plevellist)>0:
-                        for v in plevellist:
-                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
-                            self.response.write(st)
-                            self.response.write("<br>")
                     if len(ratinglist)>0:
+                        startertext="Locations wih higher ratings"
+                        for v in ratinglist:
+                            deliver.append(v)
+                        '''self.response.write("Top choices")
+                        self.response.write("<br>")
                         for v in ratinglist:
                             st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
                             self.response.write(st)
-                            self.response.write("<br>")
+                            self.response.write("<br>")'''
+                    if len(plevellist)>0:
+                        startertext="Locations with same pricing level"
+                        for v in plevellist:
+                            deliver.append(v)
+                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
+                            self.response.write(st)
+                            self.response.write("<br>")'''
+                vars={
+                "startertext":startertext,
+                "list":deliver
+                }
+                self.response.write(foodrec_template.render(vars))
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
-        self.response.write(foodrec_template.render())
 
 class YogaRecPage(webapp2.RequestHandler):
     def get(self):
@@ -407,23 +417,33 @@ class YogaRecPage(webapp2.RequestHandler):
                 for v in attr[0].traits:
                     choices.append(str(v))
                 date=ctime()
+                deliver=[]
+                game_template=jinja_env.get_template('templates/gamerec.html')
                 if choices[3]=='no': #daily monthly, weekly no
-                    self.response.write("Want to be relaxed today?")
-                    self.response.write(" video games")
+                    #self.response.write("Want to be relaxed today?")
                     url="http://www.giantbomb.com/api/games/?api_key="+giantbombkey+"&sort=original_release_date:des&format=json"
                     response=urlfetch.fetch(url)
                     data=json.loads(response.content)
                     datafinding=None
-                    index=0
-                    while datafinding==None or datafinding=={"detail":"Not found."}:
-                        gamename=data["results"][index]["name"]
+                    fitdata=[]
+                    for ind in range(0, 100):
+                        gamename=data["results"][ind]["name"]
                         #print(imglink)
-                        print(gamename)
+                        #print(gamename)
                         findlink="https://api.rawg.io/api/games/"+gamename.replace(' ', '-')+"?source=post_page"
                         response=urlfetch.fetch(findlink)
                         datafinding=json.loads(response.content)
-                        index+=1
-                        print(findlink)
+                        if datafinding!=None and datafinding=={"detail":"Not found."}:
+                            fitdata.append(datafinding)
+                        #print(findlink)
+                    if len(fitdata)<3:
+                        deliver=fitdata
+                    else:
+                        deliver[0]=fitdata[0]
+                        deliver[1]=fitdata[1]
+                        deliver[2]=fitdata[2]
+                    vars={"games":deliver}
+                    self.response.write(game_template.render(vars))
                 else:
                     p_template=jinja_env.get_template('templates/yoga.html')
                     url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
@@ -437,6 +457,11 @@ class YogaRecPage(webapp2.RequestHandler):
                     img=data[index]["img_url"]
                     vars={"link":link, "name":name0}#, "url":img}
                     self.response.write(p_template.render(vars))
+        else:
+            login_url=users.create_login_url("/account")
+            vars={"url":login_url}
+            login_template=jinja_env.get_template('templates/login.html')
+            self.response.write(login_template.render(vars))
 
 class PlaceRecHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
@@ -595,7 +620,7 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
     ('/foodrec/(.*)', FoodRecPage),
-    ('/foodrechandler', FoodRecHandler),
+    ('/', AboutPage),
     ('/yogarec', YogaRecPage),
     ('/placerec/(.*)', PlaceRecPage),
     ('/placerechandler', PlaceRecHandler),
