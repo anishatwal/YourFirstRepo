@@ -1,5 +1,6 @@
 body {
-  background-image: url('https://live.staticflickr.com/919/41790068920_2aaef5339f_b.jpg');
+  /* background-image: url('https://live.staticflickr.com/919/41790068920_2aaef5339f_b.jpg'); */
+  background-color: white;
   position: absolute;
   margin: 0;
   min-width: 100%;
@@ -45,7 +46,7 @@ h2 {
 }
 
 table {
-  background-color: #E6E6FA;
+  /* background-color: #E6E6FA; */
   text-align: center;
   border: 1px solid black;
 }
