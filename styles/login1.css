@@ -1,0 +1,29 @@
+body {
+  /* background-color: #ffd9f3; */
+  background-image: url('https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?cs=srgb&dl=beach-blur-boardwalk-132037.jpg&fm=jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:500%;
+}
+
+
+p {
+  text-align: left;
+  align-items: center;
+  font-size: 50px;
+  margin: 30px 30px;
+  font-family: 'Josefin Slab', cursive;
+  color: white;
+}
+
+button {
+  font-size: 20pt;
+  padding: 15px;
+  font-family: 'Josefin Slab', cursive;
+  background-color: black;
+  color: white;
+  border: 8px solid white;
+  text-shadow: 0 0 8px blue;
+  box-shadow: 5px -5px black, inset 0 0 10px rgba(0,0,0,.5);
+
+}
