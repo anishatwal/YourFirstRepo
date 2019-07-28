@@ -456,4 +456,5 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/yogarec', YogaRecPage),
     ('/placerec/(.*)', PlaceRecPage),
     ('/placerechandler', PlaceRecHandler),
+    ('/about', AboutPage),
 ], debug=True)  #array is all the routes in application (like home, about page)
