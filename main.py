@@ -30,6 +30,12 @@ class Restaurant(object):
         self.vicinity=a
         #self.lat=la
         #self.lon=ln
+class Game(object):
+    def __init__(self, n, l, i, s):
+        self.name=n
+        self.link=l
+        self.imagelink=i
+        self.stars=s
 
 class Landmark(object):
     def __init__(self, n, r, b, t, a):#, la, ln):
@@ -427,21 +433,36 @@ class YogaRecPage(webapp2.RequestHandler):
                     datafinding=None
                     fitdata=[]
                     for ind in range(0, 100):
-                        gamename=data["results"][ind]["name"]
-                        #print(imglink)
-                        #print(gamename)
-                        findlink="https://api.rawg.io/api/games/"+gamename.replace(' ', '-')+"?source=post_page"
-                        response=urlfetch.fetch(findlink)
-                        datafinding=json.loads(response.content)
-                        if datafinding!=None and datafinding=={"detail":"Not found."}:
-                            fitdata.append(datafinding)
-                        #print(findlink)
-                    if len(fitdata)<3:
-                        deliver=fitdata
-                    else:
-                        deliver[0]=fitdata[0]
-                        deliver[1]=fitdata[1]
-                        deliver[2]=fitdata[2]
+                        if len(fitdata)<3:
+                            gamename=data["results"][ind]["name"]
+                            #print(imglink)
+                            #print(gamename)
+                            findlink="https://api.rawg.io/api/games/"+gamename.replace(' ', '-')+"?source=post_page"
+                            #print(findlink)
+                            try:
+                                response=urlfetch.fetch(findlink)
+                                datafinding=json.loads(response.content)
+                                if datafinding!=None and datafinding!={"detail":"Not found."}:
+                                    '''self.name=n
+                                    self.link=l
+                                    self.imagelink=i
+                                    self.stars=s'''
+                                    tgname=datafinding["name"]
+                                    tgwebsite=datafinding["website"]
+                                    tgimagelink=datafinding["background_image_additional"]
+                                    tgstars=datafinding["rating"]
+                                    agame=Game(tgname, tgwebsite, tgimagelink, tgstars)
+                                    fitdata.append(agame)
+                                    #print(agame)
+                            except ValueError:
+                                continue
+                        else:
+                            break
+                    #print(deliver)
+                    #print(fitdata)
+                    deliver.append(fitdata[0])
+                    deliver.append(fitdata[1])
+                    deliver.append(fitdata[2])
                     vars={"games":deliver}
                     self.response.write(game_template.render(vars))
                 else:
