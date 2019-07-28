@@ -3,6 +3,7 @@ body {
   background-size: 120%;
   color: black;
   margin: 0px;
+  text-align: center;
 }
 
 span {
@@ -26,18 +27,22 @@ span {
 
 p {
   font-family: 'Josefin Slab', cursive;
+  text-align: center;
 }
 
 #yogatime {
   font-size: 40px;
+  text-align: center;
 }
 
 #pose {
   font-size: 20px;
+  text-align: center;
 }
 
 #images {
   font-size: 20px;
+  text-align: center;
 }
 
 #images a {
