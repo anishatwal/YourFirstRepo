@@ -83,7 +83,9 @@ class LoginPage(webapp2.RequestHandler):
         else:
             login_url=users.create_login_url("/account")
             vars={"url":login_url}
-            self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
+            login_template=jinja_env.get_template('templates/login.html')
+            self.response.write(login_template.render(vars))
+            #self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
 
 class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
@@ -395,9 +397,10 @@ class YogaRecPage(webapp2.RequestHandler):
                     pos1=0
                     pos2=0
                     pos3=0
-                    pos1=random.randint(0, end-1)
-                    pos2=random.randint(0, end-1)
-                    pos3=random.randint(0, end-1)
+                    while pos1!=pos2 and pos1!=pos3 and pos2!=pos3:
+                        pos1=random.randint(0, end-1)
+                        pos2=random.randint(0, end-1)
+                        pos3=random.randint(0, end-1)
                     imglink=data["results"][pos1]#[99][pos1]["image"]["icon_url"]
                     #imgname=data["results"][pos1]["aliases"]
                     print(imglink)
