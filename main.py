@@ -91,19 +91,22 @@ class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
         login_url=users.create_login_url("/mood")
         vars={"url":login_url}
-        self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
+        login_template=jinja_env.get_template('templates/login.html')
         data=User.query().fetch() #does data return none if empty?
         if data==None: #if no one's made an account
             self.redirect('/account')
         else:
             self.redirect('/mood')
+        self.response.write(login_template.render(vars))
 
 class LogoutPage(webapp2.RequestHandler):
     def get(self):
         logout_url=users.create_logout_url("/")
-        user=None
+        #user=None
         #self.response.write("hello "+str(nickname))
-        self.response.write('<br>Log out here: <a href="'+logout_url+'">click here</a>')
+        vars={"url":logout_url}
+        logout_template=jinja_env.get_template('templates/logout.html')
+        self.response.write(logout_template.render(vars))
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
@@ -115,7 +118,8 @@ class AccountPage(webapp2.RequestHandler): #get, post
         else:
             login_url=users.create_login_url("/account")
             vars={"url":login_url}
-            self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
+            login_template=jinja_env.get_template('templates/login.html')
+            self.response.write(login_template.render(vars))
 
 class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
@@ -189,24 +193,31 @@ class FoodPage(webapp2.RequestHandler): #get, post
                 pass
         #print(restaurants)
         count=0
+        vars={}
+        deliver=[]
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open=="True":
                 count+=1
-                st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
-                print(st)
-                self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                deliver.append(r)
+                #st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                #print(st)
+                #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                #self.response.write("<br>")
         if count==0:
-            self.response.write("All of the nearby found restaurants are not open at this time. Below is a general list:")
-            self.response.write("<br>")
+            vars["startertext"]="All of the nearby found restaurants are not open at this time. Here is a general list:"
             for r in restaurants:
-                st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                deliver.append(r)
+                '''st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
                 print(st)
                 self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                self.response.write("<br>")'''
+            vars["list"]=deliver
+        else:
+            vars["startertext"]="Here are the restaurants open at this time:"
+            vars["list"]=deliver
         #print(restaurants[0].plevel)
-        self.response.write(food_template.render())
+        self.response.write(food_template.render(vars))
         #go to google places api
         #possibly put in jscript
 class SocialHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
@@ -248,23 +259,32 @@ class SocialPage(webapp2.RequestHandler): #get, post
             except KeyError:
                 pass
         count=0
+        deliver=[]
+        startertext=""
         for r in landmarks:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open=="True":
+                startertext="Here are the restaurants open at this time:"
                 count+=1
-                st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
+                deliver.append(r)
+                '''st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
                 #print(st)
                 self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                self.response.write("<br>")'''
+
             if count==0:
-                self.response.write("All of the nearby found places are not open at this time. Below is a general list:")
-                self.response.write("<br>")
+                startertext="All of the nearby found places are not open at this time. Below is a general list:"
                 for r in landmarks:
-                    st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                    deliver.append(r)
+                    '''st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
                     print(st)
                     self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                    self.response.write("<br>")
-        self.response.write(social_template.render())
+                    self.response.write("<br>")'''
+        vars={
+        "list":deliver,
+        "startertext":startertext
+        }
+        self.response.write(social_template.render(vars))
 
 class LeisurePage(webapp2.RequestHandler): #get, post
     def get(self):
@@ -393,18 +413,17 @@ class YogaRecPage(webapp2.RequestHandler):
                     url="http://www.giantbomb.com/api/games/?api_key="+giantbombkey+"&sort=original_release_date:des&format=json"
                     response=urlfetch.fetch(url)
                     data=json.loads(response.content)
-                    end=100
-                    pos1=0
-                    pos2=0
-                    pos3=0
-                    while pos1!=pos2 and pos1!=pos3 and pos2!=pos3:
-                        pos1=random.randint(0, end-1)
-                        pos2=random.randint(0, end-1)
-                        pos3=random.randint(0, end-1)
-                    imglink=data["results"][pos1]#[99][pos1]["image"]["icon_url"]
-                    #imgname=data["results"][pos1]["aliases"]
-                    print(imglink)
-                    #print(imgname)
+                    datafinding=None
+                    index=0
+                    while datafinding==None or datafinding=={"detail":"Not found."}:
+                        gamename=data["results"][index]["name"]
+                        #print(imglink)
+                        print(gamename)
+                        findlink="https://api.rawg.io/api/games/"+gamename.replace(' ', '-')+"?source=post_page"
+                        response=urlfetch.fetch(findlink)
+                        datafinding=json.loads(response.content)
+                        index+=1
+                        print(findlink)
                 else:
                     p_template=jinja_env.get_template('templates/yoga.html')
                     url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
