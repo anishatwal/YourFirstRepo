@@ -54,24 +54,12 @@ p {
   margin: 4px 2px;
   opacity: 0.6;
   transition: 0.3s;
-  /* border-radius: 6px; */
-  /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
   display: inline-block;
   cursor: pointer;
 }
 
-#images a {
-  color: white;
-}
-
 #images:hover {
   opacity: 1;
-}
-
-#images:active {
-  background-color: #ffb0e8;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
 }
 
 #refresh {
@@ -81,12 +69,10 @@ p {
   color: black;
   padding: 16px 16px;
   text-align: center;
-  font-size: 16px;
+  font-size: 60px;
   margin: 4px 2px;
   opacity: 0.6;
   transition: 0.3s;
-  /* border-radius: 6px; */
-  /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
   display: inline-block;
   cursor: pointer;
 }
