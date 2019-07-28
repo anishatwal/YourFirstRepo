@@ -1,0 +1,38 @@
+body {
+  background-color: #ffd6f1;
+}
+
+.icon {
+  font-family: 'Londrina Shadow', cursive;
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+m {
+  font-size: 60px;
+}
+
+h5{
+  text-align: center;
+  font-family: 'Josefin Slab', cursive;
+  font-size: 25px;
+}
+
+button {
+  font-family: 'Josefin Slab', cursive;
+  background-color: #ffb0e8;
+  border: none;
+  color: black;
+  padding: 16px 16px;
+  text-align: center;
+  font-size: 50px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 1;
+}
