@@ -38,136 +38,22 @@
       <div class="row">
         <div class="column" style="background-color:#F0D1FE;">
           <h2>Food</h2>
-          <div class="w3-content" style="max-width:1200px">
-            <img class="mySlides1" src="https://storage.needpix.com/rsynced_images/japanese-cuisine-2923271_1280.jpg" style="width: 100%; height: 100%;display: none">
-            <img class="mySlides1" src="https://live.staticflickr.com/4210/34545288074_d2de39e645_b.jpg" style="width: 100%; height: 100%;display: none">
-            <img class="mySlides1" src="https://cdn2.cocinadelirante.com/sites/default/files/images/2017/02/ramen.jpg" style="width: 100%; height: 100%;display: none">
-          <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
-          <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(1)"></span>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(2)"></span>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
-          </div>
-          <script>
-          var slideIndex = 1;
-          showDivs(slideIndex);
-
-          function plusDivs(n) {
-            showDivs(slideIndex += n);
-          }
-
-          function currentDiv(n) {
-            showDivs(slideIndex = n);
-          }
-
-          function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides1s");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = x.length}
-            for (i = 0; i < x.length; i++) {
-              x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-              dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " w3-white";
-          }
-          </script><br><br>
-          <button>Hungry? Click Here!</button>
+          <button id="foods" onclick="location.href='/foodrechandler'">Hungry? Click Here!</button>
         </div>
-
-
-
         <div class="column" style="background-color:#EBC2FC;">
           <h2>Yoga</h2>
-          <div class="w3-content" style="max-width:1200px">
-            <img class="mySlides2" src="https://www.goodfreephotos.com/albums/people/woman-doing-yoga-at-sunset.jpg" style="width: 100%; height: 100%;display: none">
-            <img class="mySlides2" src="https://s1.1zoom.me/b5050/202/Gymnastics_Evening_Workout_Silhouette_529837_3840x2400.jpg" style="width: 100%; height: 100%;display: none">
-            <img class="mySlides2" src="https://data.whicdn.com/images/139823695/superthumb.jpg?t=1412279106" style="width: 100%; height: 100%;display: none">
-          <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
-          <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(1)"></span>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(2)"></span>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
-          </div>
-          <script>
-          var slideIndex = 1;
-          showDivs(slideIndex);
-
-          function plusDivs(n) {
-            showDivs(slideIndex += n);
-          }
-
-          function currentDiv(n) {
-            showDivs(slideIndex = n);
-          }
-
-          function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides2");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = x.length}
-            for (i = 0; i < x.length; i++) {
-              x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-              dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " w3-white";
-          }
-          </script><br><br>
-          <button>More Exercises For You!</button>
+          <button id="exercises" onclick="location.href='/yogarec'">More Exercises For You!</button>
         </div>
-
-        <div class="column" style="background-color:#E8B3FF">
+        <div class="column" style="background-color:#EBC2FC;">
           <h2>Attractions</h2>
-          <div class="w3-content" style="max-width:1200px">
-            <img class="mySlides3" src="https://images.pexels.com/photos/2336/trees-grass-lawn-park.jpg?cs=srgb&dl=golf-grass-lawn-2336.jpg&fm=jpg" style="width: 100%; height: 100%;display: none">
-            <img class="mySlides3" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Inside_view_of_City_Mall.jpg" style="width: 100%; height: 100%;display: none">
-            <img class="mySlides3" src="https://live.staticflickr.com/8861/17210056619_0643aee693_b.jpg" style="width: 100%; height: 100%;display: none">
-          <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
-          <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(1)"></span>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(2)"></span>
-          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
-          </div>
-          <script>
-          var slideIndex = 1;
-          showDivs(slideIndex);
-
-          function plusDivs(n) {
-            showDivs(slideIndex += n);
-          }
-
-          function currentDiv(n) {
-            showDivs(slideIndex = n);
-          }
-
-          function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides3");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = x.length}
-            for (i = 0; i < x.length; i++) {
-              x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-              dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " w3-white";
-          }
-          </script><br><br>
-          <button>Visit These Spots!</button>
+          <button id="places" onclick="location.href='/placerechandler'">Nearby Places To Go</button>
         </div>
-
       </div>
     </div>
+
+
+
+
+
   </body>
 </html>
