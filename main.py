@@ -13,6 +13,7 @@ import random
 #ADD BUTTON TO YOGA TO RANDOMIZE POSITIONS
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+giantbombkey="d72e9582abaa2d44b5da40f322eda08046474dc2"
 recs={}
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
@@ -184,10 +185,22 @@ class FoodPage(webapp2.RequestHandler): #get, post
                 restaurants.append(resta)
             except KeyError:
                 pass
+        #print(restaurants)
+        count=0
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open=="True":
+                count+=1
                 st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                print(st)
+                self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                self.response.write("<br>")
+        if count==0:
+            self.response.write("All of the nearby found restaurants are not open at this time. Below is a general list:")
+            self.response.write("<br>")
+            for r in restaurants:
+                st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                print(st)
                 self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 self.response.write("<br>")
         #print(restaurants[0].plevel)
@@ -225,19 +238,30 @@ class SocialPage(webapp2.RequestHandler): #get, post
         landmarks=[]
         for i in range(0, len(dataset)):
             value=dataset[i]
-            print(value)
+            #print(value)
             land=None
             try:
                 land=Landmark(str(value["name"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                 landmarks.append(land)
             except KeyError:
                 pass
+        count=0
         for r in landmarks:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
-            st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
-            #print(st)
-            self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-            self.response.write("<br>")
+            if r.open=="True":
+                count+=1
+                st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
+                #print(st)
+                self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                self.response.write("<br>")
+            if count==0:
+                self.response.write("All of the nearby found places are not open at this time. Below is a general list:")
+                self.response.write("<br>")
+                for r in landmarks:
+                    st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                    print(st)
+                    self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                    self.response.write("<br>")
         self.response.write(social_template.render())
 
 class LeisurePage(webapp2.RequestHandler): #get, post
@@ -340,7 +364,57 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
 
 class YogaRecPage(webapp2.RequestHandler):
     def get(self):
-        pass
+        '''
+        https://api.rawg.io/api/games/grand-theft-auto-v?source=post_page
+        ["name"]
+        ["parent_platforms"] is list -> iterate ["platform"]["name"]
+        ["ratings"] is list -> ["title"] and ["count"]
+        ["released"] is list -> ["background_image"]
+        pickiness taken into account -^
+        '''
+        user=users.get_current_user()
+        #if indoor recommend general places
+        #if outdoor recommend parks
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+            if len(attr)==0:
+                self.redirect('/account')
+            else:
+                choices=[]
+                for v in attr[0].traits:
+                    choices.append(str(v))
+                date=ctime()
+                if choices[3]=='daily' or choices[3]=='monthly': #daily monthly, weekly no
+                    self.response.write("Want to be relaxed today?")
+                    self.response.write(" video games")
+                    url="http://www.giantbomb.com/api/games/?api_key="+giantbombkey+"&sort=original_release_date:des&format=json"
+                    response=urlfetch.fetch(url)
+                    data=json.loads(response.content)
+                    end=100
+                    pos1=0
+                    pos2=0
+                    pos3=0
+                    pos1=random.randint(0, end-1)
+                    pos2=random.randint(0, end-1)
+                    pos3=random.randint(0, end-1)
+                    imglink=data["results"][pos1]#[99][pos1]["image"]["icon_url"]
+                    #imgname=data["results"][pos1]["aliases"]
+                    print(imglink)
+                    #print(imgname)
+                else:
+                    p_template=jinja_env.get_template('templates/yoga.html')
+                    url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
+                    response=urlfetch.fetch(url)
+                    data=json.loads(response.content)
+                    index=random.randint(0, len(data)-1)
+                    name0=data[index]["english_name"]
+                    name=name0.replace(" ", "+")
+                    search=name+"+yoga+position"
+                    link="https://www.google.com/search?hl=en&biw=908&bih=868&tbm=isch&sa=1&ei=cLw5XfeEBPeT0PEPna-a6AY&q="+search+"&oq="+search+"&gs_l=img.3..35i39l2j0i67j0j0i67l4j0j0i67.15001.15354..15508...0.0..0.50.235.5......0....1..gws-wiz-img.bDzfPGJecS8&ved=0ahUKEwj3_NPco9DjAhX3CTQIHZ2XBm0Q4dUDCAY&uact=5"
+                    img=data[index]["img_url"]
+                    vars={"link":link, "name":name0}#, "url":img}
+                    self.response.write(p_template.render(vars))
 
 class PlaceRecHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
@@ -375,45 +449,78 @@ class PlaceRecPage(webapp2.RequestHandler):
                 url=""
                 if choices[0]=='indoor':
                     url="https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location="+str(lat)+","+str(lon)+"&radius="+radius+"&sensor=false"
-                if choices[0]=='outdoor':
-                    url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-                response=urlfetch.fetch(url, method="POST")
-                data=json.loads(response.content)
-                dataset=data["results"]
-                landmarks=[]
-                for i in range(0, len(dataset)):
-                    value=dataset[i]
-                    land=None
-                    try:
-                        if str(value["opening_hours"]["open_now"])=="True":
-                            land=Landmark(str(value["name"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
-                            landmarks.append(land)
-                            #st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
-                            #print(st)
-                            #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                            #self.response.write("<br>")
-                    except KeyError:
-                        pass
-                extrachoices=[]
-                #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
-                chosenplevel=str(choices[2])
-                plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
-                ratinglist=sorted(plevellist, key=lambda x:-x.rating)
-                bestchoices=list(set(ratinglist).intersection(plevellist))
-                if len(ratinglist)>0:
-                    self.response.write("Top choices")
-                    self.response.write("<br>")
-                    for v in ratinglist:
-                        st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
-                        self.response.write(st)
+                    response=urlfetch.fetch(url, method="POST")
+                    data=json.loads(response.content)
+                    dataset=data["results"]
+                    landmarks=[]
+                    for i in range(0, len(dataset)):
+                        value=dataset[i]
+                        land=None
+                        try:
+                            if str(value["opening_hours"]["open_now"])=="True":
+                                land=Landmark(str(value["name"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
+                                landmarks.append(land)
+                                #st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
+                                #print(st)
+                                #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                                #self.response.write("<br>")
+                        except KeyError:
+                            pass
+                    #extrachoices=[]
+                    #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
+                    #chosenplevel=str(choices[len(choices)])
+                    #plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
+                    ratinglist=sorted(landmarks, key=lambda x:-x.rating)
+                    if len(ratinglist)>0:
+                        self.response.write("Top choices:")
                         self.response.write("<br>")
-                else:
-                    if len(plevellist)>0:
-                        for v in plevellist:
+                        for v in ratinglist:
+                            if v.open=="True":
+                                st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                                self.response.write(st)
+                                self.response.write("<br>")
+                    else:
+                        self.response.write("Locations not found that are open at this time. Below is general list:")
+                        self.response.write("<br>")
+                        for v in ratinglist:
                             st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
                             self.response.write("<br>")
+                if choices[0]=='outdoor':
+                    url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                    response=urlfetch.fetch(url, method="POST")
+                    data=json.loads(response.content)
+                    dataset=data["results"]
+                    landmarks=[]
+                    for i in range(0, len(dataset)):
+                        value=dataset[i]
+                        land=None
+                        try:
+                            if str(value["opening_hours"]["open_now"])=="True":
+                                land=Landmark(str(value["name"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
+                                landmarks.append(land)
+                                #st=resta.name+", Rating: "+str(resta.rating)+", IsOpen: "+str(resta.open)+", Keywords: "+str(resta.types)+", Approx. Address: "+resta.vicinity
+                                #print(st)
+                                #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                                #self.response.write("<br>")
+                        except KeyError:
+                            pass
+                    #extrachoices=[]
+                    #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
+                    #chosenplevel=str(choices[len(choices)])
+                    #plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
+                    ratinglist=sorted(landmarks, key=lambda x:-x.rating)
                     if len(ratinglist)>0:
+                        self.response.write("Top choices:")
+                        self.response.write("<br>")
+                        for v in ratinglist:
+                            if v.open=="True":
+                                st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                                self.response.write(st)
+                                self.response.write("<br>")
+                    else:
+                        self.response.write("Locations not found that are open at this time. Below is general list:")
+                        self.response.write("<br>")
                         for v in ratinglist:
                             st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
