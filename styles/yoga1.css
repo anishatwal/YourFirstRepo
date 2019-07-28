@@ -23,29 +23,71 @@ span {
   z-index: 2;
 }
 
-
-p {
-  font-family: 'Josefin Slab', cursive;
-}
-
 #yogatime {
   font-size: 40px;
+  font-family: 'Josefin Slab', cursive;
 }
 
 #pose {
   font-size: 20px;
+  font-family: 'Josefin Slab', cursive;
 }
 
 #images {
-  font-size: 20px;
+  font-family: 'Josefin Slab', cursive;
+  background-color: #ffb0e8;
+  border: none;
+  color: black;
+  padding: 16px 16px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  /* border-radius: 6px; */
+  /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: 0 9px #999;
 }
 
 #images a {
   color: black;
 }
 
-#images a:hover {
-  color: white;
+#images:hover {
+  opacity: 1;
+}
+
+#images:active {
+  background-color: #ffb0e8;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+#refresh {
+  font-family: 'Josefin Slab', cursive;
+  background-color: #ffb0e8;
+  border: none;
+  color: black;
+  padding: 16px 16px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  /* border-radius: 6px; */
+  /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
+  display: inline-block;
+  cursor: pointer;
+}
+
+#refresh:hover {
+  opacity: 1;
+}
+
+.yogaa {
+  text-align: center;
 }
 
 
