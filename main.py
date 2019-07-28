@@ -407,7 +407,7 @@ class YogaRecPage(webapp2.RequestHandler):
                 for v in attr[0].traits:
                     choices.append(str(v))
                 date=ctime()
-                if choices[3]=='daily' or choices[3]=='monthly': #daily monthly, weekly no
+                if choices[3]=='no': #daily monthly, weekly no
                     self.response.write("Want to be relaxed today?")
                     self.response.write(" video games")
                     url="http://www.giantbomb.com/api/games/?api_key="+giantbombkey+"&sort=original_release_date:des&format=json"
@@ -493,21 +493,29 @@ class PlaceRecPage(webapp2.RequestHandler):
                     #chosenplevel=str(choices[len(choices)])
                     #plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                     ratinglist=sorted(landmarks, key=lambda x:-x.rating)
+                    startertext=""
+                    deliver=[]
                     if len(ratinglist)>0:
-                        self.response.write("Top choices:")
-                        self.response.write("<br>")
+                        startertext="Top choices:"
                         for v in ratinglist:
                             if v.open=="True":
-                                st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                                deliver.append(v)
+                                '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                                 self.response.write(st)
-                                self.response.write("<br>")
+                                self.response.write("<br>")'''
                     else:
-                        self.response.write("Locations not found that are open at this time. Below is general list:")
-                        self.response.write("<br>")
+                        startertext="Locations not found that are open at this time. Below is general list:"
+                        #self.response.write("<br>")
                         for v in ratinglist:
-                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                            deliver.append(v)
+                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
-                            self.response.write("<br>")
+                            self.response.write("<br>")'''
+                    vars={
+                        "list":deliver,
+                        "startertext":startertext
+                        }
+                    self.response.write(placerec_template.render(vars))
                 if choices[0]=='outdoor':
                     url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
                     response=urlfetch.fetch(url, method="POST")
@@ -532,31 +540,37 @@ class PlaceRecPage(webapp2.RequestHandler):
                     #chosenplevel=str(choices[len(choices)])
                     #plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                     ratinglist=sorted(landmarks, key=lambda x:-x.rating)
+                    startertext=""
+                    deliver=[]
                     if len(ratinglist)>0:
-                        self.response.write("Top choices:")
-                        self.response.write("<br>")
+                        startertext="Top choices:"
                         for v in ratinglist:
                             if v.open=="True":
-                                st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                                deliver.append(v)
+                                '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                                 self.response.write(st)
-                                self.response.write("<br>")
+                                self.response.write("<br>")'''
                     else:
-                        self.response.write("Locations not found that are open at this time. Below is general list:")
-                        self.response.write("<br>")
+                        startertext="Locations not found that are open at this time. Below is general list:"
                         for v in ratinglist:
-                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                            deliver.append(v)
+                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
-                            self.response.write("<br>")
+                            self.response.write("<br>")'''
+                    vars={
+                    "list":deliver,
+                    "startertext":startertext
+                    }
+                    self.response.write(placerec_template.render(vars))
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
-        self.response.write(placerec_template.render())
 '''
-                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "Would you like to exercise today?", "Are you a picky eater?", "Do you enjoy traveling far?"]
                 choosing restaurants:
                     choose in price range, picky eater get top rated, farness doubles radius used to affect the scope
 
-                        eater and travel:yes, no; often: daily, weekly, monthly, no; interest: indoor, outdoor;
+                        eater and exercise and travel:yes, no; interest: indoor, outdoor;
                         time: day, night; range: 1-4
                         self.name=n
                         self.plevel=int(p)
