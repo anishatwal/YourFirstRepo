@@ -86,14 +86,9 @@ li a:hover {
 
 table {
   text-align: center;
-  border: 7px solid #575757;
   padding: 18px;
-	height: 718px;
-	width: 690px;
-	margin: 0;
+  margin: 30px 30px;
   padding: 0;
-	border-collapse: collapse;
-  align: center;
 }
 
 h2 {

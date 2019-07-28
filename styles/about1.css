@@ -318,7 +318,7 @@ button a {
 }
 
 .sidenav a:hover {
-  color: black;
+  color: #59FFD4;
   text-shadow: 0 0 5px #00CDFF;
 }
 
@@ -341,7 +341,8 @@ button a {
 }
 
 .material-icons.md-36{
-  font-size: 36px;
+  font-size: 45px;
+  color: #59FFD4;
 }
 
 span i {
