@@ -1,9 +1,11 @@
 body {
-  background-color: #ffd6f1;
-  background-size: 120%;
   color: black;
   margin: 0px;
-  text-align: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #FFE8C0;
+  background-image: url('https://wpmisc.com/sites/default/files/wallpaper/nature/72648/oceanfront-waves-hd-wallpapers-72648-3535210.png');
+  background-image:
 }
 
 span {
@@ -14,8 +16,12 @@ span {
   cursor: pointer;
 }
 
+p {
+  text-shadow: 2px 2px black;
+}
+
 #happy {
-  background-color: gray;
+  background-color: #FF8459;
   color: white;
   font-family: 'Londrina Shadow', cursive;
   text-align: center;
@@ -24,33 +30,31 @@ span {
   z-index: 2;
 }
 
-
-p {
-  font-family: 'Josefin Slab', cursive;
-  text-align: center;
-}
-
 #yogatime {
-  font-size: 40px;
+  font-size: 80px;
   text-align: center;
+  color: white;
+  font-family: 'Permanent Marker', cursive;
 }
 
 #pose {
-  font-size: 20px;
+  font-size: 60px;
   text-align: center;
+  font-family: 'Josefin Slab', cursive;
 }
 
 #images {
-  font-size: 20px;
+  font-size: 60px;
   text-align: center;
+  font-family: 'Josefin Slab', cursive;
 }
 
 #images a {
-  color: black;
+  color: white;
 }
 
 #images a:hover {
-  color: white;
+  color: #F9A47D;
 }
 
 
@@ -106,7 +110,7 @@ p {
 }
 
 .material-icons.md-36{
-  font-size: 36px;
+  font-size: 45px;
 }
 
 span i {
@@ -114,5 +118,5 @@ span i {
 }
 
 span i:hover {
-  color: black;
+  color: #FFE8C0;
 }

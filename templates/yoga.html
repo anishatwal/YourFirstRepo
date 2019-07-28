@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Exercises To Help You Get Through Your Day!</title>
     <link rel="stylesheet" href="/styles/yoga1.css">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Londrina+Shadow&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script>
@@ -38,9 +39,126 @@
       </div>
 
       <p id="yogatime">Yoga Time!</p>
-      <p id="pose">Your pose is: <br>{{name}}</p>
+      <p id="pose">Your pose is: {{name}}</p>
       <p id="images">To view images of the {{name}} pose, <a href="{{link}}" target="blank">click here</a>. </p>
 
-    </div>
+        <style>
+        * {box-sizing: border-box;}
+        body {font-family: Verdana, sans-serif;}
+        .mySlides {display: none;}
+        img {vertical-align: middle;}
+
+        /* Slideshow container */
+        .slideshow-container {
+        width: 800px;
+        height: 800px;
+        position: relative;
+        margin: auto;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+        color: #f2f2f2;
+        font-size: 20px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+        background-color: #FF8459;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0;
+        transition: background-color 0.6s ease;
+        }
+
+        .active {
+        background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 1.5s;
+        animation-name: fade;
+        animation-duration: 1.5s;
+        }
+
+        @-webkit-keyframes fade {
+        from {opacity: .4}
+        to {opacity: 1}
+        }
+
+        @keyframes fade {
+        from {opacity: .4}
+        to {opacity: 1}
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+        .text {font-size: 11px}
+        }
+        </style>
+        </head>
+        <body>
+
+        <div class="slideshow-container">
+
+          <div class="mySlides fade">
+          <div class="numbertext">1 / 3</div>
+          <img src="https://cdn.pixabay.com/photo/2018/06/18/17/26/sunset-3482930_960_720.jpg" style="width:100%">
+          </div>
+
+          <div class="mySlides fade">
+          <div class="numbertext">2 / 3</div>
+          <img src="https://images.pexels.com/photos/37351/silhouette-aerialist-female-woman.jpg?cs=srgb&dl=activity-clouds-dawn-37351.jpg&fm=jpg" style="width:100%">
+          </div>
+
+          <div class="mySlides fade">
+          <div class="numbertext">3 / 3</div>
+          <img src="https://images.pexels.com/photos/588561/pexels-photo-588561.jpeg?cs=srgb&dl=backlit-beach-dawn-588561.jpg&fm=jpg" style="width:100%">
+          </div>
+
+        </div>
+        <br>
+
+        <div>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        </div>
+
+        <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+        setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+        </script>
+
+
+
+
+
+
+
+
+
   </body>
 </html>
