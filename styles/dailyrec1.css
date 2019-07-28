@@ -37,10 +37,9 @@ body {
 
 h2 {
   font-family: 'Cinzel Decorative', cursive;
-  font-size: 18pt;
   color: black;
   font-family: 'Londrina Shadow', cursive;
-  font-size: 46px;
+  font-size: 60px;
   text-align: center;
   text-shadow: 1px 1px 2px pink;
 }
@@ -69,10 +68,23 @@ span {
   z-index: 2;
 }
 
-#choose {
+button {
+  font-family: 'Josefin Slab', cursive;
+  background-color: #ffb0e8;
+  border: none;
+  color: black;
+  padding: 16px 16px;
   text-align: center;
-  font-size: 13px;
-  font-family: 'Source Code Pro', cursive;
+  font-size: 30px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 1;
 }
 
 .sidenav {
@@ -103,7 +115,6 @@ span {
 
 .sidenav a:hover {
   color: black;
-  text-shadow: 0 0 5px #00CDFF;
 }
 
 .sidenav .closebtn {
