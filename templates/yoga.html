@@ -24,12 +24,12 @@
   <body>
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="about">About</a><br><br>
-      <a href="dailyrec">Recomendations</a><br><br>
-      <a href="foodhandler">Food</a><br><br>
-      <a href="activity">Yoga</a><br><br>
-      <a href="socialhandler">Attractions</a><br><br>
-      <a href="logout">Logout</a>
+      <a href="https://ama-happy.appspot.com/">About</a><br><br>
+      <a href="https://ama-happy.appspot.com/dailyrec">Recomendations</a><br><br>
+      <a href="https://ama-happy.appspot.com/foodhandler">Food</a><br><br>
+      <a href="https://ama-happy.appspot.com/activity">Yoga</a><br><br>
+      <a href="https://ama-happy.appspot.com/socialhandler">Attractions</a><br><br>
+      <a href="https://ama-happy.appspot.com/logout">Logout</a>
     </div>
 
     <span onclick="openNav()"><i class="material-icons md-36">menu</i></span>
@@ -39,9 +39,12 @@
         <h1 id="happy">H A P P Y</h1>
       </div>
 
-      <p id="yogatime">Yoga Time!</p>
-      <p id="pose">Your pose is: {{name}}</p>
-      <p id="images">To view images of the {{name}} pose, <a href="{{link}}" target="blank">click here</a>. </p>
+      <div class="yogaa">
+        <p id="yogatime">Yoga Time!</p>
+        <p id="pose">Your pose is: <br>{{name}}</p>
+        <a href="{{link}}" target="blank"><button id="images">Images of {{name}}</button></a>
+        <button id="refresh" value="Refresh Page" onClick="window.location.reload();">Another Pose</button>
+      </div>
 
         <style>
         * {box-sizing: border-box;}
@@ -104,7 +107,7 @@
         </style>
         </head>
         <body>
-
+        <br><br>
         <div class="slideshow-container">
 
           <div class="mySlides fade">
@@ -125,11 +128,11 @@
         </div>
         <br>
 
-        <div>
+        <!-- <div>
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot"></span>
-        </div>
+        </div> -->
 
         <script>
         var slideIndex = 0;
@@ -152,14 +155,6 @@
         setTimeout(showSlides, 2000); // Change image every 2 seconds
         }
         </script>
-
-
-
-
-
-
-
-
 
   </body>
 </html>

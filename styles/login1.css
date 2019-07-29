@@ -1,29 +1,38 @@
 body {
-  /* background-color: #ffd9f3; */
-  background-image: url('https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?cs=srgb&dl=beach-blur-boardwalk-132037.jpg&fm=jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  height:500%;
+  background-color: #ffd6f1;
 }
 
+.icon {
+  font-family: 'Londrina Shadow', cursive;
+  font-size: 20px;
+  margin-left: 20px;
+}
 
-p {
-  text-align: left;
-  align-items: center;
-  font-size: 50px;
-  margin: 30px 30px;
+m {
+  font-size: 60px;
+}
+
+h5{
+  text-align: center;
   font-family: 'Josefin Slab', cursive;
-  color: white;
+  font-size: 25px;
 }
 
 button {
-  font-size: 20pt;
-  padding: 15px;
   font-family: 'Josefin Slab', cursive;
-  background-color: black;
-  color: white;
-  border: 8px solid white;
-  text-shadow: 0 0 8px blue;
-  box-shadow: 5px -5px black, inset 0 0 10px rgba(0,0,0,.5);
+  background-color: #ffb0e8;
+  border: none;
+  color: black;
+  padding: 16px 16px;
+  text-align: center;
+  font-size: 50px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  cursor: pointer;
+}
 
+button:hover {
+  opacity: 1;
 }

@@ -30,6 +30,12 @@ class Restaurant(object):
         self.vicinity=a
         #self.lat=la
         #self.lon=ln
+class Game(object):
+    def __init__(self, n, l, i, s):
+        self.name=n
+        self.link=l
+        self.imagelink=i
+        self.stars=s
 
 class Landmark(object):
     def __init__(self, n, r, b, t, a):#, la, ln):
@@ -91,19 +97,22 @@ class LoginReciever(webapp2.RequestHandler): #if this is a user who didnt login
     def get(self):
         login_url=users.create_login_url("/mood")
         vars={"url":login_url}
-        self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
+        login_template=jinja_env.get_template('templates/login.html')
         data=User.query().fetch() #does data return none if empty?
         if data==None: #if no one's made an account
             self.redirect('/account')
         else:
             self.redirect('/mood')
+        self.response.write(login_template.render(vars))
 
 class LogoutPage(webapp2.RequestHandler):
     def get(self):
         logout_url=users.create_logout_url("/")
-        user=None
+        #user=None
         #self.response.write("hello "+str(nickname))
-        self.response.write('<br>Log out here: <a href="'+logout_url+'">click here</a>')
+        vars={"url":logout_url}
+        logout_template=jinja_env.get_template('templates/logout.html')
+        self.response.write(logout_template.render(vars))
 
 class AccountPage(webapp2.RequestHandler): #get, post
     def get(self):
@@ -115,7 +124,8 @@ class AccountPage(webapp2.RequestHandler): #get, post
         else:
             login_url=users.create_login_url("/account")
             vars={"url":login_url}
-            self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
+            login_template=jinja_env.get_template('templates/login.html')
+            self.response.write(login_template.render(vars))
 
 class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
     def get(self):
@@ -183,30 +193,37 @@ class FoodPage(webapp2.RequestHandler): #get, post
             value=dataset[i]
             resta=None
             try:
+                print(str(value["vicinity"]))
                 resta=Restaurant(str(value["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                 restaurants.append(resta)
-            except KeyError:
+            except:
                 pass
         #print(restaurants)
         count=0
+        vars={}
+        deliver=[]
         for r in restaurants:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open=="True":
                 count+=1
-                st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
-                print(st)
-                self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                deliver.append(r)
+                #st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                #print(st)
+                #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
+                #self.response.write("<br>")
+        vars["list"]=deliver
         if count==0:
-            self.response.write("All of the nearby found restaurants are not open at this time. Below is a general list:")
-            self.response.write("<br>")
+            vars["startertext"]="All of the nearby found restaurants are not open at this time. Here is a general list:"
             for r in restaurants:
-                st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                deliver.append(r)
+                '''st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
                 print(st)
                 self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                self.response.write("<br>")'''
+        else:
+            vars["startertext"]="Here are the restaurants open at this time:"
         #print(restaurants[0].plevel)
-        self.response.write(food_template.render())
+        self.response.write(food_template.render(vars))
         #go to google places api
         #possibly put in jscript
 class SocialHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
@@ -248,23 +265,32 @@ class SocialPage(webapp2.RequestHandler): #get, post
             except KeyError:
                 pass
         count=0
+        deliver=[]
+        startertext=""
         for r in landmarks:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open=="True":
+                startertext="Here are the landmarks open at this time:"
                 count+=1
-                st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
+                deliver.append(r)
+                '''st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
                 #print(st)
                 self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                self.response.write("<br>")
+                self.response.write("<br>")'''
+
             if count==0:
-                self.response.write("All of the nearby found places are not open at this time. Below is a general list:")
-                self.response.write("<br>")
+                startertext="All of the nearby found places are not open at this time. Below is a general list:"
                 for r in landmarks:
-                    st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
+                    deliver.append(r)
+                    '''st=str(r.name)+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+str(r.vicinity)
                     print(st)
                     self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
-                    self.response.write("<br>")
-        self.response.write(social_template.render())
+                    self.response.write("<br>")'''
+        vars={
+        "list":deliver,
+        "startertext":startertext
+        }
+        self.response.write(social_template.render(vars))
 
 class LeisurePage(webapp2.RequestHandler): #get, post
     def get(self):
@@ -309,8 +335,6 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 recs=[]
                 for v in attr[0].traits:
                     choices.append(str(v))
-                date=ctime()
-                self.response.write(str(date))
                 parsed=data.split(",")
                 lat=float(parsed[0])
                 lon=float(parsed[1])
@@ -333,36 +357,47 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                             #print(st)
                             #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                             #self.response.write("<br>")
-                    except KeyError:
+                    except:
                         pass
                 extrachoices=[]
                 #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
                 chosenplevel=str(choices[2])
                 plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                 ratinglist=sorted(plevellist, key=lambda x:-x.rating)
-                #bestchoices=list(set(ratinglist).intersection(plevellist))
-                if len(ratinglist)>0:
-                    self.response.write("Top choices")
-                    self.response.write("<br>")
-                    for v in ratinglist:
-                        st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
-                        self.response.write(st)
-                        self.response.write("<br>")
+                bestchoices=list(set(ratinglist).intersection(plevellist))
+                startertext=""
+                deliver=[]
+                if len(bestchoices)>0:
+                    startertext="Top choices"
+                    for v in bestchoices:
+                        deliver.append(v)
                 else:
-                    if len(plevellist)>0:
-                        for v in plevellist:
-                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
-                            self.response.write(st)
-                            self.response.write("<br>")
                     if len(ratinglist)>0:
+                        startertext="Locations wih higher ratings"
+                        for v in ratinglist:
+                            deliver.append(v)
+                        '''self.response.write("Top choices")
+                        self.response.write("<br>")
                         for v in ratinglist:
                             st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
                             self.response.write(st)
-                            self.response.write("<br>")
+                            self.response.write("<br>")'''
+                    if len(plevellist)>0:
+                        startertext="Locations with same pricing level"
+                        for v in plevellist:
+                            deliver.append(v)
+                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
+                            self.response.write(st)
+                            self.response.write("<br>")'''
+                vars={
+                "startertext":startertext,
+                "list":deliver,
+                "time":str(ctime())
+                }
+                self.response.write(foodrec_template.render(vars))
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
-        self.response.write(foodrec_template.render())
 
 class YogaRecPage(webapp2.RequestHandler):
     def get(self):
@@ -386,25 +421,48 @@ class YogaRecPage(webapp2.RequestHandler):
                 choices=[]
                 for v in attr[0].traits:
                     choices.append(str(v))
-                date=ctime()
-                if choices[3]=='daily' or choices[3]=='monthly': #daily monthly, weekly no
-                    self.response.write("Want to be relaxed today?")
-                    self.response.write(" video games")
+                deliver=[]
+                game_template=jinja_env.get_template('templates/gamerec.html')
+                if choices[3]=='no': #daily monthly, weekly no
+                    #self.response.write("Want to be relaxed today?")
                     url="http://www.giantbomb.com/api/games/?api_key="+giantbombkey+"&sort=original_release_date:des&format=json"
                     response=urlfetch.fetch(url)
                     data=json.loads(response.content)
-                    end=100
-                    pos1=0
-                    pos2=0
-                    pos3=0
-                    while pos1!=pos2 and pos1!=pos3 and pos2!=pos3:
-                        pos1=random.randint(0, end-1)
-                        pos2=random.randint(0, end-1)
-                        pos3=random.randint(0, end-1)
-                    imglink=data["results"][pos1]#[99][pos1]["image"]["icon_url"]
-                    #imgname=data["results"][pos1]["aliases"]
-                    print(imglink)
-                    #print(imgname)
+                    datafinding=None
+                    fitdata=[]
+                    for ind in range(0, 100):
+                        if len(fitdata)<3:
+                            gamename=data["results"][ind]["name"]
+                            #print(imglink)
+                            #print(gamename)
+                            findlink="https://api.rawg.io/api/games/"+gamename.replace(' ', '-')+"?source=post_page"
+                            #print(findlink)
+                            try:
+                                response=urlfetch.fetch(findlink)
+                                datafinding=json.loads(response.content)
+                                if datafinding!=None and datafinding!={"detail":"Not found."}:
+                                    '''self.name=n
+                                    self.link=l
+                                    self.imagelink=i
+                                    self.stars=s'''
+                                    tgname=datafinding["name"]
+                                    tgwebsite=datafinding["website"]
+                                    tgimagelink=datafinding["background_image_additional"]
+                                    tgstars=datafinding["rating"]
+                                    agame=Game(tgname, tgwebsite, tgimagelink, tgstars)
+                                    fitdata.append(agame)
+                                    #print(agame)
+                            except ValueError:
+                                continue
+                        else:
+                            break
+                    #print(deliver)
+                    #print(fitdata)
+                    deliver.append(fitdata[0])
+                    deliver.append(fitdata[1])
+                    deliver.append(fitdata[2])
+                    vars={"games":deliver}
+                    self.response.write(game_template.render(vars))
                 else:
                     p_template=jinja_env.get_template('templates/yoga.html')
                     url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
@@ -418,6 +476,11 @@ class YogaRecPage(webapp2.RequestHandler):
                     img=data[index]["img_url"]
                     vars={"link":link, "name":name0}#, "url":img}
                     self.response.write(p_template.render(vars))
+        else:
+            login_url=users.create_login_url("/account")
+            vars={"url":login_url}
+            login_template=jinja_env.get_template('templates/login.html')
+            self.response.write(login_template.render(vars))
 
 class PlaceRecHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
@@ -441,8 +504,6 @@ class PlaceRecPage(webapp2.RequestHandler):
                 recs=[]
                 for v in attr[0].traits:
                     choices.append(str(v))
-                date=ctime()
-                self.response.write(str(date))
                 parsed=data.split(",")
                 lat=float(parsed[0])
                 lon=float(parsed[1])
@@ -474,21 +535,29 @@ class PlaceRecPage(webapp2.RequestHandler):
                     #chosenplevel=str(choices[len(choices)])
                     #plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                     ratinglist=sorted(landmarks, key=lambda x:-x.rating)
+                    startertext=""
+                    deliver=[]
                     if len(ratinglist)>0:
-                        self.response.write("Top choices:")
-                        self.response.write("<br>")
+                        startertext="Top choices:"
                         for v in ratinglist:
                             if v.open=="True":
-                                st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                                deliver.append(v)
+                                '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                                 self.response.write(st)
-                                self.response.write("<br>")
+                                self.response.write("<br>")'''
                     else:
-                        self.response.write("Locations not found that are open at this time. Below is general list:")
-                        self.response.write("<br>")
+                        startertext="Locations not found that are open at this time. Below is general list:"
+                        #self.response.write("<br>")
                         for v in ratinglist:
-                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                            deliver.append(v)
+                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
-                            self.response.write("<br>")
+                            self.response.write("<br>")'''
+                    vars={
+                        "list":deliver,
+                        "startertext":startertext
+                        }
+                    self.response.write(placerec_template.render(vars))
                 if choices[0]=='outdoor':
                     url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
                     response=urlfetch.fetch(url, method="POST")
@@ -513,31 +582,38 @@ class PlaceRecPage(webapp2.RequestHandler):
                     #chosenplevel=str(choices[len(choices)])
                     #plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                     ratinglist=sorted(landmarks, key=lambda x:-x.rating)
+                    startertext=""
+                    deliver=[]
                     if len(ratinglist)>0:
-                        self.response.write("Top choices:")
-                        self.response.write("<br>")
+                        startertext="Top choices:"
                         for v in ratinglist:
                             if v.open=="True":
-                                st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                                deliver.append(v)
+                                '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                                 self.response.write(st)
-                                self.response.write("<br>")
+                                self.response.write("<br>")'''
                     else:
-                        self.response.write("Locations not found that are open at this time. Below is general list:")
-                        self.response.write("<br>")
+                        startertext="Locations not found that are open at this time. Below is general list:"
                         for v in ratinglist:
-                            st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
+                            deliver.append(v)
+                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity
                             self.response.write(st)
-                            self.response.write("<br>")
+                            self.response.write("<br>")'''
+                    vars={
+                    "list":deliver,
+                    "startertext":startertext,
+                    "time":str(ctime())
+                    }
+                    self.response.write(placerec_template.render(vars))
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
-        self.response.write(placerec_template.render())
 '''
-                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "Would you like to exercise today?", "Are you a picky eater?", "Do you enjoy traveling far?"]
                 choosing restaurants:
                     choose in price range, picky eater get top rated, farness doubles radius used to affect the scope
 
-                        eater and travel:yes, no; often: daily, weekly, monthly, no; interest: indoor, outdoor;
+                        eater and exercise and travel:yes, no; interest: indoor, outdoor;
                         time: day, night; range: 1-4
                         self.name=n
                         self.plevel=int(p)
