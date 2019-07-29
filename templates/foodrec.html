@@ -4,31 +4,7 @@
     </script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <p id="data">
-      <h2>{{startertext}}</h2>
-      {% for r in list %}
-        <ul id="info"> <!--r.open, r.types-->
-          <!--"https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5"-->
-            <ul id="name"><a id="tolink" href="" target="blank">{{r.name}}</a></ul><br><br>
-            <ul class="list">
-              Price Level: {{r.plevel}}
-            </ul>
-            <ul class="list">
-              Rating: {{r.rating}}
-            </ul>
-            <ul class="list">
-              Approx. Address: {{r.vicinity}}
-            </ul>
-           <!--<script type="text/javascript">
-             let linkr="https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+r.name.replace(' ', '+')+"&oq="+r.name.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5";
-             console.log(linkr);
-             document.getElementById("tolink").onclick = function() {
-              document.getElementById("tolink").href=linkr;
-              return false;
-            };
-          </script>-->
-        </ul>
-      {% endfor %}
+      <p id="data">
       </p>
       <br>
 
@@ -348,7 +324,7 @@
         <body>
           <p id="data">
             <h2>{{startertext}}</h2>
-            {% for r in list %}
+            {% for r in {{list}} %}
               <ul> <!--r.open, r.types-->
                 {{r.name}}
                   <li>
