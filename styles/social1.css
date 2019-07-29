@@ -1,3 +1,42 @@
+body {
+  color: black;
+  margin: 0px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-image: url('https://wpmisc.com/sites/default/files/wallpaper/nature/72648/oceanfront-waves-hd-wallpapers-72648-3535210.png'); */
+  background-color: #ffd6f1;
+}
+
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 25px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+#happy {
+  background-color: gray;
+  color: white;
+  font-family: 'Londrina Shadow', cursive;
+  text-align: center;
+  font-size: 75px;
+  margin: 0;
+  z-index: 2;
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+li {
+
+}
+
 .sidenav {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
@@ -41,7 +80,7 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left .5s;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

@@ -263,14 +263,14 @@
     </script>
   </head>
 
-  <body style="height:100%; margin:0px;">
+  <body>
     <div class="top">
       <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="https://ama-happy.appspot.com/">About</a><br><br>
         <a href="https://ama-happy.appspot.com/dailyrec">Recomendations</a><br><br>
         <a href="https://ama-happy.appspot.com/foodhandler">Food</a><br><br>
-        <a href="https://ama-happy.appspot.com/activity">Yoga</a><br><br>
+        <a href="https://ama-happy.appspot.com/activity">Activity</a><br><br>
         <a href="https://ama-happy.appspot.com/socialhandler">Attractions</a><br><br>
         <a href="https://ama-happy.appspot.com/logout">Logout</a>
       </div>
@@ -291,12 +291,15 @@
           <p id="data">
             <h2>{{startertext}}</h2>
             {% for r in list %}
-              <ul> <!--r.open, r.types-->
+              <p> <!--r.open, r.types-->
                 {{r.name}}
                   <li>
-                    Rating: {{r.rating}}, Approx. Address: {{r.vicinity}}
+                    Rating: {{r.rating}}
+                    <li>
+                    Approx. Address: {{r.vicinity}}
+                    </li>
                  </li>
-              </ul>
+              </p>
             {% endfor %}
           </p>
           <br>
