@@ -193,9 +193,10 @@ class FoodPage(webapp2.RequestHandler): #get, post
             value=dataset[i]
             resta=None
             try:
+                print(str(value["vicinity"]))
                 resta=Restaurant(str(value["name"]), str(value["price_level"]), str(value["rating"]), str(value["opening_hours"]["open_now"]), str(value["types"]), str(value["vicinity"]))
                 restaurants.append(resta)
-            except KeyError:
+            except:
                 pass
         #print(restaurants)
         count=0
@@ -210,6 +211,7 @@ class FoodPage(webapp2.RequestHandler): #get, post
                 #print(st)
                 #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 #self.response.write("<br>")
+        vars["list"]=deliver
         if count==0:
             vars["startertext"]="All of the nearby found restaurants are not open at this time. Here is a general list:"
             for r in restaurants:
@@ -218,10 +220,8 @@ class FoodPage(webapp2.RequestHandler): #get, post
                 print(st)
                 self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                 self.response.write("<br>")'''
-            vars["list"]=deliver
         else:
             vars["startertext"]="Here are the restaurants open at this time:"
-            vars["list"]=deliver
         #print(restaurants[0].plevel)
         self.response.write(food_template.render(vars))
         #go to google places api
@@ -270,7 +270,7 @@ class SocialPage(webapp2.RequestHandler): #get, post
         for r in landmarks:
             #st=r.name+", Price: "+str(r.plevel)+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon)
             if r.open=="True":
-                startertext="Here are the restaurants open at this time:"
+                startertext="Here are the landmarks open at this time:"
                 count+=1
                 deliver.append(r)
                 '''st=r.name+", Rating: "+str(r.rating)+", IsOpen: "+str(r.open)+", Keywords: "+str(r.types)+", Approx. Address: "+r.vicinity
@@ -335,8 +335,6 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 recs=[]
                 for v in attr[0].traits:
                     choices.append(str(v))
-                date=ctime()
-                self.response.write(str(date))
                 parsed=data.split(",")
                 lat=float(parsed[0])
                 lon=float(parsed[1])
@@ -359,7 +357,7 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                             #print(st)
                             #self.response.write(st)#+", Lat: "+str(r.lat)+", Lon: "+str(r.lon))
                             #self.response.write("<br>")
-                    except KeyError:
+                    except:
                         pass
                 extrachoices=[]
                 #choices: ['indoor', 'day', '3', 'daily', 'yes', 'yes']
@@ -393,7 +391,8 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                             self.response.write("<br>")'''
                 vars={
                 "startertext":startertext,
-                "list":deliver
+                "list":deliver,
+                "time":str(ctime())
                 }
                 self.response.write(foodrec_template.render(vars))
         else:
@@ -422,7 +421,6 @@ class YogaRecPage(webapp2.RequestHandler):
                 choices=[]
                 for v in attr[0].traits:
                     choices.append(str(v))
-                date=ctime()
                 deliver=[]
                 game_template=jinja_env.get_template('templates/gamerec.html')
                 if choices[3]=='no': #daily monthly, weekly no
@@ -506,8 +504,6 @@ class PlaceRecPage(webapp2.RequestHandler):
                 recs=[]
                 for v in attr[0].traits:
                     choices.append(str(v))
-                date=ctime()
-                self.response.write(str(date))
                 parsed=data.split(",")
                 lat=float(parsed[0])
                 lon=float(parsed[1])
@@ -605,7 +601,8 @@ class PlaceRecPage(webapp2.RequestHandler):
                             self.response.write("<br>")'''
                     vars={
                     "list":deliver,
-                    "startertext":startertext
+                    "startertext":startertext,
+                    "time":str(ctime())
                     }
                     self.response.write(placerec_template.render(vars))
         else:
@@ -641,7 +638,7 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/activity', LeisurePage),
     ('/datareciever', DataRecieverPage),
     ('/foodrec/(.*)', FoodRecPage),
-    ('/', AboutPage),
+    ('/foodrechandler', FoodRecHandler),
     ('/yogarec', YogaRecPage),
     ('/placerec/(.*)', PlaceRecPage),
     ('/placerechandler', PlaceRecHandler),
