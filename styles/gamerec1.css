@@ -15,6 +15,10 @@ span {
   cursor: pointer;
 }
 
+#data {
+  text-align: center;
+}
+
 #happy {
   background-color: gray;
   color: white;
@@ -52,9 +56,29 @@ ul {
   margin-left: 15%;
   margin-right: 15%;
   margin-top: 80px;
-  opacity: 0.7;
+  opacity: 0.8;
   border-radius: 3%;
   font-weight: lighter;
+}
+
+#refresh {
+  font-family: 'Josefin Slab', cursive;
+  background-color: #ffb0e8;
+  border: none;
+  color: black;
+  padding: 16px 16px;
+  text-align: center;
+  font-size: 45px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  cursor: pointer;
+  justify-content: center;
+}
+
+#refresh:hover {
+  opacity: 1;
 }
 
 .sidenav {
