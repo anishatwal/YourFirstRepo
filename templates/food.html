@@ -302,7 +302,8 @@
             <h2>{{startertext}}</h2>
             {% for r in list %}
               <ul> <!--r.open, r.types-->
-                {{r.name}}
+                "https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5"
+                  <a href="https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5" target="blank">{{r.name}}</a>
                   <li>
                     Price: {{r.plevel}}, Rating: {{r.rating}}, Approx. Address: {{r.vicinity}}
                  </li>
