@@ -3,9 +3,8 @@ body {
   margin: 0px;
   background-repeat: no-repeat;
   background-size: cover;
-  color: #FFE8C0;
-  background-image: url('https://wpmisc.com/sites/default/files/wallpaper/nature/72648/oceanfront-waves-hd-wallpapers-72648-3535210.png');
-  background-image:
+  /* background-image: url('https://wpmisc.com/sites/default/files/wallpaper/nature/72648/oceanfront-waves-hd-wallpapers-72648-3535210.png'); */
+  background-color: #ffd6f1;
 }
 
 span {
@@ -16,12 +15,8 @@ span {
   cursor: pointer;
 }
 
-p {
-  text-shadow: 2px 2px black;
-}
-
 #happy {
-  background-color: #FF8459;
+  background-color: gray;
   color: white;
   font-family: 'Londrina Shadow', cursive;
   text-align: center;
@@ -35,12 +30,14 @@ p {
   text-align: center;
   color: white;
   font-family: 'Permanent Marker', cursive;
+  text-shadow: 2px 2px black;
 }
 
 #pose {
   font-size: 60px;
   text-align: center;
   font-family: 'Josefin Slab', cursive;
+  color: black;
 }
 
 #images {
@@ -50,7 +47,7 @@ p {
   color: black;
   padding: 16px 16px;
   text-align: center;
-  font-size: 60px;
+  font-size: 45px;
   margin: 4px 2px;
   opacity: 0.6;
   transition: 0.3s;
@@ -69,7 +66,7 @@ p {
   color: black;
   padding: 16px 16px;
   text-align: center;
-  font-size: 60px;
+  font-size: 45px;
   margin: 4px 2px;
   opacity: 0.6;
   transition: 0.3s;
@@ -146,5 +143,5 @@ span i {
 }
 
 span i:hover {
-  color: #FFE8C0;
+  color: black;
 }
