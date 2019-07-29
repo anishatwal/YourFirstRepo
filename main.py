@@ -12,8 +12,8 @@ import json
 import random
 #ADD BUTTON TO YOGA TO RANDOMIZE POSITIONS
 #AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
-apikey="AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-giantbombkey="d72e9582abaa2d44b5da40f322eda08046474dc2"
+apikey=""
+giantbombkey=""
 recs={}
 class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
