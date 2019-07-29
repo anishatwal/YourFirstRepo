@@ -392,13 +392,21 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 deliver=[]
                 if len(bestchoices)>0:
                     startertext="Top choices"
-                    for v in bestchoices:
-                        deliver.append(v)
+                    vars={
+                    "startertext":startertext,
+                    "list":bestchoices,
+                    "time":str(ctime())
+                    }
+                    self.response.write(foodrec_template.render(vars))
                 else:
                     if len(ratinglist)>0:
                         startertext="Locations wih higher ratings"
-                        for v in ratinglist:
-                            deliver.append(v)
+                        vars={
+                        "startertext":startertext,
+                        "list":ratinglist,
+                        "time":str(ctime())
+                        }
+                        self.response.write(foodrec_template.render(vars))
                         '''self.response.write("Top choices")
                         self.response.write("<br>")
                         for v in ratinglist:
@@ -407,19 +415,23 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                             self.response.write("<br>")'''
                     if len(plevellist)>0:
                         startertext="Locations with same pricing level"
-                        for v in plevellist:
-                            deliver.append(v)
+                        vars={
+                        "startertext":startertext,
+                        "list":plevelist,
+                        "time":str(ctime())
+                        }
+                        self.response.write(foodrec_template.render(vars))
                             '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
                             self.response.write(st)
                             self.response.write("<br>")'''
                     if len(plevellist)==0 and len(ratinglist)==0:
                         startertext="No optimal locations found at this time"
-                vars={
-                "startertext":startertext,
-                "list":deliver,
-                "time":str(ctime())
-                }
-                self.response.write(foodrec_template.render(vars))
+                        vars={
+                        "startertext":startertext,
+                        "list":[],
+                        "time":str(ctime())
+                        }
+                        self.response.write(foodrec_template.render(vars))
         else:
             self.redirect('/reciever')
         #attributes=["interest", "time", "range", "exercise", "eater", "travel"]'''
