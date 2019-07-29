@@ -3,7 +3,7 @@
   <head>
     <title>Types of Moods</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/scripts/mood.js"></script>
+    <!-- <script src="/scripts/mood.js"></script> -->
     <link rel="stylesheet" href="/styles/mood1.css">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Londrina+Shadow&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative&display=swap" rel="stylesheet">
@@ -28,12 +28,12 @@
 
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="https://ama-happy.appspot.com/">About</a><br><br>
-      <a href="https://ama-happy.appspot.com/dailyrec">Recomendations</a><br><br>
-      <a href="https://ama-happy.appspot.com/foodhandler">Food</a><br><br>
-      <a href="https://ama-happy.appspot.com/activity">Yoga</a><br><br>
-      <a href="https://ama-happy.appspot.com/socialhandler">Attractions</a><br><br>
-      <a href="https://ama-happy.appspot.com/logout">Logout</a>
+      <a href="about">About</a><br><br>
+      <a href="dailyrec">Recomendations</a><br><br>
+      <a href="foodhandler">Food</a><br><br>
+      <a href="activity">Yoga</a><br><br>
+      <a href="socialhandler">Attractions</a><br><br>
+      <a href="logout">Logout</a>
     </div>
 
     <span onclick="openNav()"><i class="material-icons md-36">menu</i></span>
@@ -45,18 +45,18 @@
 
       <h2>Welcome {{name}},<br>Choose Your Current Mood:</h2>
       <form class="mood">
-        <button id="stressed">Stressed</button>
-        <button id="scared">Scared</button>
-        <button id="nervous">Nervous</button>
-        <button id="mixed">Mixed Emotions</button>
-        <button id="normal">Normal</button>
-        <button id="relaxed">Relaxed</button>
-        <button id="calm">Calm</button>
-        <button id="cool">Cool</button>
-        <button id="loved">Loved</button>
-        <button id="romantic">Romantic</button>
-        <button id="passionate">Passionate</button>
-        <button id="vhappy">Very Happy</button>
+        <button id="stressed" onclick="/dailyrechandler">Stressed</button>
+        <button id="scared" onclick="window.location.href='/dailyrechandler'">Scared</button>
+        <button id="nervous" onclick="location.href='/dailyrechandler'">Nervous</button>
+        <button id="mixed" onclick="location.href='/dailyrechandler'">Mixed Emotions</button>
+        <button id="normal" onclick="location.href='/dailyrechandler'">Normal</button>
+        <button id="relaxed" onclick="location.href='/dailyrechandler'">Relaxed</button>
+        <button id="calm" onclick="location.href='/dailyrechandler'">Calm</button>
+        <button id="cool" onclick="location.href='/dailyrechandler'">Cool</button>
+        <button id="loved" onclick="location.href='/dailyrechandler'">Loved</button>
+        <button id="romantic" onclick="location.href='/dailyrechandler'">Romantic</button>
+        <button id="passionate" onclick="location.href='/dailyrechandler'">Passionate</button>
+        <button id="vhappy" onclick="location.href='/dailyrechandler'">Very Happy</button>
       </form>
       </div>
     </div>
