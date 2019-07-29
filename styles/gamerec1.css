@@ -37,16 +37,10 @@ ul {
   list-style-type: none;
 }
 
-#place {
+#tolink {
   text-align: center;
   font-family: 'Josefin Slab', cursive;
   font-size: 35px;
-  background-color: white;
-  margin-left: 15%;
-  margin-right: 15%;
-  margin-top: 80px;
-  opacity: 0.7;
-  border-radius: 3%;
   font-weight: bold;
 }
 
@@ -54,6 +48,12 @@ ul {
   text-align: center;
   font-family: 'Josefin Slab', cursive;
   font-size: 25px;
+  background-color: white;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 80px;
+  opacity: 0.7;
+  border-radius: 3%;
   font-weight: lighter;
 }
 
@@ -113,7 +113,7 @@ ul {
 }
 
 span i {
-  color: #818181;
+  color: white;
 }
 
 span i:hover {
