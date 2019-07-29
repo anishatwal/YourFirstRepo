@@ -297,6 +297,11 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         #exercise_template=jinja_env.get_template('templates/activity.html')
         #grab yoga api, google park, video games api
         #if you are an indoors person
+        '''
+https://www.google.com/search?source=hp&ei=JEY-XcDBOeis0gLz56RA&q="+place.name.replace(' ', '+')+'+'+place.location.replace(' ', '+')+"&oq="+place.name.replace(' ', '+')+'+'+place.location.replace(' ', '+')+&gs_l=psy-ab.3..0l10.1326.1565..1744...1.0..0.237.375.3j0j1....3..0....1..gws-wiz.....10..35i39.6OXg5ZQE-dc&ved=0ahUKEwjA48TO99jjAhVollQKHfMzCQgQ4dUDCAc&uact=5
+
+
+        '''
         activity_template=jinja_env.get_template('templates/yoga.html')
         url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
         response=urlfetch.fetch(url)
