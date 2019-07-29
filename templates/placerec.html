@@ -1,3 +1,159 @@
+<html>
+    <title>Nearby Places</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+      <p id="data">
+      </p>
+      <br>
+
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 70%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var map;
+      var service;
+      var infowindow;
+      function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+            var place = results[i];
+            createMarker(results[i]);
+          }
+        }
+      }
+      function initMap() {
+              let lat=0.00
+              let lon=0.00
+              var url="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+              fetch(url, {method:"POST"}).then((res) => {
+                  var asjson=res.json()
+                  //console.log(asjson)
+                  var promise1=Promise.resolve(asjson)
+                  promise1.then(function(value){
+                    lat=value["location"]["lat"]//lng
+                    lon=value["location"]["lng"]//lng
+                    console.log(lat+" "+lon)
+                    url2='/socialrec/'+lat+","+lon
+                    if(window.location.pathname!==url2){
+                      window.location.href=url2
+                  }
+                    //fetch('/food/'+lat+","+lon, {method:"GET",
+                  //})
+                    /*fetch(dataurl, {method:"GET", headers: {
+                      "Accept": "application/json",
+                    }
+                  }
+                ).then((res2) => {
+                          var asjson2=res2.json();
+                          console.log(asjson2);
+                          //console.log("h")
+                    }
+                  )
+                  .catch(() => {
+                    console.log("failed")
+                  })*/
+                 /*
+                          try{
+                            open = place.opening_hours.periods[1].open.time;
+                          }
+                          catch(e){
+                            open='No work time';
+                          }
+                  */
+                    var position = new google.maps.LatLng(lat, lon);
+                    infowindow = new google.maps.InfoWindow();
+                    map = new google.maps.Map(
+                        document.getElementById('map'), {center: position, zoom: 14});
+                    /*var request0 = {
+                          placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+                          fields: ['name', 'rating', 'formatted_phone_number', 'geometry']
+                        };*/
+                    var request = {
+                      query: 'restaurant',
+                      fields: ['name', 'geometry'],
+                    };
+                    service = new google.maps.places.PlacesService(map);
+                    //service.getDetails(request0, callback0;
+                    service.textSearch(request, callback);
+                    service.findPlaceFromQuery(request, function(results, status) {
+                      if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i = 0; i < results.length; i++) {
+                          console.log(results[i])
+                          createMarker(results[i]);
+                        }
+                        map.setCenter(results[0].geometry.location);
+                      }
+                    }
+                   )
+                  })
+              })
+      }
+
+      function createMarker(place) {
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+          link="https://www.google.com/search?hl=en&biw=908&bih=868&tbm=isch&sa=1&ei=cLw5XfeEBPeT0PEPna-a6AY&q="+place.name.replace(' ',"+")+"+&oq="+place.name.replace(' ',"+")+"+&gs_l=img.3..35i39l2j0i67j0j0i67l4j0j0i67.15001.15354..15508...0.0..0.50.235.5......0....1..gws-wiz-img.bDzfPGJecS8&ved=0ahUKEwj3_NPco9DjAhX3CTQIHZ2XBm0Q4dUDCAY&uact=5"
+          st='<a href='+link+" target='blank'>"+place.name + "</a><br />" + place.formatted_address +"<br />" + "Rating: "+place.rating + "<br />"
+          infowindow.setContent(st);
+          infowindow.open(map, this);
+        });
+      }
+    </script>
+    <link rel="stylesheet" href="/styles/social1.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Londrina+Shadow&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+      /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+      }
+
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+      }
+    </script>
+
+
+
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <a href="https://ama-happy.appspot.com/">About</a><br><br>
+      <a href="https://ama-happy.appspot.com/dailyrec">Recomendations</a><br><br>
+      <a href="https://ama-happy.appspot.com/foodhandler">Food</a><br><br>
+      <a href="https://ama-happy.appspot.com/activity">Yoga</a><br><br>
+      <a href="https://ama-happy.appspot.com/socialhandler">Attractions</a><br><br>
+      <a href="https://ama-happy.appspot.com/logout">Logout</a>
+    </div>
+
+    <span onclick="openNav()"><i class="material-icons md-36">menu</i></span>
+
+
+</body></html>
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,10 +163,6 @@
     </script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <body>
-      <p id="data"></p>
-      <br>
-    </body>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -145,7 +297,20 @@
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&libraries=places&callback=initMap" async defer></script>
 
       <h2>
-
+        <body>
+          <p id="data">
+            <h2>{{startertext}}</h2>
+            {% for r in list %}
+              <ul> <!--r.open, r.types-->
+                {{r.name}}
+                  <li>
+                    Rating: {{r.rating}}, Approx. Address: {{r.vicinity}}
+                 </li>
+              </ul>
+            {% endfor %}
+          </p>
+          <br>
+        </body>
       </h2>
 
     </div>
