@@ -421,9 +421,6 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                         "time":str(ctime())
                         }
                         self.response.write(foodrec_template.render(vars))
-                            '''st=v.name+", Rating: "+str(v.rating)+", IsOpen: "+str(v.open)+", Keywords: "+str(v.types)+", Approx. Address: "+v.vicinity+" Plevel: "+str(v.plevel)
-                            self.response.write(st)
-                            self.response.write("<br>")'''
                     if len(plevellist)==0 and len(ratinglist)==0:
                         startertext="No optimal locations found at this time"
                         vars={
