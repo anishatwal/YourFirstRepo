@@ -4,8 +4,17 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   height:500%;
+  font-family: 'Josefin Slab', cursive;
 }
 
+.innerBox3 {
+  font-size: 20px;
+}
+
+h5 {
+  text-align: center;
+  font-size: 20px;
+}
 span {
   top: 0;
   position: absolute;
@@ -97,6 +106,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box1 > .innerBox1 {
@@ -113,6 +123,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box2 > .innerBox2 {
@@ -128,6 +139,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box3 > .innerBox3 {
@@ -145,6 +157,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box4 > .innerBox4 {
@@ -161,6 +174,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box5 > .innerBox5 {
@@ -177,6 +191,7 @@ span {
   background-size: contain;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box6 > .innerBox6 {
@@ -194,6 +209,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box7 > .innerBox7 {
@@ -211,6 +227,7 @@ span {
   width: 90%;
   display: table;
   text-align: center;
+  font-size: 20px;
 }
 
 .box8 > .innerBox8 {
@@ -220,8 +237,8 @@ span {
 
 p {
   text-align: left;
-  align-items: center;
-  font-size: 17.5px;
+  padding: 5px;
+  font-size: 18px;
   font-family: 'Josefin Slab', cursive;
 }
 
