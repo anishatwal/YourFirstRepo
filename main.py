@@ -137,7 +137,7 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
         exercise=str(self.request.get("exercise"))#often?->increases yoga timed exercises
         eater=str(self.request.get("eater")) #pickt? -> choose restaurants with increased ratings
         travel=str(self.request.get("travel")) #far? yes or no -> increase radius
-        color="#ffd6f1"
+        color="pink"
         #self.response.write(interest+" "+time+" "+range)
         user=users.get_current_user()
         vars={}
@@ -173,7 +173,7 @@ class MoodPage(webapp2.RequestHandler): #get, post request in javascript
 class DailyRecHandler(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
-        self.redirect('/dailyrec/#ffd6f1')
+        self.redirect('/dailyrec/pink')
 
 class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self, data):
@@ -452,8 +452,8 @@ class YogaRecPage(webapp2.RequestHandler):
                     data=json.loads(response.content)
                     datafinding=None
                     fitdata=[]
-                    for ind in range(0, 100):
-                        if len(fitdata)<3:
+                    for ind in range(0, 50):
+                        if len(fitdata)<2:
                             gamename=data["results"][ind]["name"]
                             #print(imglink)
                             #print(gamename)
@@ -462,27 +462,31 @@ class YogaRecPage(webapp2.RequestHandler):
                             try:
                                 response=urlfetch.fetch(findlink)
                                 datafinding=json.loads(response.content)
-                                if datafinding!=None and datafinding!={"detail":"Not found."}:
-                                    '''self.name=n
-                                    self.link=l
-                                    self.imagelink=i
-                                    self.stars=s'''
-                                    tgname=datafinding["name"]
-                                    tgwebsite=datafinding["website"]
-                                    tgimagelink=datafinding["background_image_additional"]
-                                    tgstars=datafinding["rating"]
-                                    agame=Game(tgname, tgwebsite, tgimagelink, tgstars)
-                                    fitdata.append(agame)
-                                    #print(agame)
+                                try:
+                                    if datafinding["esrb_rating"]!=None:
+                                        if datafinding!=None and datafinding!={"detail":"Not found."} and datafinding["esrb_rating"]["name"].lower()!="mature":
+                                            '''self.name=n
+                                            self.link=l
+                                            self.imagelink=i
+                                            self.stars=s'''
+                                            tgname=datafinding["name"]
+                                            tgwebsite=datafinding["website"]
+                                            tgimagelink=datafinding["background_image"]
+                                            #print(tgimagelink)
+                                            tgstars=datafinding["rating"]
+                                            agame=Game(tgname, tgwebsite, tgimagelink, tgstars)
+                                            fitdata.append(agame)
+                                            #print(agame)
+                                except KeyError:
+                                    continue
                             except ValueError:
                                 continue
                         else:
                             break
                     #print(deliver)
                     #print(fitdata)
-                    deliver.append(fitdata[0])
-                    deliver.append(fitdata[1])
-                    deliver.append(fitdata[2])
+                    for i in fitdata:
+                        deliver.append(i)
                     vars={"games":deliver}
                     self.response.write(game_template.render(vars))
                 else:
@@ -581,7 +585,7 @@ class PlaceRecPage(webapp2.RequestHandler):
                         "list":deliver,
                         "startertext":startertext
                         }
-                    self.response.write(placerec_template.render(vars))
+                    self.response.write(placerec_templatloe.render(vars))
                 if choices[0]=='outdoor':
                     url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
                     response=urlfetch.fetch(url, method="POST")
