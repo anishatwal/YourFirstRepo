@@ -453,7 +453,7 @@ class YogaRecPage(webapp2.RequestHandler):
                     datafinding=None
                     fitdata=[]
                     for ind in range(0, 50):
-                        if len(fitdata)<2:
+                        if len(fitdata)!=1:
                             gamename=data["results"][ind]["name"]
                             #print(imglink)
                             #print(gamename)
@@ -585,7 +585,7 @@ class PlaceRecPage(webapp2.RequestHandler):
                         "list":deliver,
                         "startertext":startertext
                         }
-                    self.response.write(placerec_templatloe.render(vars))
+                    self.response.write(placerec_template.render(vars))
                 if choices[0]=='outdoor':
                     url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
                     response=urlfetch.fetch(url, method="POST")
