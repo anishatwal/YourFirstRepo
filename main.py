@@ -82,7 +82,7 @@ class LoginPage(webapp2.RequestHandler):
                 self.redirect('/mood')
         else:
             login_url=users.create_login_url("/account")
-            vars={"url":login_url}
+            vars={"url":login_url}#{{url}}
             login_template=jinja_env.get_template('templates/login.html')
             self.response.write(login_template.render(vars))
             #self.response.write('You are not logged in! Log in here: <a href="'+login_url+'">click here</a>')
