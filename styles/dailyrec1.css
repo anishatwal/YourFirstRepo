@@ -1,13 +1,9 @@
 body {
-  /* background-image: url('https://live.staticflickr.com/919/41790068920_2aaef5339f_b.jpg'); */
-  background-color: white;
+  background-image: url('https://live.staticflickr.com/919/41790068920_2aaef5339f_b.jpg');
   position: absolute;
   margin: 0;
-  min-width: 100%;
-  min-height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-
 }
 
 .column {
@@ -30,8 +26,6 @@ body {
 
 .row {
   text-align: center;
-  border: 1px solid white;
-  cel
 }
 
 
@@ -252,3 +246,15 @@ button:hover {
     background: linear-gradient(to bottom, #74ABE2, #5563DE);
     font-family: 'Ropa Sans', sans-serif;
   }
+
+.foods {
+  background-image: url('https://cdn.pixabay.com/photo/2017/02/15/10/38/background-2068211_960_720.jpg');
+}
+
+#exercises {
+
+}
+
+#places {
+
+}
