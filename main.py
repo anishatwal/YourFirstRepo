@@ -167,6 +167,10 @@ class MoodPage(webapp2.RequestHandler): #get, post request in javascript
         else:
             self.redirect('/reciever')
     #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
+class DailyRecHandler(webapp2.RequestHandler): #get, post, keyError
+    def get(self):
+        #get user location through google maps api and detail the current time and location
+        self.redirect('/dailyrec')
 
 class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
     def get(self):
@@ -635,6 +639,7 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/mood', MoodPage),
     ('/reciever', LoginReciever),
     ('/dailyrec', DailyRecPage),
+    ('/dailyrechandler', DailyRecHandler),
     ('/food/(.*)', FoodPage),
     ('/foodhandler', FoodHandler),
     ('/logout', LogoutPage),
