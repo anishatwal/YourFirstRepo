@@ -118,7 +118,7 @@
         });
       }
     </script>
-    <link rel="stylesheet" href="/styles/food1.css">
+    <link rel="stylesheet" href="/styles/social1.css">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Londrina+Shadow&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script>
@@ -274,37 +274,34 @@
         <a href="https://ama-happy.appspot.com/socialhandler">Attractions</a><br><br>
         <a href="https://ama-happy.appspot.com/logout">Logout</a>
       </div>
-      <div>
-        <h1 id="happy">H A P P Y</h1>
-      </div>
     </div>
 
     <span onclick="openNav()"><i class="material-icons md-36">menu</i></span>
 
     <div id="main">
+      <div>
+        <h1 id="happy">H A P P Y</h1>
+      </div>
 
       <div id="map"></div>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&libraries=places&callback=initMap" async defer></script>
 
-      <h2>
-        <body>
-          <p id="data">
-            <h2>{{startertext}}</h2>
-            {% for r in list %}
-              <p> <!--r.open, r.types-->
-                {{r.name}}
-                  <li>
-                    Rating: {{r.rating}}
-                    <li>
-                    Approx. Address: {{r.vicinity}}
-                    </li>
-                 </li>
-              </p>
-            {% endfor %}
-          </p>
-          <br>
-        </body>
-      </h2>
+      <div>
+        <h2>
+          <body>
+            <p id="data">
+              <h2>{{startertext}}</h2>
+              {% for r in list %}
+                <ul id="place"> <!--r.open, r.types-->
+                  {{r.name}}<br><br>
+                  <ul>Rating: {{r.rating}}</ul>
+                  <ul>Approx. Address: {{r.vicinity}}</ul>
+                </ul>
+              {% endfor %}
+            </p>
+          </body>
+        </h2>
+    </div>
 
     </div>
 
