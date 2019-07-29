@@ -185,8 +185,9 @@ class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
         if user:
             em=user.nickname()
             attr=User.query().filter(User.email==em).fetch()
-            attr[0].color=color
-            attr[0].put()
+            if len(attr)>0:
+                attr[0].color=color
+                attr[0].put()
             self.response.write(dailyrec_template.render(vars))
         else:
             self.redirect('/reciever')
@@ -386,8 +387,8 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 chosenplevel=str(choices[2])
                 plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                 ratinglist=sorted(plevellist, key=lambda x:-x.rating)
-                bchoice=set(ratinglist).intersection(set(plevellist))
-                bestchoices=list(bchoice)
+                bestchoices=[value for value in ratinglist if value in plevellist]
+                print(bestchoices)
                 startertext=""
                 deliver=[]
                 if len(bestchoices)>0:
