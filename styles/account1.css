@@ -1,5 +1,6 @@
 body {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg');
+  background-color: #ffd6f1;
   background-size: 160%;
   color: black;
   margin: 0px;
@@ -9,10 +10,9 @@ body {
 
 select {
   font-size: 15pt;
-  font-family: 'Overlock', cursive;
+  font-family: 'Josefin Slab', cursive;
   text-align: center;
-  color: blue;
-  text-shadow: 0 1px black;
+  color: black;
 }
 
 input {
@@ -35,14 +35,6 @@ span {
   text-align: center;
   font-size: 75px;
   margin: 0;
-}
-
-h3 {
-  font-family: 'Overlock', cursive;
-  font-size: 40px;
-  text-align: center;
-  color: white;
-  text-shadow: 4px 4px black;
 }
 
 h1 {
@@ -84,38 +76,61 @@ li a:hover {
   background-color: #FFFFE0;
 }
 
-table {
+/* table {
   text-align: center;
   padding: 18px;
   margin: 30px 30px;
   padding: 0;
-}
+} */
 
 h2 {
   font-family: 'Londrina Shadow', cursive;
   font-size: 50px;
   text-align: center;
-  color: white;
+  color: black;
+  text-shadow: 2px 2px white;
 }
 
 form {
   text-align: center;
-  font-family: 'Overlock', cursive;
-  font-size: 15px;
+  font-family: 'Josefin Slab', cursive;
+  background-color: #e6e6e6;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 80px;
+  opacity: 0.85;
+  border-radius: 3%;
+
+}
+
+.button {
+  font-family: 'Josefin Slab', cursive;
+  background-color: black;
+  border: none;
   color: white;
-  text-shadow: 2px 2px black;
+  padding: 14px 14px;
+  text-align: center;
+  font-size: 15px;
+  margin: 4px 2px;
+  opacity: 0.8;
+  transition: 0.3s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 1;
 }
 
 #range {
   width: 110px;
 }
 
-h4 {
+h3 {
   text-align: center;
-  font-family: 'Overlock', cursive;
-  font-size: 12px;
-  color: white;
-  text-shadow: 1px 1px black;
+  font-family: 'Josefin Slab', cursive;
+  font-size: 25px;
+  color: black;
 }
 
 .sidenav {
@@ -175,5 +190,5 @@ span i {
 }
 
 span i:hover {
-  color: black;
+  color: #ffd6f1
 }
