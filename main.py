@@ -386,7 +386,8 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 chosenplevel=str(choices[2])
                 plevellist=filter(lambda r: int(r.plevel)==int(chosenplevel), restaurants)
                 ratinglist=sorted(plevellist, key=lambda x:-x.rating)
-                bestchoices=list(set(ratinglist).intersection(plevellist))
+                bestchoices=list(set(ratinglist).intersection(list(set(plevellist)))
+                print(bestchoices)
                 startertext=""
                 deliver=[]
                 if len(bestchoices)>0:
