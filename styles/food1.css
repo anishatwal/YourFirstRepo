@@ -29,6 +29,10 @@ span {
   padding: 0;
 }
 
+ul {
+  padding: 0;
+  list-style-type: none;
+}
 
 h2 {
   text-align: center;
@@ -113,7 +117,7 @@ h2 {
 }
 
 .material-icons.md-36{
-  font-size: 36px;
+  font-size: 45px;
 }
 
 span i {
