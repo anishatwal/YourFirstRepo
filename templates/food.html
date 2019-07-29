@@ -287,7 +287,7 @@
       <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="https://ama-happy.appspot.com/">About</a><br><br>
-        <a href="https://ama-happy.appspot.com/dailyrec">Recomendations</a><br><br>
+        <a href="https://ama-happy.appspot.com/dailyrec">Recommendations</a><br><br>
         <a href="https://ama-happy.appspot.com/foodhandler">Food</a><br><br>
         <a href="https://ama-happy.appspot.com/activity">Yoga</a><br><br>
         <a href="https://ama-happy.appspot.com/socialhandler">Attractions</a><br><br>
@@ -310,12 +310,18 @@
           <p id="data">
             <h2>{{startertext}}</h2>
             {% for r in list %}
-              <ul> <!--r.open, r.types-->
+              <ul id="info"> <!--r.open, r.types-->
                 <!--"https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5"-->
-                  <a id="tolink" href="" target="blank">{{r.name}}</a>
-                  <li>
-                    Price: {{r.plevel}}, Rating: {{r.rating}}, Approx. Address: {{r.vicinity}}
-                 </li>
+                  <ul id="name"><a id="tolink" href="" target="blank">{{r.name}}</a></ul><br><br>
+                  <ul class="list">
+                    Price Level: {{r.plevel}}
+                  </ul>
+                  <ul class="list">
+                    Rating: {{r.rating}}
+                  </ul>
+                  <ul class="list">
+                    Approx. Address: {{r.vicinity}}
+                  </ul>
                  <!--<script type="text/javascript">
                    let linkr="https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+r.name.replace(' ', '+')+"&oq="+r.name.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5";
                    console.log(linkr);

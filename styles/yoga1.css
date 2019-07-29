@@ -3,7 +3,7 @@ body {
   margin: 0px;
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-image: url('https://wpmisc.com/sites/default/files/wallpaper/nature/72648/oceanfront-waves-hd-wallpapers-72648-3535210.png'); */
+  background-image: url('https://wpmisc.com/sites/default/files/wallpaper/nature/72648/oceanfront-waves-hd-wallpapers-72648-3535210.png');
   background-color: #ffd6f1;
 }
 
@@ -14,6 +14,7 @@ span {
   padding-left: 10px;
   cursor: pointer;
 }
+
 
 #happy {
   background-color: gray;
@@ -143,5 +144,5 @@ span i {
 }
 
 span i:hover {
-  color: black;
+  color: #ffb0e8;
 }
