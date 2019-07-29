@@ -48,7 +48,7 @@
                   promise1.then(function(value){
                     lat=value["location"]["lat"]//lng
                     lon=value["location"]["lng"]//lng
-                    console.log(lat+" "+lon)
+                    //console.log(lat+" "+lon)
                     url2='/food/'+lat+","+lon
                     if(window.location.pathname!==url2){
                       window.location.href=url2
@@ -94,7 +94,7 @@
                     service.findPlaceFromQuery(request, function(results, status) {
                       if (status === google.maps.places.PlacesServiceStatus.OK) {
                         for (var i = 0; i < results.length; i++) {
-                          console.log(results[i])
+                          //console.log(results[i])
                           createMarker(results[i]);
                         }
                         map.setCenter(results[0].geometry.location);
@@ -203,7 +203,7 @@
                   promise1.then(function(value){
                     lat=value["location"]["lat"]//lng
                     lon=value["location"]["lng"]//lng
-                    console.log(lat+" "+lon)
+                    //console.log(lat+" "+lon)
                     url2='/food/'+lat+","+lon
                     if(window.location.pathname!==url2){
                       window.location.href=url2
@@ -231,7 +231,7 @@
                     service.nearbySearch(request, function(results, status) {
                       if (status === google.maps.places.PlacesServiceStatus.OK) {
                         for (var i = 0; i < results.length; i++) {
-                          console.log(results[i])
+                          //console.log(results[i])
                           createMarker(results[i]);
                         }
                         map.setCenter(results[0].geometry.location);
@@ -249,7 +249,16 @@
         });
         google.maps.event.addListener(marker, 'click', function() {
           var link="https://www.google.com/search?hl=en&biw=908&bih=868&tbm=isch&sa=1&ei=cLw5XfeEBPeT0PEPna-a6AY&q="+place.name.replace(" ","+")+"&oq="+place.name.replace(" ","+")+"&gs_l=img.3..35i39l2j0i67j0j0i67l4j0j0i67.15001.15354..15508...0.0..0.50.235.5......0....1..gws-wiz-img.bDzfPGJecS8&ved=0ahUKEwj3_NPco9DjAhX3CTQIHZ2XBm0Q4dUDCAY&uact=5"
-          var st='<a href='+link+" target='blank'>"+place.name + "</a><br />" + place.formatted_address +"<br />" + "Rating: "+place.rating + "<br />"
+          var st=""
+          if(place.name!=undefined){
+            st+='<a href='+link+" target='blank'>"+place.name+"</a><br />"
+          }
+          if(place.formatted_address!=undefined){
+            st+=place.formatted_address+"<br />"
+          }
+          if(place.formatted_address!=undefined){
+            st+="Rating: "+place.rating + "<br />"
+          }
           infowindow.setContent(st);
           infowindow.open(map, this);
         });
@@ -302,11 +311,19 @@
             <h2>{{startertext}}</h2>
             {% for r in list %}
               <ul> <!--r.open, r.types-->
-                "https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5"
-                  <a href="https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5" target="blank">{{r.name}}</a>
+                <!--"https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+{{r.name}}.replace(' ', '+')+"&oq="+{{r.name}}.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5"-->
+                  <a id="tolink" href="" target="blank">{{r.name}}</a>
                   <li>
                     Price: {{r.plevel}}, Rating: {{r.rating}}, Approx. Address: {{r.vicinity}}
                  </li>
+                 <!--<script type="text/javascript">
+                   let linkr="https://www.google.com/search?ei=IUs-XbDzC-ip0gKMsbTgDg&q="+r.name.replace(' ', '+')+"&oq="+r.name.replace(' ', '+')+"&gs_l=psy-ab.3..0i67l6j0l4.54309.55990..56167...0.0..0.47.135.3......0....1..gws-wiz.....0..0i71j0i131.H2kaNnPcR3I&ved=0ahUKEwjwh42v_NjjAhXolFQKHYwYDewQ4dUDCAo&uact=5";
+                   console.log(linkr);
+                   document.getElementById("tolink").onclick = function() {
+                    document.getElementById("tolink").href=linkr;
+                    return false;
+                  };
+                </script>-->
               </ul>
             {% endfor %}
           </p>
