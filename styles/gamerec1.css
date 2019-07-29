@@ -1,0 +1,129 @@
+body {
+  /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg'); */
+  background-color: #ffd6f1;
+  background-size: 120%;
+  color: black;
+  margin: 0px;
+}
+
+p {
+  font-size: 30pt;
+}
+
+span {
+  top: 0;
+  position: absolute;
+  padding-top: 22px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+#happy {
+  background-color: gray;
+  color: white;
+  font-family: 'Londrina Shadow', cursive;
+  text-align: center;
+  font-size: 75px;
+  margin: 0;
+  z-index: 2;
+  padding: 0;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Londrina Shadow', cursive;
+  font-size: 50px;
+  text-shadow: 3px 3px white;
+}
+
+#name {
+  text-align: center;
+  font-family: 'Josefin Slab', cursive;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.list {
+  text-align: center;
+  font-family: 'Josefin Slab', cursive;
+  font-size: 25px;
+  font-weight: lighter;
+}
+
+#info {
+  background-color: white;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 80px;
+  opacity: 0.7;
+  border-radius: 3%;
+}
+
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  font-family: 'Josefin Slab', cursive;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Hwd1QY5IKltGBwT6ur1Sh5IbBQkeGY4tJxkbbXQtpR757xln');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100%;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 20px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  transition: 0.3s;
+  text-shadow: 1px 1px blue;
+}
+
+.sidenav a:hover {
+  color: black;
+  text-shadow: 0 0 5px #00CDFF;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.material-icons.md-36{
+  font-size: 45px;
+}
+
+span i {
+  color: white;
+}
+
+span i:hover {
+  color: black;
+}

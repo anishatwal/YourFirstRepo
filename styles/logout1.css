@@ -1,5 +1,7 @@
 body {
-  background-color: #ffd6f1;
+  background-image: url('https://images.pexels.com/photos/875858/pexels-photo-875858.png?cs=srgb&dl=animal-dawn-desktop-backgrounds-875858.jpg&fm=jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .icon {
@@ -10,27 +12,31 @@ body {
 
 m {
   font-size: 60px;
+  text-shadow: 3px 3px lightblue;
 }
 
 h5{
   text-align: center;
   font-family: 'Josefin Slab', cursive;
-  font-size: 25px;
+  font-size: 32px;
+  color: white;
+  text-shadow: 1px 1px pink;
 }
 
 button {
   font-family: 'Josefin Slab', cursive;
-  background-color: #ffb0e8;
   border: none;
   color: black;
   padding: 16px 16px;
   text-align: center;
   font-size: 50px;
   margin: 4px 2px;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: 0.3s;
   display: inline-block;
   cursor: pointer;
+  border: 1px solid black;
+  border: 8px solid lightblue;
 }
 
 button:hover {
