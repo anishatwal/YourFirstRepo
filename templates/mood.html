@@ -44,20 +44,28 @@
       </div>
 
       <h2>Welcome {{name}},<br>Choose Your Current Mood:</h2>
-      <form class="mood" method="POST">
-        <button id="stressed" type="submit" value="black">Stressed</button>
-        <button id="scared" type="submit" value="#ad3434">Scared</button>
-        <button id="nervous" type="submit" value="#ffae52">Nervous</button>
-        <button id="mixed" type="submit" value="#a9ff9c">Mixed Emotions</button>
-        <button id="normal" type="submit" value="#81dadb">Normal</button>
-        <button id="relaxed" type="submit" value="#3b95e3">Relaxed</button>
-        <button id="calm" type="submit" value="#fa6b6b">Calm</button>
-        <button id="cool" type="submit" value="#ffabed">Cool</button>
-        <button id="loved" type="submit" value="#ede96f">Loved</button>
-        <button id="romantic" type="submit" value="#2a801d">Romantic</button>
-        <button id="passionate" type="submit" value="#1e8385">Passionate</button>
-        <button id="vhappy" type="submit" value="#d5abff">Very Happy</button>
+      <form class="mood">
+        <button id="stressed" type="button" onclick="changeColor(this.value)" value="black">Stressed</button>
+        <button id="scared" type="button" onclick="changeColor(this.value)" value="#ad3434">Scared</button>
+        <button id="nervous" type="button" onclick="changeColor(this.value)" value="#ffae52">Nervous</button>
+        <button id="mixed" type="button" onclick="changeColor(this.value)" value="#a9ff9c">Mixed Emotions</button>
+        <button id="normal" type="button" onclick="changeColor(this.value)" value="#81dadb">Normal</button>
+        <button id="relaxed" type="button" onclick="changeColor(this.value)" value="#3b95e3">Relaxed</button>
+        <button id="calm" type="button" onclick="changeColor(this.value)" value="#fa6b6b">Calm</button>
+        <button id="cool" type="button" onclick="changeColor(this.value)" value="#ffabed">Cool</button>
+        <button id="loved" type="button" onclick="changeColor(this.value)" value="#ede96f">Loved</button>
+        <button id="romantic" type="button" onclick="changeColor(this.value)" value="#2a801d">Romantic</button>
+        <button id="passionate" type="button" onclick="changeColor(this.value)" value="#1e8385">Passionate</button>
+        <button id="vhappy" type="button" onclick="changeColor(this.value)" value="#d5abff">Very Happy</button>
       </form>
+      <script type="text/javascript">
+        function changeColor(val){
+          let url='/dailyrec/'+val
+          if(window.location.pathname!==url){
+            window.location.href=url
+        }
+        }
+      </script>
       </div>
     </div>
   </body>

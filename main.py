@@ -19,6 +19,7 @@ class User(ndb.Model): #traits is an array that's filled from the personal quiz
      email=ndb.StringProperty(required=True)
      traits=ndb.StringProperty(repeated=True)
      attributes=ndb.StringProperty(repeated=True)
+     color=ndb.StringProperty(required=True)
 
 class Restaurant(object):
     def __init__(self, n, p, r, b, t, a):#, la, ln):
@@ -136,6 +137,7 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
         exercise=str(self.request.get("exercise"))#often?->increases yoga timed exercises
         eater=str(self.request.get("eater")) #pickt? -> choose restaurants with increased ratings
         travel=str(self.request.get("travel")) #far? yes or no -> increase radius
+        color="#ffd6f1"
         #self.response.write(interest+" "+time+" "+range)
         user=users.get_current_user()
         vars={}
@@ -147,10 +149,11 @@ class DataRecieverPage(webapp2.RequestHandler): #get, post request in javascript
             if len(at)!=0:
                 at[0].traits=traits
                 at[0].attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
+                at[0].color=color
                 at[0].put()
             else:
                 attributes=["Are you an indoor or outdoor person?", "Do you prefer going out in the day or night?", "What is your preferred price range?", "How often do you exercise?", "Are you a picky eater?", "Do you enjoy traveling far?"]
-                user=User(email=email, traits=traits, attributes=attributes)
+                user=User(email=email, traits=traits, attributes=attributes, color=color)
                 user.put()
         else:
             self.redirect('/reciever')
@@ -166,17 +169,28 @@ class MoodPage(webapp2.RequestHandler): #get, post request in javascript
             self.response.write(mood_template.render(vars))
         else:
             self.redirect('/reciever')
-    #post method is done where in a javascript file, through button onclick, we can edit the html/css file there
+
 class DailyRecHandler(webapp2.RequestHandler): #get, post, keyError
     def get(self):
         #get user location through google maps api and detail the current time and location
-        self.redirect('/dailyrec')
+        self.redirect('/dailyrec/#ffd6f1')
 
 class DailyRecPage(webapp2.RequestHandler): #get, post, keyError
-    def get(self):
-        #get user location through google maps api and detail the current time and location
+    def get(self, data):
         dailyrec_template=jinja_env.get_template('templates/dailyrec.html')
-        self.response.write(dailyrec_template.render())
+        color=data
+        vars={"color":color}
+        user=users.get_current_user()
+        attr=None
+        if user:
+            em=user.nickname()
+            attr=User.query().filter(User.email==em).fetch()
+            attr[0].color=color
+            attr[0].put()
+            self.response.write(dailyrec_template.render(vars))
+        else:
+            self.redirect('/reciever')
+
 
 class FoodHandler(webapp2.RequestHandler):#LINK http://localhost:8080/foodhandler on food tab
     def get(self):
@@ -304,7 +318,6 @@ class LeisurePage(webapp2.RequestHandler): #get, post
         '''
 https://www.google.com/search?source=hp&ei=JEY-XcDBOeis0gLz56RA&q="+place.name.replace(' ', '+')+'+'+place.location.replace(' ', '+')+"&oq="+place.name.replace(' ', '+')+'+'+place.location.replace(' ', '+')+&gs_l=psy-ab.3..0l10.1326.1565..1744...1.0..0.237.375.3j0j1....3..0....1..gws-wiz.....10..35i39.6OXg5ZQE-dc&ved=0ahUKEwjA48TO99jjAhVollQKHfMzCQgQ4dUDCAc&uact=5
 
-
         '''
         activity_template=jinja_env.get_template('templates/yoga.html')
         url="https://raw.githubusercontent.com/rebeccaestes/yoga_api/master/yoga_api.json"
@@ -431,9 +444,9 @@ class YogaRecPage(webapp2.RequestHandler):
                 for v in attr[0].traits:
                     choices.append(str(v))
                 deliver=[]
-                game_template=jinja_env.get_template('templates/gamerec.html')
                 if choices[3]=='no': #daily monthly, weekly no
                     #self.response.write("Want to be relaxed today?")
+                    game_template=jinja_env.get_template('templates/gamerec.html')
                     url="http://www.giantbomb.com/api/games/?api_key="+giantbombkey+"&sort=original_release_date:des&format=json"
                     response=urlfetch.fetch(url)
                     data=json.loads(response.content)
@@ -478,6 +491,8 @@ class YogaRecPage(webapp2.RequestHandler):
                     response=urlfetch.fetch(url)
                     data=json.loads(response.content)
                     index=random.randint(0, len(data)-1)
+                    if data[index]["english_name"].lower()=="cow":
+                        index=random.randint(0, len(data)-1)
                     name0=data[index]["english_name"]
                     name=name0.replace(" ", "+")
                     search=name+"+yoga+position"
@@ -638,7 +653,7 @@ app=webapp2.WSGIApplication([ #about, login, create account, mood, daily, recomm
     ('/account', AccountPage),
     ('/mood', MoodPage),
     ('/reciever', LoginReciever),
-    ('/dailyrec', DailyRecPage),
+    ('/dailyrec/(.*)', DailyRecPage),
     ('/dailyrechandler', DailyRecHandler),
     ('/food/(.*)', FoodPage),
     ('/foodhandler', FoodHandler),
