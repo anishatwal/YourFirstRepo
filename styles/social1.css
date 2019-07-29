@@ -32,6 +32,11 @@ h2 {
   text-shadow: 3px 3px white;
 }
 
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
 #place {
   text-align: center;
   font-family: 'Josefin Slab', cursive;
