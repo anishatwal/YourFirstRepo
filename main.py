@@ -11,7 +11,6 @@ import urllib2
 import json
 import random
 #ADD BUTTON TO YOGA TO RANDOMIZE POSITIONS
-#AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8
 apikey=""
 giantbombkey=""
 recs={}
@@ -266,8 +265,8 @@ class SocialPage(webapp2.RequestHandler): #get, post
         lon=float(parsed[1])
         print(str(lat)+" "+str(lon))
         #url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=landmark&keyword=landmark&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
-        url="https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location="+str(lat)+","+str(lon)+"&radius=1500&sensor=false"
-        #https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location=52.069858,4.291111&radius=1000&sensor=false
+        url="https://maps.googleapis.com/maps/api/place/search/json?key=&location="+str(lat)+","+str(lon)+"&radius=1500&sensor=false"
+        #https://maps.googleapis.com/maps/api/place/search/json?key=&location=,&radius=1000&sensor=false
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
@@ -364,7 +363,7 @@ class FoodRecPage(webapp2.RequestHandler): #display best choices based on places
                 radius="1500"
                 if choices[len(choices)-1]=="yes":
                     radius="3000"
-                url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=restaurant&keyword=restaurant&key="
                 response=urlfetch.fetch(url, method="POST")
                 data=json.loads(response.content)
                 dataset=data["results"]
@@ -553,7 +552,7 @@ class PlaceRecPage(webapp2.RequestHandler):
                     radius="3000"
                 url=""
                 if choices[0]=='indoor':
-                    url="https://maps.googleapis.com/maps/api/place/search/json?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&location="+str(lat)+","+str(lon)+"&radius="+radius+"&sensor=false"
+                    url="https://maps.googleapis.com/maps/api/place/search/json?key=&location="+str(lat)+","+str(lon)+"&radius="+radius+"&sensor=false"
                     response=urlfetch.fetch(url, method="POST")
                     data=json.loads(response.content)
                     dataset=data["results"]
@@ -600,7 +599,7 @@ class PlaceRecPage(webapp2.RequestHandler):
                         }
                     self.response.write(placerec_template.render(vars))
                 if choices[0]=='outdoor':
-                    url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+                    url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius="+radius+"&type=park&keyword=park&key="
                     response=urlfetch.fetch(url, method="POST")
                     data=json.loads(response.content)
                     dataset=data["results"]
