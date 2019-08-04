@@ -202,7 +202,7 @@ class FoodPage(webapp2.RequestHandler): #get, post
         parsed=data.split(",")
         lat=float(parsed[0])
         lon=float(parsed[1])
-        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=restaurant&keyword=restaurant&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+        url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=restaurant&keyword=restaurant&key="
         response=urlfetch.fetch(url, method="POST")
         data=json.loads(response.content)
         dataset=data["results"]
@@ -264,7 +264,7 @@ class SocialPage(webapp2.RequestHandler): #get, post
         lat=float(parsed[0])
         lon=float(parsed[1])
         print(str(lat)+" "+str(lon))
-        #url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=landmark&keyword=landmark&key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+        #url="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+str(lat)+","+str(lon)+"&radius=1500&type=landmark&keyword=landmark&key="
         url="https://maps.googleapis.com/maps/api/place/search/json?key=&location="+str(lat)+","+str(lon)+"&radius=1500&sensor=false"
         #https://maps.googleapis.com/maps/api/place/search/json?key=&location=,&radius=1000&sensor=false
         response=urlfetch.fetch(url, method="POST")
