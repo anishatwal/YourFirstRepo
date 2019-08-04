@@ -40,7 +40,7 @@
       function initMap() {
               let lat=0.00
               let lon=0.00
-              var url="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+              var url="https://www.googleapis.com/geolocation/v1/geolocate?key="
               fetch(url, {method:"POST"}).then((res) => {
                   var asjson=res.json()
                   //console.log(asjson)
@@ -194,7 +194,7 @@
       function initMap() {
               let lat=0.00
               let lon=0.00
-              var url="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8"
+              var url="https://www.googleapis.com/geolocation/v1/geolocate?key="
               fetch(url, {method:"POST"}).then((res) => {
                   var asjson=res.json()
                   //console.log(asjson)
@@ -308,7 +308,7 @@
       </div>
 
       <div id="map"></div>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqJGmC3v_P3lGDO-qILr-XA0m4axi3oY8&libraries=places&callback=initMap" async defer></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap" async defer></script>
 
       <div>
         <h2>
